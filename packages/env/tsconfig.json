@@ -1,0 +1,3 @@
+{
+  "extends": "@cornwall-ponds/config/tsconfig.base.json"
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@cornwall-ponds/auth",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {},
+  "dependencies": {
+    "@cornwall-ponds/db": "workspace:*",
+    "@cornwall-ponds/env": "workspace:*",
+    "better-auth": "catalog:",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@cornwall-ponds/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}

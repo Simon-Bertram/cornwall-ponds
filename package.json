@@ -1,0 +1,33 @@
+{
+  "name": "cornwall-ponds",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "dev:web": "turbo -F web dev",
+    "dev:server": "turbo -F server dev",
+    "db:push": "turbo -F @cornwall-ponds/db db:push",
+    "db:generate": "turbo -F @cornwall-ponds/db db:generate",
+    "deploy": "turbo -F @cornwall-ponds/infra deploy",
+    "destroy": "turbo -F @cornwall-ponds/infra destroy"
+  },
+  "dependencies": {
+    "@cornwall-ponds/env": "workspace:*",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "catalog:",
+    "@cornwall-ponds/config": "workspace:*",
+    "@types/node": "catalog:",
+    "turbo": "^2.8.12",
+    "typescript": "catalog:"
+  },
+  "packageManager": "pnpm@11.0.8"
+}

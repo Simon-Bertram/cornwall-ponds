@@ -1,0 +1,12 @@
+---
+description: Context and discovery before coding across the monorepo
+alwaysApply: true
+---
+
+# Monorepo context & discovery
+
+- **Verify layout and deps:** Before assuming a dependency or script exists, check the relevant `package.json` (workspace root, `apps/*`, `packages/*`). Do not treat optional stack pieces as installed unless they appear there.
+- **Environment types:** Use `packages/env/env.d.ts` (Alchemy / bindings) and validated exports from `@cornwall-ponds/env`—do not invent parallel env shapes.
+- **DB-shaped UI and APIs:** Before defining UI props or API payloads tied to persistence, align with Drizzle schema exports under `packages/db/src/schema/` (and re-exports from `@cornwall-ponds/db`).
+- **No shadow types:** If a type already exists in a workspace package, import it instead of redefining an equivalent interface.
+- **Frontend ↔ API:** When changing `apps/web`, keep `hono/client` usage consistent with the typed Hono app exported from `apps/server` (see `AGENTS.md`).
