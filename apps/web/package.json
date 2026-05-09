@@ -11,12 +11,17 @@
   },
   "dependencies": {
     "@astrojs/node": "10.0.6",
+    "@astrojs/react": "^5.0.4",
     "@cornwall-ponds/api": "workspace:*",
     "@cornwall-ponds/env": "workspace:*",
     "@orpc/client": "catalog:",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "astro": "^6.3.0",
     "better-auth": "catalog:",
     "dotenv": "catalog:",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
     "zod": "catalog:"
   },
   "devDependencies": {

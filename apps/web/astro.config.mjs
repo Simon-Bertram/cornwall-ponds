@@ -19,12 +19,16 @@ const cloudflareWorkersAlias = shouldUseAlchemy
     };
 import node from "@astrojs/node";
 
+import react from "@astrojs/react";
+
 // https://astro.build/config
 export default defineConfig({
   output: "server",
+
   adapter: shouldUseAlchemy
     ? alchemy({ platformProxy: { configPath: alchemyConfigPath } })
     : node({ mode: "standalone" }),
+
   env: {
     schema: {
       PUBLIC_SERVER_URL: envField.string({
@@ -34,8 +38,11 @@ export default defineConfig({
       }),
     },
   },
+
   vite: {
     plugins: [tailwindcss()],
     resolve: { alias: cloudflareWorkersAlias },
   },
+
+  integrations: [react()],
 });
