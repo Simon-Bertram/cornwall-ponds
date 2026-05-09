@@ -1,0 +1,221 @@
+---
+// Footer.astro — Step F: Site-wide footer
+// Pure Astro (static)
+// Data: Sourced from ../lib/projects.ts
+// Colours: bg-foreground / text-background (Colour Lockdown §7)
+
+import { services, locations } from "../lib/projects";
+// import BackToTopButton from "./BackToTopButton.astro";
+
+const currentYear = new Date().getFullYear();
+
+const companyLinks = [
+  { href: "/our-work", label: "Our Work" },
+  { href: "/expertise", label: "Our Expertise" },
+  { href: "/contact", label: "Contact Us" },
+];
+---
+
+<footer class="bg-foreground text-background" role="contentinfo">
+  <div class="mx-auto max-w-7xl px-6 py-16 lg:py-24">
+    <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+      {/* ── Brand Column ── */}
+      <div class="lg:col-span-1">
+        <div class="flex items-center gap-3 mb-6">
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-primary shadow-sm"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              class="h-5 w-5 text-primary-foreground"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+              ></path>
+              <path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4"></path>
+              <path d="M6 16c1.5 1.5 3.5 2 6 2"></path>
+            </svg>
+          </div>
+          <div class="flex flex-col">
+            <span
+              class="font-serif text-lg font-bold tracking-tight leading-none"
+              >Cornwall Ponds</span
+            >
+            <span class="text-[11px] tracking-widest uppercase opacity-60"
+              >Design & Build</span
+            >
+          </div>
+        </div>
+        <p class="text-sm leading-relaxed text-background/70 mb-8 max-w-sm">
+          With over 15 years of excellence, we create stunning water features
+          across Cornwall. From bespoke fish ponds to grand natural swimming
+          pools.
+        </p>
+        <div class="flex flex-col gap-4">
+          <a
+            href="tel:+441234567890"
+            class="flex items-center gap-3 text-sm text-background/70 hover:text-background transition-colors duration-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 text-primary"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
+              ></path>
+            </svg>
+            01234 567 890
+          </a>
+          <a
+            href="mailto:info@cornwallponds.co.uk"
+            class="flex items-center gap-3 text-sm text-background/70 hover:text-background transition-colors duration-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 text-primary"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+              ></path>
+            </svg>
+            info@cornwallponds.co.uk
+          </a>
+          <span class="flex items-center gap-3 text-sm text-background/70">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 text-primary"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25a7.5 7.5 0 1115 0z"
+              ></path>
+            </svg>
+            Serving Cornwall & Devon
+          </span>
+        </div>
+      </div>
+
+      {/* ── Services Column ── */}
+      <div>
+        <h3
+          class="font-serif text-base font-bold mb-6 text-background tracking-wide"
+        >
+          Our Services
+        </h3>
+        <ul class="flex flex-col gap-3">
+          {
+            services.map((service) => (
+              <li>
+                <a
+                  href={`/services#${service.slug}`}
+                  class="text-sm text-background/80 hover:text-primary transition-colors duration-200"
+                >
+                  {service.title}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      {/* ── Company Column ── */}
+      <div>
+        <h3
+          class="font-serif text-base font-bold mb-6 text-background tracking-wide"
+        >
+          Quick Links
+        </h3>
+        <ul class="flex flex-col gap-3">
+          {
+            companyLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-sm text-background/80 hover:text-primary transition-colors duration-200"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      {/* ── Areas Column ── */}
+      <div>
+        <h3
+          class="font-serif text-base font-bold mb-6 text-background tracking-wide"
+        >
+          Areas We Cover
+        </h3>
+        <ul class="flex flex-col gap-3">
+          {
+            locations.map((loc) => (
+              <li>
+                <a
+                  href={`/our-work?location=${loc}`}
+                  class="text-sm text-background/80 hover:text-primary transition-colors duration-200"
+                >
+                  {loc}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    {/* ── Bottom Bar ── */}
+    <div
+      class="mt-16 pt-8 border-t border-background/10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
+    >
+      <p class="text-xs text-background/60 font-medium">
+        &copy; {currentYear} Cornwall Ponds. All rights reserved. Registered in England
+        & Wales.
+      </p>
+      <div class="flex flex-wrap items-center gap-6 md:justify-end">
+        {/* <BackToTopButton /> */}
+        <a
+          href="/privacy"
+          class="text-xs text-background/60 hover:text-background transition-colors duration-200"
+        >
+          Privacy Policy
+        </a>
+        <a
+          href="/terms"
+          class="text-xs text-background/60 hover:text-background transition-colors duration-200"
+        >
+          Terms of Service
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

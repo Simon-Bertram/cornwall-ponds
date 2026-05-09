@@ -1,0 +1,48 @@
+---
+import { navLinks } from "../lib/nav";
+
+const currentPath = Astro.url.pathname;
+const normalizedPath =
+  currentPath === "/" ? "/" : currentPath.replace(/\/$/, "");
+---
+
+<div
+  id="mobile-menu-panel"
+  class="hidden border-t border-border bg-background xl:hidden"
+>
+  <nav aria-label="Primary mobile">
+    <ul class="flex flex-col px-2 py-2">
+      {
+        navLinks.map((link) => {
+          const isActive =
+            link.href === "/"
+              ? normalizedPath === "/"
+              : normalizedPath.startsWith(link.href);
+
+          return (
+            <li>
+              <a
+                href={link.href}
+                data-mobile-menu-link
+                aria-current={isActive ? "page" : undefined}
+                style={
+                  isActive
+                    ? "color: var(--a11y-nav-active-text) !important; background-color: var(--a11y-nav-active-bg) !important; border: 1px solid var(--a11y-nav-active-border) !important;"
+                    : undefined
+                }
+                class:list={[
+                  "block rounded-lg px-3 py-3 text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                  isActive
+                    ? "a11y-mobile-nav-link-active font-bold shadow-sm"
+                    : "text-foreground hover:bg-muted hover:text-foreground",
+                ]}
+              >
+                {link.label}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </nav>
+</div>

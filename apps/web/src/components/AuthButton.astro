@@ -1,0 +1,55 @@
+<div class="flex items-center gap-2" id="user-menu-container">
+  <a
+    href="/login"
+    id="login-link"
+    class="antialiased rounded-xl text-sm btn btn-primary"
+  >
+    Sign In
+  </a>
+  <div id="user-menu" class="hidden flex items-center gap-3">
+    <span class="text-sm hidden sm:inline" id="user-display"></span>
+    <button
+      id="signout-button"
+      class="antialiased rounded-xl btn btn-error text-sm"
+    >
+      Sign Out
+    </button>
+  </div>
+</div>
+
+<script>
+  import { authClient } from "../lib/auth-client";
+
+  const loginLink = document.getElementById("login-link");
+  const userMenu = document.getElementById("user-menu");
+  const userDisplay = document.getElementById("user-display");
+  const signOutButton = document.getElementById("signout-button");
+
+  async function checkSession() {
+    try {
+      const { data: session } = await authClient.getSession();
+      if (session?.user) {
+        loginLink?.classList.add("hidden");
+        userMenu?.classList.remove("hidden");
+        if (userDisplay) {
+          userDisplay.textContent =
+            session.user.name || session.user.email?.split("@")[0] || "User";
+        }
+      }
+    } catch (e) {
+      // Not logged in
+    }
+  }
+
+  signOutButton?.addEventListener("click", async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          window.location.href = "/";
+        },
+      },
+    });
+  });
+
+  checkSession();
+</script>

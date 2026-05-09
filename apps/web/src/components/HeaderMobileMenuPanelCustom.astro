@@ -1,0 +1,43 @@
+---
+import { navLinks } from "../lib/nav"
+
+const currentPath = Astro.url.pathname
+const normalizedPath =
+  currentPath === "/" ? "/" : currentPath.replace(/\/$/, "")
+---
+
+<div
+  id="mobile-menu-panel"
+  class="hidden border-t border-border bg-background xl:hidden"
+>
+  <nav aria-label="Primary mobile">
+    <ul class="flex flex-col gap-1 px-2 py-2">
+      {
+        navLinks.map((link) => {
+          const isActive =
+            link.href === "/"
+              ? normalizedPath === "/"
+              : normalizedPath.startsWith(link.href)
+
+          return (
+            <li>
+              <a
+                href={link.href}
+                data-mobile-menu-link
+                aria-current={isActive ? "page" : undefined}
+                class:list={[
+                  "block rounded-lg border px-3 py-3 text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                  isActive
+                    ? "border-primary/45 bg-primary/20 text-foreground font-bold"
+                    : "border-transparent text-foreground hover:border-border hover:bg-muted",
+                ]}
+              >
+                {link.label}
+              </a>
+            </li>
+          )
+        })
+      }
+    </ul>
+  </nav>
+</div>
