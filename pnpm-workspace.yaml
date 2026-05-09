@@ -2,9 +2,9 @@ packages:
   - apps/*
   - packages/*
 allowBuilds:
-  esbuild: set this to true or false
+  esbuild: true
   msw: set this to true or false
-  sharp: set this to true or false
+  sharp: true
   workerd: true
 catalog:
   dotenv: ^17.2.2

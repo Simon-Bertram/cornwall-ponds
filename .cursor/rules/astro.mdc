@@ -1,0 +1,57 @@
+---
+description: Rules for Astro v6 frontend development and CMS integration
+alwaysApply: true
+---
+
+# Astro v6 Frontend Standards
+
+Monorepo discovery, env types, and DB schema alignment: `.cursor/rules/monorepo-discovery.mdc`.
+
+## 1. Component selection hierarchy
+
+When generating or refactoring components in `apps/web`, follow this strict priority:
+
+- **High-design UI requests:** For distinctive visual direction, premium polish, or aesthetic-first frontend work, also apply `.cursor/rules/frontend-design.mdc`.
+- **Custom Tailwind v4 / OKLCH (Premium Mode):** Prioritize raw Tailwind 4 with OKLCH colors for "High-End/Luxury" aesthetics. If DaisyUI base themes conflict with premium branding, **bypass DaisyUI** and use custom utility classes.
+- **DaisyUI (Utility First):** Use for rapid UI elements (Buttons, Cards, Badges) that must inherit brand variables from `global.css`.
+- **Shadcn UI (Logic & Accessibility):** Reserved for components requiring complex ARIA patterns or non-trivial state (focus management, keyboard traps).
+  - _Triggers:_ Complex validated forms, Modals/Dialogs (focus traps), Data Tables, or nested Popovers.
+  - _Constraint:_ Do not use Shadcn for simple local state (e.g. counters); use it when accessibility or keyboard behavior is non-trivial.
+
+## 2. Framework & hydration
+
+- **Astro first:** Default to `.astro`. Use the component script (frontmatter) for server-side data fetching, transforms, and props into markup.
+- **Interactivity:** Use **Preact** islands only when client hooks or browser-only APIs are required. (Add `@astrojs/preact` and `preact` to `apps/web` when introducing islands—they are not assumed to be installed yet.)
+- **Partial hydration:** Prefer `client:visible` or `client:idle` for non-critical islands. Use `client:load` only for above-the-fold or navigation-critical interactivity.
+- **Hydration comment:** On every island, add a short `// Why: …` comment next to the `client:*` directive explaining the choice (e.g. Why: hero control visible in viewport).
+
+## 3. Data fetching & Hono RPC
+
+- **End-to-end types:** Do not use ad-hoc `fetch()` strings for the internal API. Use the Hono RPC client once `apps/server` exports an app type (see `.agents/skills/hono/SKILL.md`). Add `"server": "workspace:*"` to `apps/web` when wiring imports.
+
+  ```typescript
+  // Example: apps/web/src/lib/api.ts (after server exports AppType)
+  import { hc } from "hono/client";
+  import type { AppType } from "server";
+  export const client = hc<AppType>(import.meta.env.PUBLIC_SERVER_URL);
+  ```
+
+- **Astro Actions:** Use **Astro Actions** for form submissions and mutations. Actions should call the Hono API / RPC layer rather than embedding D1/KV/R2 access in the Astro layer.
+
+## 4. Code shape & quality (`apps/web`)
+
+- **Props typing:** Define an explicit `Props` interface (or typed `Astro.props`) for every `.astro` component; use clear prop types for `.tsx` islands.
+- **File size:** If a single file grows past ~100 lines, split UI into subcomponents or move reusable logic into `src/lib/` or co-located helpers.
+- **AHA over premature DRY:** Avoid new abstractions until a pattern has repeated; prefer readable duplication over the wrong abstraction.
+- **Thin UI:** Keep JSX/HTML templates focused on structure; move non-trivial logic into pure helpers or server-side code.
+- **Composition:** Prefer `children` and small components over large boolean-prop APIs where it stays readable.
+
+## 5. Async behavior & errors
+
+- For user-visible async work (Actions, island data loads), handle failures explicitly: **loading** and **error** states (or error boundaries / fallbacks) where the UX needs them—do not leave failed requests unspoken in UI.
+
+## 6. Performance & CSS
+
+- **LCP:** Critical brand fonts and hero images should use `rel="preload"` where appropriate.
+- **Tailwind 4:** Use `@theme` blocks for brand tokens instead of legacy `tailwind.config.js`.
+- **Styling defaults:** Mobile-first utility classes. Prefer Tailwind over inline styles for layout and theming. Scoped `<style>` in `.astro` is acceptable when utilities are awkward; do not rely on inline styles for whole layouts.

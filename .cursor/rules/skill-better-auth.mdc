@@ -1,0 +1,22 @@
+---
+description: Trigger Better Auth skill for authentication work
+alwaysApply: true
+---
+
+# Better-Auth Standards
+
+- **Astro Components**: Use `auth.getSession(Astro.request)` for server-side session checks in `.astro` files.
+- **Client Side**: Use the `authClient` instance (from `lib/auth-client.ts`) for hooks like `useSession()`.
+- **Hono Middleware**: Always access the session via the `c.get("user")` or `c.get("session")` context after the Better-Auth middleware is applied.
+- Ensure any new auth plugins are added to both the server configuration and the client configuration to maintain type synchronization.
+
+# Better Auth Skill Trigger
+
+Before implementation, read and apply:
+`@.agents/skills/better-auth-best-practices/SKILL.md`
+
+Trigger when:
+
+- User mentions Better Auth, betterauth, sessions, OAuth, or auth plugins
+- Task touches auth server or client setup, adapters, or auth env variables
+- Code references Better Auth configuration or auth integration files

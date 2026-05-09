@@ -1,0 +1,14 @@
+---
+description: Trigger Turborepo skill for monorepo task graph work
+alwaysApply: true
+---
+
+# Turborepo Skill Trigger
+
+Before implementation, read and apply:
+`@.agents/skills/turborepo/SKILL.md`
+
+Trigger when:
+- User mentions `turbo`, pipelines, caching, `--filter`, or changed packages
+- Task edits `turbo.json` or workspace build, dev, and test scripts
+- Task changes package boundaries, shared packages, or CI monorepo flow

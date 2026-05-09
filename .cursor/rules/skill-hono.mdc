@@ -1,0 +1,14 @@
+---
+description: Trigger Hono skill for API and route work
+alwaysApply: true
+---
+
+# Hono Skill Trigger
+
+Before implementation, read and apply:
+`@.agents/skills/hono/SKILL.md`
+
+Trigger when:
+- User asks about Hono routing, middleware, validation, testing, or streaming
+- Code imports `hono` or `hono/*`
+- Task modifies API endpoints, request handlers, or RPC contract types
