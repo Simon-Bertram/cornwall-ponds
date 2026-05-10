@@ -1,0 +1,173 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { projects } from "../../lib/projects";
+
+// SSR mode: getStaticPaths() is ignored. Look up the project from the URL param at request time.
+const { slug } = Astro.params;
+const project = projects.find((p) => p.slug === slug);
+
+if (!project) {
+  return Astro.redirect("/our-work", 404);
+}
+---
+
+<Layout
+  title={`${project.title} | Cornwall Ponds`}
+  description={project.shortDescription}
+>
+  <main class="py-24 sm:py-32 bg-background min-h-screen">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      {/* Header */}
+      <div class="my-12">
+        <a
+          href="/our-work"
+          class="text-sm text-primary hover:text-primary-focus font-medium inline-flex items-center gap-1 mb-8"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Portfolio
+        </a>
+
+        <div
+          class="flex flex-col md:flex-row md:items-end justify-between gap-6"
+        >
+          <div>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span
+                class="badge badge-primary font-semibold text-xs py-2 px-2 shadow-sm"
+              >
+                {project.serviceType}
+              </span>
+              <span
+                class="badge badge-neutral bg-foreground/80 px-2 py-2 text-background border-none font-medium text-xs shadow-sm capitalize"
+              >
+                {project.location}
+              </span>
+            </div>
+            <h1
+              class="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-5xl"
+            >
+              {project.title}
+            </h1>
+          </div>
+
+          <div
+            class="flex gap-4 text-sm text-foreground/80 text-left md:text-right"
+          >
+            {
+              project.stats.duration && (
+                <div>
+                  <p class="font-semibold text-foreground">Duration</p>
+                  <p>{project.stats.duration}</p>
+                </div>
+              )
+            }
+            {
+              project.stats.volume && (
+                <div>
+                  <p class="font-semibold text-foreground">Volume</p>
+                  <p>{project.stats.volume}</p>
+                </div>
+              )
+            }
+            {
+              project.stats.area && (
+                <div>
+                  <p class="font-semibold text-foreground">Area</p>
+                  <p>{project.stats.area}</p>
+                </div>
+              )
+            }
+            {
+              project.stats.depth && (
+                <div>
+                  <p class="font-semibold text-foreground">Depth</p>
+                  <p>{project.stats.depth}</p>
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content Grid */}
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div class="lg:col-span-2 space-y-8">
+          {/* Main Image Banner */}
+          <div
+            class="aspect-video w-full rounded-2xl overflow-hidden mb-12 shadow-md"
+          >
+            <img
+              src={project.afterImage || project.thumbnail}
+              alt={`Final result of ${project.title}`}
+              class="w-full h-full object-cover"
+            />
+          </div>
+
+          <div>
+            <h2 class="font-serif text-2xl font-bold mb-4">The Challenge</h2>
+            <p class="text-foreground/80 text-lg leading-relaxed">
+              {project.challenge}
+            </p>
+          </div>
+
+          <div>
+            <h2 class="font-serif text-2xl font-bold mb-4">Our Solution</h2>
+            <p class="text-foreground/80 text-lg leading-relaxed">
+              {project.solution}
+            </p>
+          </div>
+
+          <div>
+            <h2 class="font-serif text-2xl font-bold mb-4">The Result</h2>
+            <p class="text-foreground/80 text-lg leading-relaxed">
+              {project.result}
+            </p>
+          </div>
+        </div>
+
+        {/* Sidebar Gallery */}
+        <div class="space-y-6">
+          <h3 class="font-serif text-xl font-bold mb-4">Project Gallery</h3>
+          {
+            project.gallery.map((img) => (
+              <div class="aspect-[4/3] rounded-xl overflow-hidden shadow-sm">
+                <img
+                  src={img}
+                  alt={`${project.title} gallery image`}
+                  class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            ))
+          }
+
+          {/* Call to action inside sidebar */}
+          <div
+            class="mt-12 bg-primary/10 rounded-2xl p-6 border border-primary/20 text-center"
+          >
+            <h4 class="font-serif text-lg font-bold mb-2">
+              Inspired by this project?
+            </h4>
+            <p class="text-sm text-foreground/80 mb-6">
+              Contact us to discuss how we can transform your garden.
+            </p>
+            <a href="/contact" class="btn btn-primary w-full"
+              >Request a Consultation</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>

@@ -41,7 +41,7 @@
   "portsAttributes": {
     "4321": {
       "label": "web",
-      "onAutoForward": "openBrowser"
+      "onAutoForward": "silent"
     },
     "3000": {
       "label": "server",

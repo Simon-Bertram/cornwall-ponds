@@ -1,0 +1,26 @@
+---
+description: Choose DaisyUI vs Shadcn before creating new apps/web UI files; use AskQuestion
+globs: apps/web/src/components/**,apps/web/src/pages/**,apps/web/src/layouts/**
+alwaysApply: false
+---
+
+# DaisyUI vs Shadcn — user choice on new UI files
+
+## When this applies
+
+If the request would **create a new file** under `apps/web/src/` in `components/`, `pages/`, or `layouts/`, and that file is primarily **user-facing UI** (e.g. `.astro` sections, `.tsx` islands or UI modules).
+
+**Do not** trigger for edits-only, or for non-UI files (e.g. `apps/web/src/lib/**`, data-only scripts, hooks with no new UI surface).
+
+## Before writing the new file
+
+1. **Brief assessment** (internal): align with `.cursor/rules/astro.mdc` §1 — DaisyUI for fast, token-driven primitives; Shadcn when accessibility or interaction is non-trivial (dialogs/focus traps, complex forms, data tables, nested popovers).
+2. **Stop and prompt the user** using the **AskQuestion** tool. Do not create the new UI file until they answer.
+
+### AskQuestion options (use these or equivalent labels)
+
+- **DaisyUI-first** — Prefer DaisyUI + Tailwind for this feature; keep Shadcn out unless an existing pattern requires it.
+- **Shadcn-first** — Prefer Shadcn primitives for this feature (expect React/TSX islands where needed).
+- **No preference** — Follow `.cursor/rules/astro.mdc` hierarchy; agent picks based on complexity and a11y needs.
+
+After the user chooses, implement accordingly for that new file. If their choice conflicts with minimum accessibility needs, say so briefly and propose the smallest adjustment.
