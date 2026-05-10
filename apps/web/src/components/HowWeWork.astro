@@ -1,0 +1,124 @@
+---
+// HowWeWork.astro — Step D: "Our Process" section
+// Pure Astro (static), zero JS
+// Colours: ONLY brand tokens from global.css (Colour Lockdown §7)
+// Layout: Horizontal stepped timeline (desktop), vertical (mobile)
+
+const steps = [
+  {
+    number: "01",
+    title: "Free Consultation",
+    description:
+      "We visit your site, listen to your vision, and assess the landscape. No obligation.",
+  },
+  {
+    number: "02",
+    title: "Bespoke Design",
+    description:
+      "Our designers create a detailed plan tailored to your garden, budget, and ecosystem goals.",
+  },
+  {
+    number: "03",
+    title: "Expert Build",
+    description:
+      "Our experienced team constructs your pond with minimal disruption and maximum care.",
+  },
+  {
+    number: "04",
+    title: "Aftercare & Support",
+    description:
+      "We provide a full handover, ongoing advice, and optional maintenance contracts.",
+  },
+];
+---
+
+<section
+  aria-labelledby="how-we-work-heading"
+  class="py-24 sm:py-32 bg-muted"
+>
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <!-- Section header -->
+    <div class="mx-auto max-w-2xl text-center mb-16 lg:mb-20">
+      <p
+        class="text-sm font-semibold uppercase tracking-widest text-primary mb-3"
+      >
+        Our Process
+      </p>
+      <h2
+        id="how-we-work-heading"
+        class="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+      >
+        How We Work
+      </h2>
+      <p class="mt-4 text-lg text-foreground/70 leading-relaxed">
+        From first conversation to finished pond — a clear, transparent journey
+        with no surprises.
+      </p>
+    </div>
+
+    <!-- Steps: horizontal timeline (desktop), vertical stack (mobile) -->
+    <ol
+      class="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-0"
+      role="list"
+      aria-label="Our 4-step process"
+    >
+      {
+        steps.map((step, i) => (
+          <li class="relative flex flex-col items-center text-center lg:px-6">
+            {/* ── Connecting line (horizontal on desktop, vertical on mobile) ── */}
+            {i < steps.length - 1 && (
+              <>
+                {/* Desktop: horizontal line between badges */}
+                <div
+                  class="hidden lg:block absolute top-6 left-[calc(50%+28px)] right-[calc(-50%+28px)] h-0.5 bg-primary/20"
+                  aria-hidden="true"
+                />
+                {/* Mobile: vertical line below card */}
+                <div
+                  class="lg:hidden absolute -bottom-4 left-1/2 -translate-x-1/2 w-0.5 h-8 bg-primary/20"
+                  aria-hidden="true"
+                />
+              </>
+            )}
+
+            {/* ── Step number badge ── */}
+            <div class="relative mb-6">
+              {/* Large decorative number behind the badge */}
+              <span
+                class="absolute -top-6 left-1/2 -translate-x-1/2 font-serif text-6xl font-bold text-primary/10 select-none pointer-events-none"
+                aria-hidden="true"
+              >
+                {step.number}
+              </span>
+              {/* Circular badge */}
+              <div class="relative z-10 w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm shadow-md">
+                {step.number}
+              </div>
+            </div>
+
+            {/* ── Content card ── */}
+            <div class="bg-card rounded-2xl p-6 shadow-sm w-full max-w-xs lg:max-w-none">
+              <h3 class="font-serif text-lg font-bold text-foreground mb-2">
+                {step.title}
+              </h3>
+              <p class="text-foreground/70 text-sm leading-relaxed">
+                {step.description}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <!-- Bottom CTA -->
+    <div class="mt-16 text-center">
+      <p class="text-foreground/60 text-sm mb-6">Ready to begin?</p>
+      <a
+        href="/contact"
+        class="btn btn-primary btn-wide focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      >
+        Start with a Free Site Visit
+      </a>
+    </div>
+  </div>
+</section>

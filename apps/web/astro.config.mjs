@@ -57,6 +57,11 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     resolve: { alias: cloudflareWorkersAlias },
+    optimizeDeps: {
+      // Why: first crawl can miss client-only imports; a second optimize pass
+      // triggers a full reload and transient missing-chunk WARNs in .vite/deps.
+      include: ["better-auth/client", "@orpc/client", "@orpc/client/fetch"],
+    },
   },
 
   integrations: [react()],

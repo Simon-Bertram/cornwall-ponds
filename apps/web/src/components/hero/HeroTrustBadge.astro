@@ -1,0 +1,29 @@
+---
+const STAR_PATH =
+  "M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z";
+---
+
+<div
+  class="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-medium tracking-wide text-white backdrop-blur-sm shadow-sm md:text-sm"
+>
+  <span
+    class="flex items-center gap-0.5 text-warning"
+    aria-hidden="true"
+  >
+    {
+      Array.from({ length: 5 }, () => (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path d={STAR_PATH} />
+        </svg>
+      ))
+    }
+  </span>
+  <span class="font-bold uppercase tracking-wider text-white">
+    Over 15 years of delivering excellence
+  </span>
+</div>

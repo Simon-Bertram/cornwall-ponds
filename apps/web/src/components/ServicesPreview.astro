@@ -1,0 +1,125 @@
+---
+// ServicesPreview.astro — Step B: "Our Services" section
+// Pure Astro (static), data from src/lib/projects.ts
+// Designed per graphic-designer.md: 4/8px grid, visual hierarchy, WCAG AA contrast
+import { services } from "../lib/projects";
+---
+
+<section
+  aria-labelledby="services-heading"
+  class="py-24 sm:py-32 bg-background"
+>
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+
+    <!-- Section header -->
+    <div class="mx-auto max-w-2xl text-center mb-16">
+      <p class="text-sm font-semibold uppercase tracking-widest text-primary mb-3">
+        Our Services
+      </p>
+      <h2
+        id="services-heading"
+        class="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+      >
+        What We Create
+      </h2>
+      <p class="mt-4 text-lg text-foreground/70 leading-relaxed">
+        From intimate wildlife ponds to grand natural swimming pools — every
+        project is bespoke, built by hand, and designed to last a lifetime.
+      </p>
+    </div>
+
+    <!-- Services grid -->
+    <ul
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+      role="list"
+    >
+      {services.map((service) => (
+        <li class="group">
+          <article
+            class="flex flex-col h-full bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-border hover:border-primary/20"
+            aria-label={service.title}
+          >
+            <!-- Visual header block -->
+            <div
+              class="relative h-44 bg-linear-to-br from-primary/40 to-accent/30 flex items-center justify-center overflow-hidden"
+              aria-hidden="true"
+            >
+              {service.image && <img src={service.image} alt={service.title} class="absolute inset-0 w-full h-full object-cover" />}              
+            </div>
+
+            <!-- Card body -->
+            <div class="flex flex-col flex-1 p-6 gap-4">
+
+              <!-- Title + description -->
+              <div>
+                <h3 class="font-serif text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">
+                  {service.title}
+                </h3>
+                <p class="text-foreground/70 text-sm leading-relaxed">
+                  {service.shortDescription}
+                </p>
+              </div>
+
+              <!-- Feature list (first 3) -->
+              <ul class="flex flex-col gap-2 flex-1" role="list" aria-label={`${service.title} features`}>
+                {service.features.slice(0, 3).map((feature) => (
+                  <li class="flex items-start gap-2 text-sm text-foreground/80">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-4 h-4 text-primary mt-0.5 shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      aria-hidden="true"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+
+              <!-- CTA -->
+              <div class="pt-2 mt-auto border-t border-border">
+                <a
+                  href="/contact"
+                  class="a11y-service-cta inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  aria-label={`Request a quote for ${service.title}`}
+                >
+                  Request a Quote
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                  </svg>
+                </a>
+              </div>
+
+            </div>
+          </article>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Footer CTA row -->
+    <div class="mt-16 text-center">
+      <p class="text-foreground/60 text-sm mb-6">
+        Not sure which service is right for you?
+      </p>
+      <a
+        href="/contact"
+        class="btn btn-primary btn-wide focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      >
+        Book a Free Consultation
+      </a>
+    </div>
+
+  </div>
+</section>
