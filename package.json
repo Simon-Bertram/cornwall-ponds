@@ -26,8 +26,13 @@
     "@cloudflare/workers-types": "catalog:",
     "@cornwall-ponds/config": "workspace:*",
     "@types/node": "catalog:",
-    "turbo": "^2.9.10",
+    "turbo": "^2.9.12",
     "typescript": "catalog:"
   },
-  "packageManager": "pnpm@11.0.8"
+  "packageManager": "pnpm@11.0.8",
+  "pnpm": {
+    "overrides": {
+      "@types/node": "24.12.3"
+    }
+  }
 }

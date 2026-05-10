@@ -1,13 +1,16 @@
 ---
-import { Menu, X } from "@lucide/astro";
 import AuthButton from "./AuthButton.astro";
 // import ThemeToggle from "./ThemeToggle.astro";
 import HeaderPrimaryNavCustom from "./HeaderPrimaryNavCustom.astro";
 import HeaderMobileMenuPanelCustom from "./HeaderMobileMenuPanelCustom.astro";
-import { lucideIconToSvg } from "../lib/lucide-icon-svg";
+import {
+  lucideIconToSvg,
+  lucideMenuIcon,
+  lucideXIcon,
+} from "../lib/lucide-icon-svg";
 
-const menuSvg = lucideIconToSvg(Menu, "h-5 w-5");
-const closeSvg = lucideIconToSvg(X, "h-5 w-5");
+const menuSvg = lucideIconToSvg(lucideMenuIcon, "h-5 w-5");
+const closeSvg = lucideIconToSvg(lucideXIcon, "h-5 w-5");
 ---
 
 <header class="border-b border-border bg-background">
