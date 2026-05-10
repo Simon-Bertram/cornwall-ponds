@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 // @ts-check
 import tailwindcss from "@tailwindcss/vite";
 import alchemy from "alchemy/cloudflare/astro";
-import { defineConfig, envField } from "astro/config";
+import { defineConfig, envField, fontProviders } from "astro/config";
 const alchemyConfigPath = fileURLToPath(
   new URL("./.alchemy/local/wrangler.jsonc", import.meta.url),
 );
@@ -38,6 +38,21 @@ export default defineConfig({
       }),
     },
   },
+
+  fonts: [
+    {
+      provider: fontProviders.google(),
+      name: "Manrope",
+      cssVariable: "--font-manrope",
+      weights: ["200 800"],
+    },
+    {
+      provider: fontProviders.google(),
+      name: "Work Sans",
+      cssVariable: "--font-work-sans",
+      weights: [400, 500, 600, 700],
+    },
+  ],
 
   vite: {
     plugins: [tailwindcss()],

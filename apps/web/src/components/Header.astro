@@ -1,6 +1,6 @@
 ---
 import AuthButton from "./AuthButton.astro";
-// import ThemeToggle from "./ThemeToggle.astro";
+import ThemeController from "./ThemeController.astro";
 import HeaderPrimaryNavCustom from "./HeaderPrimaryNavCustom.astro";
 import HeaderMobileMenuPanelCustom from "./HeaderMobileMenuPanelCustom.astro";
 import {
@@ -27,7 +27,7 @@ const closeSvg = lucideIconToSvg(lucideXIcon, "h-5 w-5");
     <HeaderPrimaryNavCustom />
 
     <div class="flex items-center gap-3">
-      <!-- <ThemeToggle /> -->
+      <ThemeController />
       <AuthButton />
       <button
         id="mobile-menu-button"
