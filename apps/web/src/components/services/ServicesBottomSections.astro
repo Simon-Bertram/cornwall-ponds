@@ -92,7 +92,7 @@ const { guidePrices, credentials, testimonials } = Astro.props
 			</div>
 			<div class='grid grid-cols-1 md:grid-cols-3 gap-8'>
 				{testimonials.slice(0, 3).map((t) => (
-					<div class='bg-card p-8 rounded-3xl border border-foreground/5 shadow-sm flex flex-col'>
+					<figure class='bg-card p-8 rounded-3xl border border-foreground/5 shadow-sm flex flex-col'>
 						<div class='flex gap-1 text-primary mb-5'>
 							{[...Array(5)].map(() => (
 								<svg
@@ -105,14 +105,14 @@ const { guidePrices, credentials, testimonials } = Astro.props
 								</svg>
 							))}
 						</div>
-						<p class='text-foreground/80 text-sm leading-relaxed italic mb-6 flex-1'>
+						<blockquote class='text-foreground/80 text-sm leading-relaxed italic mb-6 flex-1'>
 							"{t.quote}"
-						</p>
-						<div>
-							<p class='font-bold text-sm text-foreground'>{t.name}</p>
+						</blockquote>
+						<figcaption>
+							<cite class='font-bold text-sm text-foreground not-italic'>{t.name}</cite>
 							<p class='text-xs text-foreground/60'>{t.location}</p>
-						</div>
-					</div>
+						</figcaption>
+					</figure>
 				))}
 			</div>
 		</div>
