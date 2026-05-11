@@ -1,0 +1,142 @@
+---
+import Layout from "../layouts/Layout.astro";
+import WhyChooseUs from "../components/WhyChooseUs.astro";
+import GetStarted from "../components/GetStarted.astro";
+import { testimonials } from "../lib/projects";
+---
+
+<Layout
+  title="Our Expertise | Cornwall Ponds"
+  description="Three decades of pond design and build expertise across Cornwall. Discover why homeowners trust Cornwall Ponds for craftsmanship, eco-first design, and lifetime support."
+>
+  <main class="bg-background min-h-screen">
+    <section class="py-24 sm:py-32">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <!-- Page Header -->
+        <div class="mx-auto max-w-2xl text-center py-16">
+          <h1
+            class="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl mb-6"
+          >
+            Our Expertise
+          </h1>
+          <p class="text-lg text-foreground/80">
+            Three decades of quiet expertise, a love of nature, and an
+            unwavering commitment to every client we work with across Cornwall
+            and beyond.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Pillars & Stats (WhyChooseUs component) -->
+    <WhyChooseUs />
+
+    <!-- Credentials section -->
+    <section class="py-24 bg-muted text-muted-foreground">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center">
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold mb-4">
+          Professional Standards
+        </h2>
+        <p class="opacity-70 mb-16 max-w-xl mx-auto">
+          We don't just build ponds — we engineer living ecosystems, backed by
+          verifiable credentials and industry memberships.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          {
+            [
+              {
+                title: "Fully Insured",
+                body: "Public Liability & Employer's Liability",
+                svgPath:
+                  "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+              },
+              {
+                title: "BALI Registered",
+                body: "British Association of Landscape Industries",
+                svgPath:
+                  "M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z",
+              },
+              {
+                title: "Water Quality Certified",
+                body: "Regular testing & documentation",
+                svgPath:
+                  "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z",
+              },
+              {
+                title: "Finance Available",
+                body: "FCA-registered options on request",
+                svgPath:
+                  "M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z",
+              },
+            ].map((cred) => (
+              <div class="flex flex-col items-center">
+                <div class="w-16 h-16 rounded-full border border-white/20 bg-white/5 flex items-center justify-center mb-5">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-7 h-7 text-primary"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d={cred.svgPath}
+                    />
+                  </svg>
+                </div>
+                <h3 class="font-bold text-base mb-2">{cred.title}</h3>
+                <p class="text-sm text-muted-foreground/65 leading-relaxed">
+                  {cred.body}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-24 bg-muted">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-foreground">
+            What Our Clients Say
+          </h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {
+            testimonials.slice(0, 3).map((t) => (
+              <div class="bg-card p-8 rounded-3xl border border-foreground/5 shadow-sm flex flex-col">
+                <div class="flex gap-1 text-primary mb-5">
+                  {[...Array(5)].map(() => (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-4 h-4 fill-current"
+                      viewBox="0 0 20 20"
+                      aria-hidden="true"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p class="text-foreground/80 text-sm leading-relaxed italic mb-6 flex-1">
+                  "{t.quote}"
+                </p>
+                <div>
+                  <p class="font-bold text-sm text-foreground">{t.name}</p>
+                  <p class="text-xs text-foreground/60">{t.location}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <GetStarted />
+  </main>
+</Layout>

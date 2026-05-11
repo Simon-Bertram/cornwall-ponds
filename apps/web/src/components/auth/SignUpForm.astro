@@ -1,90 +1,92 @@
 ---
-import AuthField from './AuthField.astro'
-import AuthFormShell from './AuthFormShell.astro'
+import AuthField from "./AuthField.astro";
+import AuthFormShell from "./AuthFormShell.astro";
 ---
 
 <AuthFormShell
-	title='Create Account'
-	formId='signup-form'
-	submitLabel='Sign Up'
-	switchHref='/login'
-	switchText='Already have an account? Sign In'
+  title="Create Account"
+  formId="signup-form"
+  submitLabel="Sign Up"
+  switchHref="/login"
+  switchText="Already have an account? Sign In"
 >
-	<AuthField
-		label='Name'
-		inputId='name'
-		name='name'
-		required
-		placeholder='John Doe'
-		autocomplete='name'
-	/>
+  <AuthField
+    label="Name"
+    inputId="name"
+    name="name"
+    required
+    placeholder="John Doe"
+    autocomplete="name"
+  />
 
-	<AuthField
-		label='Email'
-		inputId='email'
-		name='email'
-		type='email'
-		required
-		placeholder='you@example.com'
-		autocomplete='email'
-	/>
+  <AuthField
+    label="Email"
+    inputId="email"
+    name="email"
+    type="email"
+    required
+    placeholder="you@example.com"
+    autocomplete="email"
+  />
 
-	<AuthField
-		label='Password'
-		inputId='password'
-		name='password'
-		type='password'
-		required
-		minlength={8}
-		placeholder='••••••••'
-		autocomplete='new-password'
-		hint='Must be at least 8 characters'
-	/>
+  <AuthField
+    label="Password"
+    inputId="password"
+    name="password"
+    type="password"
+    required
+    minlength={8}
+    placeholder="••••••••"
+    autocomplete="new-password"
+    hint="Must be at least 8 characters"
+  />
 </AuthFormShell>
 
 <script>
-	import { authClient } from '../lib/auth-client'
+  import { authClient } from "../../lib/auth-client";
 
-	const form = document.getElementById('signup-form') as HTMLFormElement
-	const nameInput = document.getElementById('name') as HTMLInputElement
-	const emailInput = document.getElementById('email') as HTMLInputElement
-	const passwordInput = document.getElementById('password') as HTMLInputElement
-	const formError = document.getElementById('form-error') as HTMLParagraphElement
-	const submitButton = form.querySelector(
-		'button[type="submit"]',
-	) as HTMLButtonElement
+  const form = document.getElementById("signup-form") as HTMLFormElement;
+  const nameInput = document.getElementById("name") as HTMLInputElement;
+  const emailInput = document.getElementById("email") as HTMLInputElement;
+  const passwordInput = document.getElementById("password") as HTMLInputElement;
+  const formError = document.getElementById(
+    "form-error",
+  ) as HTMLParagraphElement;
+  const submitButton = form.querySelector(
+    'button[type="submit"]',
+  ) as HTMLButtonElement;
 
-	form.addEventListener('submit', async (e) => {
-		e.preventDefault()
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-		formError.classList.add('hidden')
-		submitButton.disabled = true
-		submitButton.textContent = 'Creating account...'
+    formError.classList.add("hidden");
+    submitButton.disabled = true;
+    submitButton.textContent = "Creating account...";
 
-		try {
-			await authClient.signUp.email(
-				{
-					name: nameInput.value,
-					email: emailInput.value,
-					password: passwordInput.value,
-				},
-				{
-					onSuccess: () => {
-						window.location.href = '/dashboard'
-					},
-					onError: (ctx) => {
-						formError.textContent =
-							ctx.error.message || 'Sign up failed. Please try again.'
-						formError.classList.remove('hidden')
-					},
-				},
-			)
-		} catch (error) {
-			formError.textContent = 'An unexpected error occurred.'
-			formError.classList.remove('hidden')
-		} finally {
-			submitButton.disabled = false
-			submitButton.textContent = 'Sign Up'
-		}
-	})
+    try {
+      await authClient.signUp.email(
+        {
+          name: nameInput.value,
+          email: emailInput.value,
+          password: passwordInput.value,
+        },
+        {
+          onSuccess: () => {
+            window.location.href = "/dashboard";
+          },
+          onError: (ctx) => {
+            formError.textContent =
+              ctx.error.message || "Sign up failed. Please try again.";
+            formError.classList.remove("hidden");
+          },
+        },
+      );
+    } catch (error) {
+      formError.textContent = "An unexpected error occurred.";
+      formError.classList.remove("hidden");
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "Sign Up";
+    }
+  });
 </script>

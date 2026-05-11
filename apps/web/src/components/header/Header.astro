@@ -1,13 +1,13 @@
 ---
-import AuthButton from "./AuthButton.astro";
-import ThemeController from "./ThemeController.astro";
+import AuthButton from "../auth/AuthButton.astro";
+import ThemeController from "../ThemeController.astro";
 import HeaderPrimaryNavCustom from "./HeaderPrimaryNavCustom.astro";
 import HeaderMobileMenuPanelCustom from "./HeaderMobileMenuPanelCustom.astro";
 import {
   lucideIconToSvg,
   lucideMenuIcon,
   lucideXIcon,
-} from "../lib/lucide-icon-svg";
+} from "../../lib/lucide-icon-svg";
 
 const menuSvg = lucideIconToSvg(lucideMenuIcon, "h-5 w-5");
 const closeSvg = lucideIconToSvg(lucideXIcon, "h-5 w-5");

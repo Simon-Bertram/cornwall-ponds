@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ContactPageHero from "../components/contact/ContactPageHero.astro";
+import ContactDetailsCard from "../components/contact/ContactDetailsCard.astro";
+import ContactQuoteForm from "../components/contact/ContactQuoteForm.astro";
+---
+
+<Layout
+  title="Request a Quote | Cornwall Ponds"
+  description="Contact our expert team to discuss your bespoke pond design, natural swimming pool, or water feature project in Cornwall and Devon."
+>
+  <main class="min-h-screen bg-background py-24 sm:py-32">
+    <div class="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+      <ContactPageHero />
+
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-8 xl:gap-16">
+        <ContactDetailsCard />
+        <ContactQuoteForm />
+      </div>
+    </div>
+  </main>
+</Layout>

@@ -1,79 +1,81 @@
 ---
-import AuthField from './AuthField.astro'
-import AuthFormShell from './AuthFormShell.astro'
+import AuthField from "./AuthField.astro";
+import AuthFormShell from "./AuthFormShell.astro";
 ---
 
 <AuthFormShell
-	title='Welcome Back'
-	formId='signin-form'
-	submitLabel='Sign In'
-	switchHref='/signup'
-	switchText='Need an account? Sign Up'
+  title="Welcome Back"
+  formId="signin-form"
+  submitLabel="Sign In"
+  switchHref="/signup"
+  switchText="Need an account? Sign Up"
 >
-	<AuthField
-		label='Email'
-		inputId='email'
-		name='email'
-		type='email'
-		required
-		placeholder='you@example.com'
-		autocomplete='email'
-		errorId='email-error'
-	/>
+  <AuthField
+    label="Email"
+    inputId="email"
+    name="email"
+    type="email"
+    required
+    placeholder="you@example.com"
+    autocomplete="email"
+    errorId="email-error"
+  />
 
-	<AuthField
-		label='Password'
-		inputId='password'
-		name='password'
-		type='password'
-		required
-		placeholder='••••••••'
-		autocomplete='current-password'
-		errorId='password-error'
-	/>
+  <AuthField
+    label="Password"
+    inputId="password"
+    name="password"
+    type="password"
+    required
+    placeholder="••••••••"
+    autocomplete="current-password"
+    errorId="password-error"
+  />
 </AuthFormShell>
 
 <script>
-	import { authClient } from '../lib/auth-client'
+  import { authClient } from "../../lib/auth-client";
 
-	const form = document.getElementById('signin-form') as HTMLFormElement
-	const emailInput = document.getElementById('email') as HTMLInputElement
-	const passwordInput = document.getElementById('password') as HTMLInputElement
-	const formError = document.getElementById('form-error') as HTMLParagraphElement
-	const submitButton = form.querySelector(
-		'button[type="submit"]',
-	) as HTMLButtonElement
+  const form = document.getElementById("signin-form") as HTMLFormElement;
+  const emailInput = document.getElementById("email") as HTMLInputElement;
+  const passwordInput = document.getElementById("password") as HTMLInputElement;
+  const formError = document.getElementById(
+    "form-error",
+  ) as HTMLParagraphElement;
+  const submitButton = form.querySelector(
+    'button[type="submit"]',
+  ) as HTMLButtonElement;
 
-	form.addEventListener('submit', async (e) => {
-		e.preventDefault()
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-		formError.classList.add('hidden')
-		submitButton.disabled = true
-		submitButton.textContent = 'Signing in...'
+    formError.classList.add("hidden");
+    submitButton.disabled = true;
+    submitButton.textContent = "Signing in...";
 
-		try {
-			await authClient.signIn.email(
-				{
-					email: emailInput.value,
-					password: passwordInput.value,
-				},
-				{
-					onSuccess: () => {
-						window.location.href = '/dashboard'
-					},
-					onError: (ctx) => {
-						formError.textContent =
-							ctx.error.message || 'Sign in failed. Please try again.'
-						formError.classList.remove('hidden')
-					},
-				},
-			)
-		} catch (error) {
-			formError.textContent = 'An unexpected error occurred.'
-			formError.classList.remove('hidden')
-		} finally {
-			submitButton.disabled = false
-			submitButton.textContent = 'Sign In'
-		}
-	})
+    try {
+      await authClient.signIn.email(
+        {
+          email: emailInput.value,
+          password: passwordInput.value,
+        },
+        {
+          onSuccess: () => {
+            window.location.href = "/dashboard";
+          },
+          onError: (ctx) => {
+            formError.textContent =
+              ctx.error.message || "Sign in failed. Please try again.";
+            formError.classList.remove("hidden");
+          },
+        },
+      );
+    } catch (error) {
+      formError.textContent = "An unexpected error occurred.";
+      formError.classList.remove("hidden");
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "Sign In";
+    }
+  });
 </script>

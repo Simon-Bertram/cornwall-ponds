@@ -1,0 +1,56 @@
+---
+import { Phone, Mail, MapPin, CircleCheckBig } from "lucide-react";
+import ContactDetailRow from "./ContactDetailRow.astro";
+---
+
+<div
+  class="lg:col-span-2 flex flex-col gap-10 bg-primary/5 rounded-3xl p-8 sm:p-10 border border-primary/10"
+>
+  <div>
+    <h3 class="font-serif text-2xl font-bold text-foreground mb-2">
+      Contact Details
+    </h3>
+    <p class="text-foreground/70">
+      Prefer to speak directly? Reach out to our team using the details below.
+    </p>
+  </div>
+
+  <div class="flex flex-col gap-8">
+    <ContactDetailRow title="Phone">
+      <Phone slot="icon" size={24} />
+      <a
+        href="tel:+441234567890"
+        class="text-lg text-foreground/80 hover:text-primary transition-colors block mt-1"
+        >01234 567 890</a
+      >
+      <p class="text-sm text-foreground/60 mt-1">Mon-Fri: 8am - 6pm</p>
+    </ContactDetailRow>
+
+    <ContactDetailRow title="Email">
+      <Mail slot="icon" size={24} />
+      <a
+        href="mailto:hello@cornwallponds.co.uk"
+        class="text-lg text-foreground/80 hover:text-primary transition-colors block mt-1"
+        >hello@cornwallponds.co.uk</a
+      >
+    </ContactDetailRow>
+
+    <ContactDetailRow title="Office">
+      <MapPin slot="icon" size={24} />
+      <p class="text-lg text-foreground/80 mt-1">
+        12 Artisan Way<br />
+        Truro, Cornwall<br />
+        TR1 2XY
+      </p>
+    </ContactDetailRow>
+  </div>
+
+  <div class="mt-auto pt-8 border-t border-foreground/10">
+    <p
+      class="text-sm font-bold text-foreground/80 flex items-center gap-2"
+    >
+      <CircleCheckBig size={20} />
+      Fully Insured &amp; Guaranteed Work
+    </p>
+  </div>
+</div>

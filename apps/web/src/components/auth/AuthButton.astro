@@ -1,5 +1,5 @@
 ---
-import CtaLink from './ui/CtaLink.astro'
+import CtaLink from "../ui/CtaLink.astro";
 ---
 
 <div class="flex items-center gap-2" id="user-menu-container">
@@ -22,7 +22,7 @@ import CtaLink from './ui/CtaLink.astro'
 </div>
 
 <script>
-  import { authClient } from "../lib/auth-client";
+  import { authClient } from "../../lib/auth-client";
 
   const loginLink = document.getElementById("login-link");
   const userMenu = document.getElementById("user-menu");

@@ -1,17 +1,17 @@
 ---
-import Layout from '../layouts/Layout.astro'
+import Layout from "../../layouts/Layout.astro";
 
 interface Props {
-	title: string
+  title: string;
 }
 
-const { title } = Astro.props
+const { title } = Astro.props;
 ---
 
 <Layout title={title}>
-	<main class='bg-background min-h-screen py-12 sm:py-18'>
-		<div class='flex min-h-[calc(100vh-4rem)] items-center justify-center'>
-			<slot />
-		</div>
-	</main>
+  <main class="bg-background min-h-screen py-12 sm:py-18">
+    <div class="flex min-h-[calc(100vh-4rem)] items-center justify-center">
+      <slot />
+    </div>
+  </main>
 </Layout>
