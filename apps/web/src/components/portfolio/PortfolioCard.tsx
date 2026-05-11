@@ -1,5 +1,15 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
+import {
+  mediaCardActionClass,
+  mediaCardBodyClass,
+  mediaCardDescriptionClass,
+  mediaCardImageClass,
+  mediaCardOverlayClass,
+  mediaCardShellClass,
+  mediaCardTitleClass,
+  mediaCardTitleLinkClass,
+} from "../../lib/media-card-styles";
 import type { Project } from "../../lib/projects";
 
 interface PortfolioCardProps {
@@ -10,7 +20,7 @@ export function PortfolioCard({ project }: PortfolioCardProps) {
   const [showAfter, setShowAfter] = useState(true);
 
   return (
-    <div className="group flex flex-col h-full bg-card rounded-xl overflow-hidden border border-foreground/10 shadow-sm hover:shadow-xl transition-all duration-300">
+    <div className={mediaCardShellClass}>
       <a
         href={`/our-work/${project.slug}`}
         className="block relative aspect-4/3 overflow-hidden"
@@ -19,7 +29,7 @@ export function PortfolioCard({ project }: PortfolioCardProps) {
         <img
           src={project.beforeImage}
           alt={`Before: ${project.title}`}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:scale-105 ${showAfter ? "opacity-0" : "opacity-100"}`}
+          className={`${mediaCardImageClass} transition-opacity ${showAfter ? "opacity-0" : "opacity-100"}`}
           loading="lazy"
         />
 
@@ -27,7 +37,7 @@ export function PortfolioCard({ project }: PortfolioCardProps) {
         <img
           src={project.afterImage}
           alt={`After: ${project.title}`}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:scale-105 ${showAfter ? "opacity-100" : "opacity-0"}`}
+          className={`${mediaCardImageClass} transition-opacity ${showAfter ? "opacity-100" : "opacity-0"}`}
           loading="lazy"
         />
 
@@ -66,24 +76,24 @@ export function PortfolioCard({ project }: PortfolioCardProps) {
         </div>
 
         {/* Shadow gradient for text contrast */}
-        <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+        <div className={mediaCardOverlayClass} />
       </a>
 
-      <div className="p-5 flex flex-col grow">
+      <div className={mediaCardBodyClass}>
         <a
           href={`/our-work/${project.slug}`}
-          className="group/link mb-2 outline-none focus-visible:ring-2 ring-primary rounded-sm"
+          className={mediaCardTitleLinkClass}
         >
-          <h3 className="font-serif text-lg sm:text-xl font-bold text-foreground group-hover/link:text-primary transition-colors line-clamp-2">
+          <h3 className={mediaCardTitleClass}>
             {project.title}
           </h3>
         </a>
-        <p className="text-sm text-foreground/80 line-clamp-2 mb-4 grow">
+        <p className={mediaCardDescriptionClass}>
           {project.shortDescription}
         </p>
         <a
           href={`/our-work/${project.slug}`}
-          className="mt-auto inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary/80 transition-colors w-fit group/btn outline-none focus-visible:ring-2 ring-primary rounded-sm py-1"
+          className={mediaCardActionClass}
         >
           View Case Study
           <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />

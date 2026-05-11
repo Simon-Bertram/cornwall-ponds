@@ -3,6 +3,8 @@
 // Pure Astro (static), zero JS
 // Colours: ONLY brand tokens from global.css (Colour Lockdown §7)
 // Layout: Horizontal stepped timeline (desktop), vertical (mobile)
+import SectionFooterCta from './SectionFooterCta.astro'
+import SectionHeader from './SectionHeader.astro'
 
 const steps = [
   {
@@ -38,23 +40,13 @@ const steps = [
 >
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <!-- Section header -->
-    <div class="mx-auto max-w-2xl text-center mb-16 lg:mb-20">
-      <p
-        class="text-sm font-semibold uppercase tracking-widest text-primary mb-3"
-      >
-        Our Process
-      </p>
-      <h2
-        id="how-we-work-heading"
-        class="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
-      >
-        How We Work
-      </h2>
-      <p class="mt-4 text-lg text-foreground/70 leading-relaxed">
-        From first conversation to finished pond — a clear, transparent journey
-        with no surprises.
-      </p>
-    </div>
+    <SectionHeader
+      eyebrow="Our Process"
+      title="How We Work"
+      description="From first conversation to finished pond — a clear, transparent journey with no surprises."
+      headingId="how-we-work-heading"
+      className="mb-16 lg:mb-20"
+    />
 
     <!-- Steps: horizontal timeline (desktop), vertical stack (mobile) -->
     <ol
@@ -111,14 +103,10 @@ const steps = [
     </ol>
 
     <!-- Bottom CTA -->
-    <div class="mt-16 text-center">
-      <p class="text-foreground/60 text-sm mb-6">Ready to begin?</p>
-      <a
-        href="/contact"
-        class="btn btn-primary btn-wide focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-      >
-        Start with a Free Site Visit
-      </a>
-    </div>
+    <SectionFooterCta
+      copy="Ready to begin?"
+      href="/contact"
+      label="Start with a Free Site Visit"
+    />
   </div>
 </section>

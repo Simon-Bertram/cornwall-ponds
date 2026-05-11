@@ -1,0 +1,45 @@
+---
+interface Props {
+	label: string
+	inputId: string
+	name: string
+	type?: 'text' | 'email' | 'password'
+	placeholder?: string
+	required?: boolean
+	minlength?: number
+	autocomplete?: string
+	errorId?: string
+	hint?: string
+}
+
+const {
+	label,
+	inputId,
+	name,
+	type = 'text',
+	placeholder,
+	required = false,
+	minlength,
+	autocomplete,
+	errorId,
+	hint,
+} = Astro.props
+---
+
+<div class='space-y-1'>
+	<label for={inputId} class='block text-sm font-medium text-neutral-300'>
+		{label}
+	</label>
+	<input
+		id={inputId}
+		name={name}
+		type={type}
+		required={required}
+		minlength={minlength}
+		autocomplete={autocomplete}
+		placeholder={placeholder}
+		class='w-full rounded-lg border border-neutral-700 bg-neutral-800 px-4 py-2.5 text-white placeholder-neutral-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500'
+	/>
+	{hint && <p class='text-xs text-neutral-500'>{hint}</p>}
+	{errorId && <p id={errorId} class='hidden text-sm text-red-500'></p>}
+</div>

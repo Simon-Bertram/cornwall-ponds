@@ -1,4 +1,5 @@
 ---
+import CtaLink from '../ui/CtaLink.astro'
 import type { Project, Service } from '../../lib/projects'
 
 interface Props {
@@ -65,9 +66,9 @@ const { services, projects } = Astro.props
 							</ul>
 
 							<div class='flex flex-wrap gap-4 items-center'>
-								<a href={`/contact?service=${service.id}`} class='btn btn-primary px-8'>
+								<CtaLink href={`/contact?service=${service.id}`} className='px-8'>
 									Request a Quote
-								</a>
+								</CtaLink>
 								<a href={`/our-work/${example.slug}`} class='flex items-center gap-3 group'>
 									<div class='w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-foreground/10'>
 										<img

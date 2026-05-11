@@ -5,10 +5,12 @@
 
 import Layout from "../layouts/Layout.astro";
 import GetStarted from "../components/GetStarted.astro";
+import CredentialsSection from "../components/services/CredentialsSection.astro";
+import InvestmentGuideSection from "../components/services/InvestmentGuideSection.astro";
 import ServicesHeroGrid from "../components/services/ServicesHeroGrid.astro";
 import ServicesPhilosophyStrip from "../components/services/ServicesPhilosophyStrip.astro";
 import ServicesDetailBlocks from "../components/services/ServicesDetailBlocks.astro";
-import ServicesBottomSections from "../components/services/ServicesBottomSections.astro";
+import TestimonialsPreviewSection from "../components/services/TestimonialsPreviewSection.astro";
 import { services, projects, testimonials } from "../lib/projects";
 
 const guidePrices = [
@@ -51,11 +53,9 @@ const credentials = [
     <ServicesHeroGrid services={services} />
     <ServicesPhilosophyStrip />
     <ServicesDetailBlocks services={services} projects={projects} />
-    <ServicesBottomSections
-      guidePrices={guidePrices}
-      credentials={credentials}
-      testimonials={testimonials}
-    />
+    <InvestmentGuideSection guidePrices={guidePrices} />
+    <CredentialsSection credentials={credentials} />
+    <TestimonialsPreviewSection testimonials={testimonials} />
 
     <!-- ── Section 7: Final CTA ── -->
     <GetStarted />

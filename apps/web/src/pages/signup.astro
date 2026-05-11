@@ -1,12 +1,8 @@
 ---
-import SignUpForm from "../components/SignUpForm.astro";
-import Layout from "../layouts/Layout.astro";
+import AuthPageLayout from '../components/AuthPageLayout.astro'
+import SignUpForm from '../components/SignUpForm.astro'
 ---
 
-<Layout title="Sign Up - cornwall-ponds">
-  <main class="py-12 sm:py-18 bg-background min-h-screen">
-    <div class="flex min-h-[calc(100vh-4rem)] items-center justify-center">
-      <SignUpForm />
-    </div>
-  </main>
-</Layout>
+<AuthPageLayout title='Sign Up - cornwall-ponds'>
+	<SignUpForm />
+</AuthPageLayout>

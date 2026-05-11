@@ -1,0 +1,17 @@
+---
+import CtaLink from './ui/CtaLink.astro'
+
+interface Props {
+	copy: string
+	href: string
+	label: string
+	className?: string
+}
+
+const { copy, href, label, className = '' } = Astro.props
+---
+
+<div class={`mt-16 text-center ${className}`.trim()}>
+	<p class='mb-6 text-sm text-foreground/60'>{copy}</p>
+	<CtaLink href={href} variant='wide-primary'>{label}</CtaLink>
+</div>

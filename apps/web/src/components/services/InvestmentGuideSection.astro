@@ -1,0 +1,40 @@
+---
+interface GuidePrice {
+	service: string
+	price: string
+}
+
+interface Props {
+	guidePrices: GuidePrice[]
+}
+
+const { guidePrices } = Astro.props
+---
+
+<section class='bg-primary py-24 text-primary-foreground'>
+	<div class='mx-auto max-w-7xl px-6 text-center lg:px-8'>
+		<h2 class='mb-4 font-serif text-3xl font-bold sm:text-4xl'>
+			Investment Guide
+		</h2>
+		<p class='mx-auto mb-12 max-w-2xl text-lg opacity-80'>
+			We pride ourselves on transparency. These guide prices help you
+			baseline your project requirements.
+		</p>
+
+		<div class='grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-5 lg:gap-6'>
+			{guidePrices.map((item) => (
+				<div class='rounded-2xl border border-white/20 bg-white/10 p-6'>
+					<p class='mb-3 text-xs font-bold uppercase tracking-widest text-primary-foreground/80'>
+						{item.service}
+					</p>
+					<p class='font-serif text-2xl font-bold'>{item.price}</p>
+				</div>
+			))}
+		</div>
+
+		<p class='mx-auto mt-10 max-w-2xl text-sm italic text-primary-foreground/80'>
+			Guide figures only. Your exact quote follows a free site visit and
+			design consultation — no obligation.
+		</p>
+	</div>
+</section>

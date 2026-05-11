@@ -2,6 +2,7 @@
 // GetStarted.astro — Step E: CTA Section
 // Pure Astro (static)
 // Design: Full-bleed brand green with inverted high-contrast CTAs
+import CtaLink from './ui/CtaLink.astro'
 ---
 
 <section
@@ -26,18 +27,12 @@
       </p>
       
       <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
-        <a
-          href="/contact"
-          class="w-full sm:w-auto px-8 py-4 bg-white text-primary font-bold rounded-full shadow-lg hover:bg-white/90 transition-all duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
-        >
+        <CtaLink href="/contact" variant="hero-primary">
           Book a Free Consultation
-        </a>
-        <a
-          href="/our-work"
-          class="w-full sm:w-auto px-8 py-4 border-2 border-primary-foreground/30 text-primary-foreground font-bold rounded-full hover:bg-white/10 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
-        >
+        </CtaLink>
+        <CtaLink href="/our-work" variant="hero-outline">
           Browse Our Work
-        </a>
+        </CtaLink>
       </div>
 
       {/* ── Trust Micro-copy ── */}

@@ -1,0 +1,49 @@
+---
+type CtaVariant =
+	| 'primary'
+	| 'wide-primary'
+	| 'card'
+	| 'inline'
+	| 'hero-primary'
+	| 'hero-outline'
+
+interface Props {
+	href: string
+	variant?: CtaVariant
+	id?: string
+	className?: string
+	ariaLabel?: string
+}
+
+const {
+	href,
+	variant = 'primary',
+	id,
+	className = '',
+	ariaLabel,
+} = Astro.props
+
+const variantClasses: Record<CtaVariant, string> = {
+	primary:
+		'btn btn-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+	'wide-primary':
+		'btn btn-primary btn-wide focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+	card:
+		'a11y-service-cta inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+	inline:
+		'inline-flex w-fit items-center gap-1.5 rounded-sm py-1 text-sm font-semibold text-primary transition-colors hover:text-primary/80 focus-visible:ring-2 focus-visible:ring-primary outline-none',
+	'hero-primary':
+		'w-full rounded-full bg-white px-8 py-4 font-bold text-primary shadow-lg transition-all duration-300 hover:scale-105 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:w-auto',
+	'hero-outline':
+		'w-full rounded-full border-2 border-primary-foreground/30 px-8 py-4 font-bold text-primary-foreground transition-all duration-300 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary sm:w-auto',
+}
+---
+
+<a
+	href={href}
+	id={id}
+	aria-label={ariaLabel}
+	class={`${variantClasses[variant]} ${className}`.trim()}
+>
+	<slot />
+</a>

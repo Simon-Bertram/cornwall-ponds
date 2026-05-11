@@ -1,0 +1,34 @@
+---
+interface Props {
+	title: string
+	formId: string
+	submitLabel: string
+	switchHref: string
+	switchText: string
+}
+
+const { title, formId, submitLabel, switchHref, switchText } = Astro.props
+---
+
+<div class='mx-auto mt-10 w-full max-w-md p-6'>
+	<h1 class='mb-6 text-center font-bold text-3xl text-white'>{title}</h1>
+
+	<form id={formId} class='space-y-4'>
+		<slot />
+
+		<p id='form-error' class='hidden text-sm text-red-500'></p>
+
+		<button
+			type='submit'
+			class='w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-neutral-900 disabled:cursor-not-allowed disabled:opacity-50'
+		>
+			{submitLabel}
+		</button>
+	</form>
+
+	<div class='mt-4 text-center'>
+		<a href={switchHref} class='text-indigo-400 text-sm hover:text-indigo-300'>
+			{switchText}
+		</a>
+	</div>
+</div>

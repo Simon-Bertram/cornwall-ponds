@@ -1,12 +1,16 @@
+---
+import CtaLink from './ui/CtaLink.astro'
+---
+
 <div class="flex items-center gap-2" id="user-menu-container">
-  <a
+  <CtaLink
     href="/login"
     id="login-link"
-    class="antialiased rounded-xl text-sm btn btn-primary"
+    className="antialiased rounded-xl text-sm"
   >
     Sign In
-  </a>
-  <div id="user-menu" class="hidden flex items-center gap-3">
+  </CtaLink>
+  <div id="user-menu" class="hidden items-center gap-3">
     <span class="text-sm hidden sm:inline" id="user-display"></span>
     <button
       id="signout-button"
@@ -31,6 +35,7 @@
       if (session?.user) {
         loginLink?.classList.add("hidden");
         userMenu?.classList.remove("hidden");
+        userMenu?.classList.add("flex");
         if (userDisplay) {
           userDisplay.textContent =
             session.user.name || session.user.email?.split("@")[0] || "User";

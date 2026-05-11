@@ -1,0 +1,54 @@
+---
+import { isNavLinkActive, navLinks, normalizeNavPath } from '../lib/nav'
+
+interface Props {
+	navLabel: string
+	listClass: string
+	linkBaseClass: string
+	activeClass: string
+	inactiveClass: string
+	navClass?: string
+	addMobileHook?: boolean
+	activeStyle?: string
+}
+
+const {
+	navLabel,
+	listClass,
+	linkBaseClass,
+	activeClass,
+	inactiveClass,
+	navClass,
+	addMobileHook = false,
+	activeStyle,
+} = Astro.props
+
+const currentPath = normalizeNavPath(Astro.url.pathname)
+---
+
+<nav aria-label={navLabel} class={navClass}>
+	<ul class={listClass}>
+		{
+			navLinks.map((link) => {
+				const isActive = isNavLinkActive(currentPath, link.href)
+
+				return (
+					<li>
+						<a
+							href={link.href}
+							data-mobile-menu-link={addMobileHook ? true : undefined}
+							aria-current={isActive ? 'page' : undefined}
+							style={isActive ? activeStyle : undefined}
+							class:list={[
+								linkBaseClass,
+								isActive ? activeClass : inactiveClass,
+							]}
+						>
+							{link.label}
+						</a>
+					</li>
+				)
+			})
+		}
+	</ul>
+</nav>

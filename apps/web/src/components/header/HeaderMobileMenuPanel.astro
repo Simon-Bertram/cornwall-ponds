@@ -1,0 +1,18 @@
+---
+import SiteNavLinks from './SiteNavLinks.astro'
+---
+
+<div
+	id='mobile-menu-panel'
+	class='hidden border-t border-border bg-background xl:hidden'
+>
+	<SiteNavLinks
+		navLabel='Primary mobile'
+		listClass='flex flex-col px-2 py-2'
+		linkBaseClass='block rounded-lg px-3 py-3 text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+		activeClass='a11y-mobile-nav-link-active font-bold shadow-sm'
+		inactiveClass='text-foreground hover:bg-muted hover:text-foreground'
+		addMobileHook
+		activeStyle='color: var(--a11y-nav-active-text) !important; background-color: var(--a11y-nav-active-bg) !important; border: 1px solid var(--a11y-nav-active-border) !important;'
+	/>
+</div>

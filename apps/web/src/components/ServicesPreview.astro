@@ -2,6 +2,9 @@
 // ServicesPreview.astro — Step B: "Our Services" section
 // Pure Astro (static), data from src/lib/projects.ts
 // Designed per graphic-designer.md: 4/8px grid, visual hierarchy, WCAG AA contrast
+import CtaLink from './ui/CtaLink.astro'
+import SectionFooterCta from './SectionFooterCta.astro'
+import SectionHeader from './SectionHeader.astro'
 import { services } from "../lib/projects";
 ---
 
@@ -12,21 +15,13 @@ import { services } from "../lib/projects";
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
 
     <!-- Section header -->
-    <div class="mx-auto max-w-2xl text-center mb-16">
-      <p class="text-sm font-semibold uppercase tracking-widest text-primary mb-3">
-        Our Services
-      </p>
-      <h2
-        id="services-heading"
-        class="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
-      >
-        What We Create
-      </h2>
-      <p class="mt-4 text-lg text-foreground/70 leading-relaxed">
-        From intimate wildlife ponds to grand natural swimming pools — every
-        project is bespoke, built by hand, and designed to last a lifetime.
-      </p>
-    </div>
+    <SectionHeader
+      eyebrow="Our Services"
+      title="What We Create"
+      description="From intimate wildlife ponds to grand natural swimming pools — every project is bespoke, built by hand, and designed to last a lifetime."
+      headingId="services-heading"
+      className="mb-16"
+    />
 
     <!-- Services grid -->
     <ul
@@ -82,10 +77,10 @@ import { services } from "../lib/projects";
 
               <!-- CTA -->
               <div class="pt-2 mt-auto border-t border-border">
-                <a
+                <CtaLink
                   href="/contact"
-                  class="a11y-service-cta inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                  aria-label={`Request a quote for ${service.title}`}
+                  variant="card"
+                  ariaLabel={`Request a quote for ${service.title}`}
                 >
                   Request a Quote
                   <svg
@@ -99,7 +94,7 @@ import { services } from "../lib/projects";
                   >
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                   </svg>
-                </a>
+                </CtaLink>
               </div>
 
             </div>
@@ -109,17 +104,11 @@ import { services } from "../lib/projects";
     </ul>
 
     <!-- Footer CTA row -->
-    <div class="mt-16 text-center">
-      <p class="text-foreground/60 text-sm mb-6">
-        Not sure which service is right for you?
-      </p>
-      <a
-        href="/contact"
-        class="btn btn-primary btn-wide focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-      >
-        Book a Free Consultation
-      </a>
-    </div>
+    <SectionFooterCta
+      copy="Not sure which service is right for you?"
+      href="/contact"
+      label="Book a Free Consultation"
+    />
 
   </div>
 </section>
