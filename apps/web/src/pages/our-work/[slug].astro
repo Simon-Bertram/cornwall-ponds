@@ -62,42 +62,42 @@ if (!project) {
             </h1>
           </div>
 
-          <div
+          <dl
             class="flex gap-4 text-sm text-foreground/80 text-left md:text-right"
           >
             {
               project.stats.duration && (
                 <div>
-                  <p class="font-semibold text-foreground">Duration</p>
-                  <p>{project.stats.duration}</p>
+                  <dt class="font-semibold text-foreground">Duration</dt>
+                  <dd>{project.stats.duration}</dd>
                 </div>
               )
             }
             {
               project.stats.volume && (
                 <div>
-                  <p class="font-semibold text-foreground">Volume</p>
-                  <p>{project.stats.volume}</p>
+                  <dt class="font-semibold text-foreground">Volume</dt>
+                  <dd>{project.stats.volume}</dd>
                 </div>
               )
             }
             {
               project.stats.area && (
                 <div>
-                  <p class="font-semibold text-foreground">Area</p>
-                  <p>{project.stats.area}</p>
+                  <dt class="font-semibold text-foreground">Area</dt>
+                  <dd>{project.stats.area}</dd>
                 </div>
               )
             }
             {
               project.stats.depth && (
                 <div>
-                  <p class="font-semibold text-foreground">Depth</p>
-                  <p>{project.stats.depth}</p>
+                  <dt class="font-semibold text-foreground">Depth</dt>
+                  <dd>{project.stats.depth}</dd>
                 </div>
               )
             }
-          </div>
+          </dl>
         </div>
       </div>
 
