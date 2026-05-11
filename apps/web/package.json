@@ -14,8 +14,6 @@
     "@astrojs/react": "^5.0.4",
     "@cornwall-ponds/api": "workspace:*",
     "@cornwall-ponds/env": "workspace:*",
-    "@fontsource-variable/noto-sans": "^5.2.10",
-    "@fontsource-variable/playfair-display": "^5.2.8",
     "@lucide/astro": "^1.14.0",
     "@orpc/client": "catalog:",
     "@types/react": "^19.2.14",

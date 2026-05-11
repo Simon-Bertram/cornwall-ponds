@@ -7,7 +7,6 @@ import BeforeAfter from "../components/before-and-after/BeforeAfter.tsx";
 import HowWeWork from "../components/HowWeWork.astro";
 import { TestimonialsSection } from "../components/testimonials-section.tsx";
 import GetStarted from "../components/GetStarted.astro";
-import { orpc } from "../lib/orpc";
 ---
 
 <Layout title="cornwall-ponds">
@@ -23,21 +22,37 @@ import { orpc } from "../lib/orpc";
 </Layout>
 
 <script>
-  import { orpc } from "../lib/orpc";
+  import { PUBLIC_SERVER_URL } from "astro:env/client";
 
   const statusDot = document.getElementById("status-dot")!;
   const statusText = document.getElementById("status-text")!;
 
   async function checkHealth() {
     try {
-      const data = await orpc.healthCheck();
+      const res = await fetch(`${PUBLIC_SERVER_URL}/health`, {
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("bad status");
       statusDot.className = "h-2 w-2 rounded-full bg-green-500";
       statusText.textContent = "Connected";
-    } catch (error) {
+    } catch {
       statusDot.className = "h-2 w-2 rounded-full bg-red-500";
       statusText.textContent = "Disconnected";
     }
   }
 
-  checkHealth();
+  function runWhenIdle(fn: () => void) {
+    const ric = (
+      window as Window & { requestIdleCallback?: (cb: () => void) => number }
+    ).requestIdleCallback;
+    if (typeof ric === "function") {
+      ric(fn);
+    } else {
+      setTimeout(fn, 1);
+    }
+  }
+
+  runWhenIdle(() => {
+    void checkHealth();
+  });
 </script>

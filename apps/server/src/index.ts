@@ -71,6 +71,10 @@ app.use("/*", async (c, next) => {
   await next();
 });
 
+app.get("/health", (c) => {
+  return c.text("OK", 200);
+});
+
 app.get("/", (c) => {
   return c.text("OK");
 });

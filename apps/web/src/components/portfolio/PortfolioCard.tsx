@@ -13,7 +13,7 @@ export function PortfolioCard({ project }: PortfolioCardProps) {
     <div className="group flex flex-col h-full bg-card rounded-xl overflow-hidden border border-foreground/10 shadow-sm hover:shadow-xl transition-all duration-300">
       <a
         href={`/our-work/${project.slug}`}
-        className="block relative aspect-[4/3] overflow-hidden"
+        className="block relative aspect-4/3 overflow-hidden"
       >
         {/* Before Image */}
         <img
@@ -66,10 +66,10 @@ export function PortfolioCard({ project }: PortfolioCardProps) {
         </div>
 
         {/* Shadow gradient for text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       </a>
 
-      <div className="p-5 flex flex-col flex-grow">
+      <div className="p-5 flex flex-col grow">
         <a
           href={`/our-work/${project.slug}`}
           className="group/link mb-2 outline-none focus-visible:ring-2 ring-primary rounded-sm"
@@ -78,7 +78,7 @@ export function PortfolioCard({ project }: PortfolioCardProps) {
             {project.title}
           </h3>
         </a>
-        <p className="text-sm text-foreground/80 line-clamp-2 mb-4 flex-grow">
+        <p className="text-sm text-foreground/80 line-clamp-2 mb-4 grow">
           {project.shortDescription}
         </p>
         <a
