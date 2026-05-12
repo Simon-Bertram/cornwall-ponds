@@ -3,7 +3,7 @@
 // Moved from services/index.astro to fix Astro 6 beta CSS asset resolution bug
 // with sub-directory index pages.
 
-import Layout from "../layouts/Layout.astro";
+import PageLayout from "../layouts/PageLayout.astro";
 import GetStarted from "../components/GetStarted.astro";
 import CredentialsSection from "../components/services/CredentialsSection.astro";
 import InvestmentGuideSection from "../components/services/InvestmentGuideSection.astro";
@@ -45,20 +45,17 @@ const credentials = [
 ];
 ---
 
-<Layout
+<PageLayout
   title="Our Services | Bespoke Pond Design & Build | Cornwall Ponds"
   description="Explore the full range of bespoke pond design and build services in Cornwall. From garden ponds to luxury natural swimming ponds. Free site visit and quote."
 >
-  <main class="min-h-screen">
-    <ServicesHeroGrid services={services} />
-    <ServicesPhilosophyStrip />
-    <ServicesDetailBlocks services={services} projects={projects} />
-    <InvestmentGuideSection guidePrices={guidePrices} />
-    <CredentialsSection credentials={credentials} />
-    <TestimonialsPreviewSection testimonials={testimonials} />
+  <ServicesHeroGrid services={services} />
+  <ServicesPhilosophyStrip />
+  <ServicesDetailBlocks services={services} projects={projects} />
+  <InvestmentGuideSection guidePrices={guidePrices} />
+  <CredentialsSection credentials={credentials} />
+  <TestimonialsPreviewSection testimonials={testimonials} />
 
-    <!-- ── Section 7: Final CTA ── -->
-    <GetStarted />
-
-  </main>
-</Layout>
+  <!-- ── Section 7: Final CTA ── -->
+  <GetStarted />
+</PageLayout>

@@ -1,31 +1,29 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 import { Portfolio } from "../../components/portfolio/Portfolio";
 import { projects } from "../../lib/projects";
 ---
 
-<Layout
+<PageLayout
   title="Our Portfolio | Cornwall Ponds"
   description="Explore our recent pond designs, natural swimming ponds, and water features across Cornwall."
 >
-  <main class="py-12 sm:py-18 bg-background min-h-screen">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl text-center my-8">
-        <h1
-          class="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl mb-4"
-        >
-          Our Portfolio
-        </h1>
-        <p class="text-lg text-foreground/80">
-          From intimate garden ponds in St Ives to sweeping natural swimming
-          pools in Bude, explore our recent transformations across the county.
-        </p>
-      </div>
-
-      <div class="mt-16">
-        <!-- Why: filters are below the fold; idle defers React until after first paint -->
-        <Portfolio client:idle projects={projects} />
-      </div>
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center my-8">
+      <h1
+        class="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl mb-4"
+      >
+        Our Portfolio
+      </h1>
+      <p class="text-lg text-foreground/80">
+        From intimate garden ponds in St Ives to sweeping natural swimming
+        pools in Bude, explore our recent transformations across the county.
+      </p>
     </div>
-  </main></Layout
->
+
+    <div class="mt-16">
+      <!-- Why: filters are below the fold; idle defers React until after first paint -->
+      <Portfolio client:idle projects={projects} />
+    </div>
+  </div>
+</PageLayout>

@@ -36,7 +36,7 @@ import { services } from "../lib/projects";
           >
             <!-- Visual header block -->
             <div
-              class="relative h-44 bg-linear-to-br from-primary/40 to-accent/30 flex items-center justify-center overflow-hidden"
+              class="relative h-64 bg-linear-to-br from-primary/40 to-accent/30 flex items-center justify-center overflow-hidden"
               aria-hidden="true"
             >
               {service.image && <img src={service.image} alt={service.title} class="absolute inset-0 w-full h-full object-cover" />}              
@@ -81,6 +81,7 @@ import { services } from "../lib/projects";
                   href="/contact"
                   variant="card"
                   ariaLabel={`Request a quote for ${service.title}`}
+                  className="mt-4"
                 >
                   Request a Quote
                   <svg

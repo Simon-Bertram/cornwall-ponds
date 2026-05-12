@@ -1,29 +1,27 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import PageLayout from "../layouts/PageLayout.astro";
 import ContactPageHero from "../components/contact/ContactPageHero.astro";
 import ContactDetailsCard from "../components/contact/ContactDetailsCard.astro";
 import ContactQuoteForm from "../components/contact/ContactQuoteForm.astro";
 ---
 
-<Layout
+<PageLayout
   title="Request a Quote | Cornwall Ponds"
   description="Contact our expert team to discuss your bespoke pond design, natural swimming pool, or water feature project in Cornwall and Devon."
 >
-  <main class="min-h-screen bg-background py-24 sm:py-32">
-    <div class="mx-auto flex max-w-7xl flex-col gap-16 px-4 md:px-6 lg:px-8">
-      <ContactPageHero />
+  <div class="mx-auto flex max-w-7xl flex-col gap-16 px-4 md:px-6 lg:px-8">
+    <ContactPageHero />
 
-      <div class="contact-layout">
-        <div class="contact-layout__details">
-          <ContactDetailsCard />
-        </div>
-        <div class="contact-layout__form">
-          <ContactQuoteForm />
-        </div>
+    <div class="contact-layout">
+      <div class="contact-layout__details">
+        <ContactDetailsCard />
+      </div>
+      <div class="contact-layout__form">
+        <ContactQuoteForm />
       </div>
     </div>
-  </main>
-</Layout>
+  </div>
+</PageLayout>
 
 <style>
   .contact-layout {
