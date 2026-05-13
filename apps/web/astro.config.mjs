@@ -4,11 +4,14 @@ import { fileURLToPath } from "node:url";
 // @ts-check
 import tailwindcss from "@tailwindcss/vite";
 import alchemy from "alchemy/cloudflare/astro";
+import node from "@astrojs/node";
+import react from "@astrojs/react";
 import { defineConfig, envField, fontProviders } from "astro/config";
 const alchemyConfigPath = fileURLToPath(
   new URL("./.alchemy/local/wrangler.jsonc", import.meta.url),
 );
 const shouldUseAlchemy = existsSync(alchemyConfigPath);
+
 const cloudflareWorkersShimPath = fileURLToPath(
   new URL("../../packages/env/src/cloudflare-local.ts", import.meta.url),
 );
@@ -17,9 +20,6 @@ const cloudflareWorkersAlias = shouldUseAlchemy
   : {
       "cloudflare:workers": cloudflareWorkersShimPath,
     };
-import node from "@astrojs/node";
-
-import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
@@ -58,13 +58,35 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     resolve: { alias: cloudflareWorkersAlias },
-    environments: {
-      ssr: {
-        resolve: {
-          noExternal: ["react", "react-dom"],
-        },
-      },
-    },
+    // Cloudflare SSR runs in workerd (no CommonJS `module`). The adapter sets
+    // broad SSR bundling; prebundle React/picomatch as ESM for that runtime.
+    ...(shouldUseAlchemy
+      ? {
+          ssr: {
+            target: "webworker",
+            optimizeDeps: {
+              include: [
+                "react",
+                "react-dom",
+                "react/jsx-runtime",
+                "react/jsx-dev-runtime",
+                "picomatch",
+              ],
+              esbuildOptions: {
+                format: "esm",
+              },
+            },
+          },
+        }
+      : {
+          environments: {
+            ssr: {
+              resolve: {
+                noExternal: ["react", "react-dom"],
+              },
+            },
+          },
+        }),
   },
 
   integrations: [react()],
