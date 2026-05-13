@@ -3,13 +3,49 @@ import PageLayout from "../layouts/PageLayout.astro";
 import WhyChooseUs from "../components/WhyChooseUs.astro";
 import GetStarted from "../components/GetStarted.astro";
 import { testimonials } from "../lib/projects";
+
+type WhyChooseUsIcon = "trophy" | "leaf" | "shield" | "heart";
+
+const whyChooseUsPillars = [
+  {
+    title: "30+ Years Experience",
+    body: "Three decades designing and building bespoke water features across Cornwall and Devon.",
+    icon: "trophy",
+  },
+  {
+    title: "Eco-First Design",
+    body: "Wildlife-friendly construction using natural materials, native planting, and chemical-free filtration.",
+    icon: "leaf",
+  },
+  {
+    title: "Certified & Insured",
+    body: "Fully qualified, insured, and members of the British Pond Trade Association.",
+    icon: "shield",
+  },
+  {
+    title: "Lifetime Support",
+    body: "We don't disappear after build day. Every project includes ongoing aftercare advice.",
+    icon: "heart",
+  },
+] satisfies Array<{
+  title: string;
+  body: string;
+  icon: WhyChooseUsIcon;
+}>;
+
+const whyChooseUsStats = [
+  { value: "200+", label: "Projects Completed" },
+  { value: "30+", label: "Years of Experience" },
+  { value: "100%", label: "Chemical-Free Options" },
+  { value: "5★", label: "Average Client Rating" },
+];
 ---
 
 <PageLayout
   title="Our Expertise | Cornwall Ponds"
   description="Three decades of pond design and build expertise across Cornwall. Discover why homeowners trust Cornwall Ponds for craftsmanship, eco-first design, and lifetime support."
 >
-  <section class="py-24 sm:py-32">
+  <section>
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <!-- Page Header -->
       <div class="mx-auto max-w-2xl text-center py-16">
@@ -19,16 +55,21 @@ import { testimonials } from "../lib/projects";
           Our Expertise
         </h1>
         <p class="text-lg text-foreground/80">
-          Three decades of quiet expertise, a love of nature, and an
-          unwavering commitment to every client we work with across Cornwall
-          and beyond.
+          Three decades of quiet expertise, a love of nature, and an unwavering
+          commitment to every client we work with across Cornwall and beyond.
         </p>
       </div>
     </div>
   </section>
 
   <!-- Trust Pillars & Stats (WhyChooseUs component) -->
-  <WhyChooseUs />
+  <WhyChooseUs
+    eyebrow="Why Cornwall Ponds"
+    title="Craftsmanship You Can Trust"
+    description="Every project is built on three decades of quiet expertise, a love of nature, and an unwavering commitment to our clients."
+    pillars={whyChooseUsPillars}
+    stats={whyChooseUsStats}
+  />
 
   <!-- Credentials section -->
   <section class="py-24 bg-muted text-muted-foreground">

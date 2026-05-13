@@ -8,7 +8,7 @@ import { projects } from "../../lib/projects";
   title="Our Portfolio | Cornwall Ponds"
   description="Explore our recent pond designs, natural swimming ponds, and water features across Cornwall."
 >
-  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 mb-28">
     <div class="mx-auto max-w-2xl text-center my-8">
       <h1
         class="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl mb-4"
@@ -16,8 +16,8 @@ import { projects } from "../../lib/projects";
         Our Portfolio
       </h1>
       <p class="text-lg text-foreground/80">
-        From intimate garden ponds in St Ives to sweeping natural swimming
-        pools in Bude, explore our recent transformations across the county.
+        From intimate garden ponds in St Ives to sweeping natural swimming pools
+        in Bude, explore our recent transformations across the county.
       </p>
     </div>
 
@@ -26,4 +26,149 @@ import { projects } from "../../lib/projects";
       <Portfolio client:idle projects={projects} />
     </div>
   </div>
+  <script is:inline>
+    (function () {
+      const debugEndpoint =
+        'http://localhost:7491/ingest/e8332152-a9b9-4809-aab8-43213961e9a7'
+      const sessionId = 'c3175d'
+      const runId = `our-work-island-${Date.now()}`
+
+      function postDebug(hypothesisId, message, data) {
+        fetch(debugEndpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Debug-Session-Id': sessionId,
+          },
+          body: JSON.stringify({
+            sessionId,
+            runId,
+            hypothesisId,
+            location: 'src/pages/our-work/index.astro',
+            message,
+            data,
+            timestamp: Date.now(),
+          }),
+        }).catch(() => {})
+      }
+
+      function getPortfolioIsland() {
+        return document.querySelector(
+          'astro-island[component-url*="/components/portfolio/Portfolio"]',
+        )
+      }
+
+      function getIslandState(island) {
+        if (!island) {
+          return {
+            path: window.location.pathname,
+            islandFound: false,
+          }
+        }
+
+        return {
+          path: window.location.pathname,
+          islandFound: true,
+          client: island.getAttribute('client'),
+          ssr: island.hasAttribute('ssr'),
+          componentUrl: island.getAttribute('component-url'),
+          rendererUrl: island.getAttribute('renderer-url'),
+          beforeHydrationUrl: island.getAttribute('before-hydration-url'),
+          clientRenderTime: island.getAttribute('client-render-time'),
+        }
+      }
+
+      function bindIslandDebug() {
+        const island = getPortfolioIsland()
+
+        // #region agent log
+        postDebug('I1', 'portfolio-island-detected', getIslandState(island))
+        // #endregion
+
+        if (!island) {
+          return
+        }
+
+        let loggedHydrate = false
+
+        island.addEventListener(
+          'astro:hydrate',
+          function () {
+            if (loggedHydrate) {
+              return
+            }
+            loggedHydrate = true
+            // #region agent log
+            postDebug('I2', 'portfolio-island-hydrated-event', getIslandState(island))
+            // #endregion
+          },
+          { once: true },
+        )
+
+        island.addEventListener('astro:hydration-error', function (event) {
+          const detail = event.detail || {}
+          const error = detail.error
+          // #region agent log
+          postDebug('I3', 'portfolio-island-hydration-error', {
+            ...getIslandState(island),
+            componentUrl: detail.componentUrl || island.getAttribute('component-url'),
+            errorMessage:
+              typeof error === 'string' ? error : error?.message || null,
+            errorStack: typeof error === 'object' ? error?.stack || null : null,
+          })
+          // #endregion
+        })
+      }
+
+      window.addEventListener('error', function (event) {
+        const message = event.message || ''
+        const filename = event.filename || ''
+
+        if (
+          !message.includes('dynamically imported module') &&
+          !filename.includes('Portfolio') &&
+          !filename.includes('media-card-styles')
+        ) {
+          return
+        }
+
+        // #region agent log
+        postDebug('I4', 'portfolio-window-error', {
+          path: window.location.pathname,
+          message,
+          filename,
+        })
+        // #endregion
+      })
+
+      window.addEventListener('unhandledrejection', function (event) {
+        const reason = event.reason
+        const message =
+          typeof reason === 'string' ? reason : reason?.message || ''
+
+        if (
+          !message.includes('dynamically imported module') &&
+          !message.includes('Portfolio') &&
+          !message.includes('media-card-styles')
+        ) {
+          return
+        }
+
+        // #region agent log
+        postDebug('I5', 'portfolio-unhandled-rejection', {
+          path: window.location.pathname,
+          message,
+        })
+        // #endregion
+      })
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bindIslandDebug, {
+          once: true,
+        })
+      } else {
+        bindIslandDebug()
+      }
+    })()
+  </script>
 </PageLayout>

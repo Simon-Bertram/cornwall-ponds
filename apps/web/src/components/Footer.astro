@@ -65,7 +65,7 @@ const companyLinks = [
 ];
 ---
 
-<footer class="bg-foreground text-background mt-18" role="contentinfo">
+<footer class="bg-foreground text-background" role="contentinfo">
   <div class="mx-auto max-w-7xl px-6 py-14 lg:py-18">
     <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
       {/* ── Brand Column ── */}
@@ -227,9 +227,14 @@ const companyLinks = [
       </div>
     </div>
 
+    {/* ── Back to Top Button ── */}
+    <div class="flex justify-end">
+      <BackToTopButton />
+    </div>
+
     {/* ── Bottom Bar ── */}
     <div
-      class="mt-16 pt-8 border-t border-background/10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
+      class="mt-6 pt-8 border-t border-background/10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
     >
       <p class="text-xs text-background/60 font-medium">
         &copy; {currentYear} Cornwall Ponds. All rights reserved. Registered in England
@@ -248,7 +253,6 @@ const companyLinks = [
         >
           Terms of Service
         </a>
-        <BackToTopButton />
       </div>
     </div>
   </div>

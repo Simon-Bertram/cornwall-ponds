@@ -5,25 +5,6 @@ import { serviceTypes, locations } from "../../lib/projects";
 import { FilterChip } from "./FilterChip";
 import { PortfolioCard } from "./PortfolioCard";
 
-// #region agent log
-fetch("http://localhost:7491/ingest/e8332152-a9b9-4809-aab8-43213961e9a7", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "X-Debug-Session-Id": "646293",
-  },
-  body: JSON.stringify({
-    sessionId: "646293",
-    runId: "pre-fix",
-    hypothesisId: "H4",
-    location: "Portfolio.tsx:post-imports",
-    message: "Portfolio module evaluated after static imports",
-    data: {},
-    timestamp: Date.now(),
-  }),
-}).catch(() => {});
-// #endregion
-
 export interface PortfolioProps {
   projects: Project[];
   initialLocation?: Location | null;

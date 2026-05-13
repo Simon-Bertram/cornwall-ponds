@@ -51,16 +51,19 @@ export default defineConfig({
       name: "Work Sans",
       cssVariable: "--font-work-sans",
       weights: [400, 500, 600, 700],
+      styles: ["normal"],
     },
   ],
 
   vite: {
     plugins: [tailwindcss()],
     resolve: { alias: cloudflareWorkersAlias },
-    optimizeDeps: {
-      // Why: first crawl can miss client-only imports; a second optimize pass
-      // triggers a full reload and transient missing-chunk WARNs in .vite/deps.
-      include: ["better-auth/client", "@orpc/client", "@orpc/client/fetch"],
+    environments: {
+      ssr: {
+        resolve: {
+          noExternal: ["react", "react-dom"],
+        },
+      },
     },
   },
 
