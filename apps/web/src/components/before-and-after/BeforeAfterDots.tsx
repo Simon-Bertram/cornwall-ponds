@@ -1,6 +1,4 @@
-import type { Project } from "../../lib/projects";
-
-type TransformationProject = Pick<Project, "title" | "slug">;
+import type { TransformationProject } from "../../lib/projects";
 
 interface BeforeAfterDotsProps {
   projects: TransformationProject[];

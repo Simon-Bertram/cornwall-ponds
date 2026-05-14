@@ -1,14 +1,8 @@
 import { useState } from "react";
-import type { Project } from "../../lib/projects.ts";
+import type { TransformationProject } from "../../lib/projects.ts";
 import BeforeAfterSlider from "./BeforeAfterSlider.tsx";
 import BeforeAfterProjectNav from "./BeforeAfterProjectNav.tsx";
 import BeforeAfterDots from "./BeforeAfterDots.tsx";
-
-// Only the fields we need — keeps prop surface minimal
-type TransformationProject = Pick<
-  Project,
-  "title" | "location" | "beforeImage" | "afterImage" | "slug"
->;
 
 interface Props {
   projects: TransformationProject[];

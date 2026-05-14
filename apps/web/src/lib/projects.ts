@@ -37,6 +37,52 @@ export interface Project {
   featured: boolean;
 }
 
+/** Home BeforeAfter island — avoids serializing full `Project` in HTML. */
+export type TransformationProject = Pick<
+  Project,
+  "title" | "location" | "beforeImage" | "afterImage" | "slug"
+>;
+
+export function toTransformationProjects(
+  list: Project[],
+): TransformationProject[] {
+  return list.map((p) => ({
+    title: p.title,
+    location: p.location,
+    beforeImage: p.beforeImage,
+    afterImage: p.afterImage,
+    slug: p.slug,
+  }));
+}
+
+/** Portfolio island — card UI and filters only need these fields. */
+export type PortfolioCardProject = Pick<
+  Project,
+  | "id"
+  | "slug"
+  | "title"
+  | "serviceType"
+  | "location"
+  | "beforeImage"
+  | "afterImage"
+  | "shortDescription"
+>;
+
+export function toPortfolioCardProjects(
+  list: Project[],
+): PortfolioCardProject[] {
+  return list.map((p) => ({
+    id: p.id,
+    slug: p.slug,
+    title: p.title,
+    serviceType: p.serviceType,
+    location: p.location,
+    beforeImage: p.beforeImage,
+    afterImage: p.afterImage,
+    shortDescription: p.shortDescription,
+  }));
+}
+
 export interface Service {
   id: string;
   title: string;

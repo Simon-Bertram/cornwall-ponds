@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { SlidersHorizontal, X } from "lucide-react";
-import type { Project, ServiceType, Location } from "../../lib/projects";
+import type {
+  PortfolioCardProject,
+  ServiceType,
+  Location,
+} from "../../lib/projects";
 import { serviceTypes, locations } from "../../lib/projects";
 import { FilterChip } from "./FilterChip";
 import { PortfolioCard } from "./PortfolioCard";
 
 export interface PortfolioProps {
-  projects: Project[];
+  projects: PortfolioCardProject[];
   initialLocation?: Location | null;
 }
 

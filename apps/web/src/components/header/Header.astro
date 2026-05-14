@@ -27,6 +27,18 @@ const closeSvg = lucideIconToSvg(lucideXIcon, "h-5 w-5");
     <HeaderPrimaryNavCustom />
 
     <div class="flex items-center gap-3">
+      <div
+        class="hidden items-center gap-1.5 sm:flex"
+        aria-live="polite"
+        title="API status"
+      >
+        <span
+          id="status-dot"
+          class="h-2 w-2 shrink-0 rounded-full bg-neutral-500"
+          aria-hidden="true"
+        ></span>
+        <span id="status-text" class="text-xs text-muted-foreground">…</span>
+      </div>
       <ThemeController />
       <AuthButton />
       <button

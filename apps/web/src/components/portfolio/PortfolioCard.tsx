@@ -10,10 +10,10 @@ import {
   mediaCardTitleClass,
   mediaCardTitleLinkClass,
 } from "../../lib/media-card-styles";
-import type { Project } from "../../lib/projects";
+import type { PortfolioCardProject } from "../../lib/projects";
 
 interface PortfolioCardProps {
-  project: Project;
+  project: PortfolioCardProject;
 }
 
 export function PortfolioCard({ project }: PortfolioCardProps) {

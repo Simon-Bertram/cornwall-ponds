@@ -1,12 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { projects } from "../lib/projects.ts";
+import { projects, toTransformationProjects } from "../lib/projects.ts";
 import HeroSlider from "../components/hero/HeroSlider.astro";
 import ServicesPreview from "../components/ServicesPreview.astro";
 import BeforeAfter from "../components/before-and-after/BeforeAfter.tsx";
 import HowWeWork from "../components/HowWeWork.astro";
 import { TestimonialsSection } from "../components/testimonials-section.tsx";
 import GetStarted from "../components/GetStarted.astro";
+
+const transformationProjects = toTransformationProjects(projects);
 ---
 
 <Layout title="cornwall-ponds">
@@ -14,7 +16,7 @@ import GetStarted from "../components/GetStarted.astro";
     <HeroSlider />
     <ServicesPreview />
     <!-- Why: this React component requires client-side handlers for slider/nav interactions -->
-    <BeforeAfter client:visible projects={projects} />
+    <BeforeAfter client:visible projects={transformationProjects} />
     <HowWeWork />
     <TestimonialsSection />
     <GetStarted />
@@ -24,10 +26,12 @@ import GetStarted from "../components/GetStarted.astro";
 <script>
   import { PUBLIC_SERVER_URL } from "astro:env/client";
 
-  const statusDot = document.getElementById("status-dot")!;
-  const statusText = document.getElementById("status-text")!;
-
   async function checkHealth() {
+    const statusDot = document.getElementById("status-dot");
+    const statusText = document.getElementById("status-text");
+    if (!statusDot || !statusText) {
+      return;
+    }
     try {
       const res = await fetch(`${PUBLIC_SERVER_URL}/health`, {
         credentials: "include",

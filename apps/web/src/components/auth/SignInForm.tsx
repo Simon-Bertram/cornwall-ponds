@@ -3,9 +3,15 @@ import { Button } from "@/components/ui/button"
 import { Field, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 
-export function SignInForm() {
+export interface SignInFormProps {
+	/** Renders without full-page shell; use beside imagery on wide layouts. */
+	splitLayout?: boolean
+}
+
+export function SignInForm({ splitLayout = false }: SignInFormProps) {
 	return (
 		<AuthCardShell
+			embedded={splitLayout}
 			title="Welcome back"
 			subtitle="Sign in to manage your Cornwall Ponds account."
 			footerLead="Need an account?"
