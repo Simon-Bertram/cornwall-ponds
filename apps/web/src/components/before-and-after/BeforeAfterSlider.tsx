@@ -1,5 +1,9 @@
 import { useState } from "react";
 
+/** Intrinsic ratio hint for `<img>`; matches the 16/9 frame, not literal file pixels. */
+const COMPARISON_IMG_WIDTH = 1920;
+const COMPARISON_IMG_HEIGHT = 1080;
+
 interface BeforeAfterSliderProps {
   beforeImage: string;
   afterImage: string;
@@ -29,6 +33,10 @@ export default function BeforeAfterSlider({
         <img
           src={beforeImage}
           alt={`Before: ${title}`}
+          width={COMPARISON_IMG_WIDTH}
+          height={COMPARISON_IMG_HEIGHT}
+          decoding="async"
+          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover"
           onError={() => setBeforeError(true)}
         />
@@ -46,6 +54,10 @@ export default function BeforeAfterSlider({
         <img
           src={afterImage}
           alt={`After: ${title}`}
+          width={COMPARISON_IMG_WIDTH}
+          height={COMPARISON_IMG_HEIGHT}
+          decoding="async"
+          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ clipPath: `inset(0 ${100 - sliderValue}% 0 0)` }}
           onError={() => setAfterError(true)}
