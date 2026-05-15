@@ -1,43 +1,30 @@
-import { createDb } from "@cornwall-ponds/db";
-import * as schema from "@cornwall-ponds/db/schema/auth";
-import { env } from "@cornwall-ponds/env/server";
-import { betterAuth } from "better-auth";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { env as defaultEnv } from "@cornwall-ponds/env/server"
+import { betterAuth } from "better-auth"
 
-export function createAuth() {
-  const db = createDb();
+import { createAuthOptions } from "./options"
+import type { AuthEnv, CreateAuthOptions } from "./types"
 
-  return betterAuth({
-    database: drizzleAdapter(db, {
-      provider: "sqlite",
+export type { AuthEnv, CreateAuthOptions } from "./types"
+export { createAuthOptions } from "./options"
 
-      schema: schema,
-    }),
-    trustedOrigins: [env.CORS_ORIGIN],
-    emailAndPassword: {
-      enabled: true,
-    },
-    // uncomment cookieCache setting when ready to deploy to Cloudflare using *.workers.dev domains
-    // session: {
-    //   cookieCache: {
-    //     enabled: true,
-    //     maxAge: 60,
-    //   },
-    // },
-    secret: env.BETTER_AUTH_SECRET,
-    baseURL: env.BETTER_AUTH_URL,
-    advanced: {
-      defaultCookieAttributes: {
-        sameSite: "none",
-        secure: true,
-        httpOnly: true,
-      },
-      // uncomment crossSubDomainCookies setting when ready to deploy and replace <your-workers-subdomain> with your actual workers subdomain
-      // https://developers.cloudflare.com/workers/wrangler/configuration/#workersdev
-      // crossSubDomainCookies: {
-      //   enabled: true,
-      //   domain: "<your-workers-subdomain>",
-      // },
-    },
-  });
+function resolveAuthEnv(overrides?: AuthEnv): AuthEnv {
+	if (overrides) {
+		return overrides
+	}
+	return defaultEnv as AuthEnv
 }
+
+/**
+ * Creates a Better Auth instance for the current request.
+ * Pass `env` and `executionCtx` from the Hono context on Cloudflare Workers.
+ */
+export function createAuth(options?: CreateAuthOptions) {
+	const authEnv = resolveAuthEnv(options?.env)
+	return betterAuth(
+		createAuthOptions(authEnv, options?.executionCtx, options?.requestUrl),
+	)
+}
+
+export type Auth = ReturnType<typeof createAuth>
+export type Session = Auth["$Infer"]["Session"]
+export type User = Session["user"]

@@ -23,6 +23,9 @@
     "db:generate": {
       "cache": false
     },
+    "auth:generate": {
+      "cache": false
+    },
     "deploy": {
       "cache": false
     },

@@ -9,7 +9,9 @@
       "default": "./src/*.ts"
     }
   },
-  "scripts": {},
+  "scripts": {
+    "auth:generate": "better-auth generate --config ./src/auth.cli.ts --yes --output ../db/src/schema/auth.ts"
+  },
   "dependencies": {
     "@cornwall-ponds/db": "workspace:*",
     "@cornwall-ponds/env": "workspace:*",
@@ -18,6 +20,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@better-auth/cli": "catalog:",
     "@cornwall-ponds/config": "workspace:*",
     "typescript": "catalog:"
   }

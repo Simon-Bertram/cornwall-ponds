@@ -14,6 +14,7 @@
     "dev:server": "turbo -F server dev",
     "db:push": "turbo -F @cornwall-ponds/db db:push",
     "db:generate": "turbo -F @cornwall-ponds/db db:generate",
+    "auth:generate": "turbo -F @cornwall-ponds/auth auth:generate",
     "deploy": "turbo -F @cornwall-ponds/infra deploy",
     "destroy": "turbo -F @cornwall-ponds/infra destroy"
   },

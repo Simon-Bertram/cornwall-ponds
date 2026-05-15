@@ -33,7 +33,7 @@ RUN --mount=type=cache,id=pnpm,target=/home/node/.local/share/pnpm/store \
   pnpm install --frozen-lockfile
 
 COPY . .
-RUN pnpm exec better-auth generate
+RUN pnpm run auth:generate
 RUN pnpm run build
 
 # --- STAGE 3: DEV ---
