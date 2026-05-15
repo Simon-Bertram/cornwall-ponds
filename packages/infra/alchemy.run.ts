@@ -1,10 +1,32 @@
+import { existsSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
 import alchemy from "alchemy";
 import { Astro, D1Database, KVNamespace, Worker } from "alchemy/cloudflare";
 import { config } from "dotenv";
 
-config({ path: "./.env" });
-config({ path: "../../apps/web/.env" });
-config({ path: "../../apps/server/.env" });
+const infraDir = dirname(fileURLToPath(import.meta.url));
+const isDeploy = process.argv.some((arg) => arg === "deploy");
+
+if (isDeploy) {
+	process.env.NODE_ENV = "production";
+}
+
+/** Load `.env`, then mode-specific overrides (production on deploy, development otherwise). */
+function loadAppEnv(appRelativeDir: string) {
+	const base = resolve(infraDir, appRelativeDir);
+	config({ path: resolve(base, ".env") });
+	const modeFile = isDeploy ? ".env.production" : ".env.development";
+	const modePath = resolve(base, modeFile);
+	if (existsSync(modePath)) {
+		config({ path: modePath });
+	}
+}
+
+config({ path: resolve(infraDir, ".env") });
+loadAppEnv("../../apps/web");
+loadAppEnv("../../apps/server");
 
 const app = await alchemy("cornwall-ponds");
 
