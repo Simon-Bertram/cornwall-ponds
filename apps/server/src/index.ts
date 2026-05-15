@@ -3,18 +3,23 @@ import {
   type ServerHonoVariables,
 } from "@cornwall-ponds/api/context";
 import { appRouter } from "@cornwall-ponds/api/routers/index";
-import { createAuth } from "@cornwall-ponds/auth";
+import { createAuth, type AuthEnv } from "@cornwall-ponds/auth";
 import { env } from "@cornwall-ponds/env/server";
 import { OpenAPIHandler } from "@orpc/openapi/fetch";
 import { OpenAPIReferencePlugin } from "@orpc/openapi/plugins";
 import { onError } from "@orpc/server";
 import { RPCHandler } from "@orpc/server/fetch";
 import { ZodToJsonSchemaConverter } from "@orpc/zod/zod4";
-import { Hono } from "hono";
+import { Hono, type Context, type Next } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 
-const app = new Hono<{ Bindings: Env; Variables: ServerHonoVariables }>();
+type ServerContext = Context<{
+  Bindings: AuthEnv;
+  Variables: ServerHonoVariables;
+}>;
+
+const app = new Hono<{ Bindings: AuthEnv; Variables: ServerHonoVariables }>();
 
 app.use(logger());
 app.use(
@@ -27,7 +32,7 @@ app.use(
   }),
 );
 
-app.use("*", async (c, next) => {
+app.use("*", async (c: ServerContext, next: Next) => {
   const auth = createAuth({
     env: c.env,
     executionCtx: c.executionCtx,
@@ -62,7 +67,7 @@ export const rpcHandler = new RPCHandler(appRouter, {
   ],
 });
 
-app.use("/*", async (c, next) => {
+app.use("/*", async (c: ServerContext, next: Next) => {
   const context = await createContext({ context: c });
 
   const rpcResult = await rpcHandler.handle(c.req.raw, {

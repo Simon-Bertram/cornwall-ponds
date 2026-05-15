@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "exports": {
+    "./bindings": "./src/bindings.ts",
     "./server": "./src/server.ts",
     "./web": "./src/web.ts",
     "./web-worker": "./src/web-worker.ts"

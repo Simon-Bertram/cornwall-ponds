@@ -1,4 +1,4 @@
-import type { Auth } from "@cornwall-ponds/auth";
+import type { Auth, AuthEnv } from "@cornwall-ponds/auth";
 import type { Context as HonoContext } from "hono";
 
 export type ServerHonoVariables = {
@@ -6,7 +6,7 @@ export type ServerHonoVariables = {
 };
 
 export type CreateContextOptions = {
-  context: HonoContext<{ Bindings: Env; Variables: ServerHonoVariables }>;
+  context: HonoContext<{ Bindings: AuthEnv; Variables: ServerHonoVariables }>;
 };
 
 export async function createContext({ context }: CreateContextOptions) {

@@ -45,9 +45,13 @@ const serverBindings = {
 	WEB_URL: alchemy.env.WEB_URL ?? alchemy.env.CORS_ORIGIN!,
 	BETTER_AUTH_SECRET: alchemy.secret.env.BETTER_AUTH_SECRET!,
 	BETTER_AUTH_URL: alchemy.env.BETTER_AUTH_URL!,
-	GOOGLE_CLIENT_ID: alchemy.env.GOOGLE_CLIENT_ID,
-	RESEND_FROM_EMAIL: alchemy.env.RESEND_FROM_EMAIL,
-} as const;
+	...(process.env.GOOGLE_CLIENT_ID
+		? { GOOGLE_CLIENT_ID: alchemy.env.GOOGLE_CLIENT_ID! }
+		: {}),
+	...(process.env.RESEND_FROM_EMAIL
+		? { RESEND_FROM_EMAIL: alchemy.env.RESEND_FROM_EMAIL! }
+		: {}),
+};
 
 /** alchemy.secret.env throws when unset; add OAuth/email secrets only when configured. */
 const serverSecretBindings = {
