@@ -1,16 +1,20 @@
-import { type server } from "@cornwall-ponds/infra/alchemy.run";
+import type { server, web } from "@cornwall-ponds/infra/alchemy.run";
 
-// This file infers types for the cloudflare:workers environment from your Alchemy Worker.
-// @see https://alchemy.run/concepts/bindings/#type-safe-bindings
+// Server worker (Hono API) — used by apps/server, packages/api, packages/auth at runtime.
+export type ServerEnv = typeof server.Env;
 
-export type CloudflareEnv = typeof server.Env;
+// Astro web worker — used by apps/web middleware via cloudflare:workers / runtime.env.
+export type WebEnv = typeof web.Env;
+
+/** @deprecated Prefer ServerEnv — kept for existing imports. */
+export type CloudflareEnv = ServerEnv;
 
 declare global {
-  type Env = CloudflareEnv;
+	type Env = ServerEnv;
 }
 
 declare module "cloudflare:workers" {
-  namespace Cloudflare {
-    export interface Env extends CloudflareEnv {}
-  }
+	namespace Cloudflare {
+		export interface Env extends ServerEnv {}
+	}
 }

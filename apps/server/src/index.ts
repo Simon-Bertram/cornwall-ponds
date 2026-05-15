@@ -1,4 +1,7 @@
-import { createContext } from "@cornwall-ponds/api/context";
+import {
+  createContext,
+  type ServerHonoVariables,
+} from "@cornwall-ponds/api/context";
 import { appRouter } from "@cornwall-ponds/api/routers/index";
 import { createAuth } from "@cornwall-ponds/auth";
 import { env } from "@cornwall-ponds/env/server";
@@ -11,7 +14,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 
-const app = new Hono();
+const app = new Hono<{ Bindings: Env; Variables: ServerHonoVariables }>();
 
 app.use(logger());
 app.use(
@@ -24,7 +27,19 @@ app.use(
   }),
 );
 
-app.on(["POST", "GET"], "/api/auth/*", (c) => createAuth().handler(c.req.raw));
+app.use("*", async (c, next) => {
+  const auth = createAuth({
+    env: c.env,
+    executionCtx: c.executionCtx,
+    requestUrl: c.req.url,
+  });
+  c.set("auth", auth);
+  await next();
+});
+
+app.on(["POST", "GET"], "/api/auth/*", (c) =>
+  c.get("auth").handler(c.req.raw),
+);
 
 export const apiHandler = new OpenAPIHandler(appRouter, {
   plugins: [

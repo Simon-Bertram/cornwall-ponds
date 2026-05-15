@@ -295,9 +295,6 @@ importers:
       '@cornwall-ponds/config':
         specifier: workspace:*
         version: link:../config
-      '@libsql/client':
-        specifier: 0.17.3
-        version: 0.17.3
       typescript:
         specifier: 'catalog:'
         version: 6.0.3

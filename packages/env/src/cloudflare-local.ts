@@ -1,8 +1,11 @@
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { config } from "dotenv";
 
-config({ path: fileURLToPath(new URL("../../../.env", import.meta.url)) });
+const packageRoot = dirname(fileURLToPath(import.meta.url as string));
+
+config({ path: resolve(packageRoot, "../../../.env") });
 config();
 
 const runtimeEnv = typeof process === "undefined" ? {} : process.env;
