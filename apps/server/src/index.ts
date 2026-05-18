@@ -13,6 +13,7 @@ import { ZodToJsonSchemaConverter } from "@orpc/zod/zod4";
 import { Hono, type Context, type Next } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
+import { cloudflareAuth } from "./middleware/cloudflare-auth";
 
 type ServerContext = Context<{
   Bindings: AuthEnv;
@@ -32,6 +33,8 @@ app.use(
   }),
 );
 
+app.use("/*", cloudflareAuth);
+
 app.use("*", async (c: ServerContext, next: Next) => {
   const auth = createAuth({
     env: c.env,
@@ -42,9 +45,7 @@ app.use("*", async (c: ServerContext, next: Next) => {
   await next();
 });
 
-app.on(["POST", "GET"], "/api/auth/*", (c) =>
-  c.get("auth").handler(c.req.raw),
-);
+app.on(["POST", "GET"], "/api/auth/*", (c) => c.get("auth").handler(c.req.raw));
 
 export const apiHandler = new OpenAPIHandler(appRouter, {
   plugins: [
