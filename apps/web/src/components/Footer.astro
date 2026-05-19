@@ -241,6 +241,18 @@ const companyLinks = [
         & Wales.
       </p>
       <div class="flex flex-wrap items-center gap-6 md:justify-end">
+        <div
+          class="flex items-center gap-1.5"
+          aria-live="polite"
+          title="API status"
+        >
+          <span
+            id="status-dot"
+            class="h-2 w-2 shrink-0 rounded-full bg-background/40"
+            aria-hidden="true"
+          ></span>
+          <span id="status-text" class="text-xs text-background/60">…</span>
+        </div>
         <a
           href="/privacy"
           class="text-xs text-background/60 hover:text-background transition-colors duration-200"
@@ -257,3 +269,41 @@ const companyLinks = [
     </div>
   </div>
 </footer>
+
+<script>
+  import { PUBLIC_SERVER_URL } from "astro:env/client";
+
+  async function checkHealth() {
+    const statusDot = document.getElementById("status-dot");
+    const statusText = document.getElementById("status-text");
+    if (!statusDot || !statusText) {
+      return;
+    }
+    try {
+      const res = await fetch(`${PUBLIC_SERVER_URL}/health`, {
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("bad status");
+      statusDot.className = "h-2 w-2 shrink-0 rounded-full bg-green-500";
+      statusText.textContent = "Connected";
+    } catch {
+      statusDot.className = "h-2 w-2 shrink-0 rounded-full bg-red-500";
+      statusText.textContent = "Disconnected";
+    }
+  }
+
+  function runWhenIdle(fn: () => void) {
+    const ric = (
+      window as Window & { requestIdleCallback?: (cb: () => void) => number }
+    ).requestIdleCallback;
+    if (typeof ric === "function") {
+      ric(fn);
+    } else {
+      setTimeout(fn, 1);
+    }
+  }
+
+  runWhenIdle(() => {
+    void checkHealth();
+  });
+</script>
