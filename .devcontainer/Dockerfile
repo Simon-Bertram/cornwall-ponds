@@ -14,7 +14,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Setup pnpm 11.x
 RUN npm uninstall -g pnpm || true \
     && corepack enable \
-    && corepack prepare pnpm@11.0.6 --activate
+    && corepack prepare pnpm@11.1.3 --activate
 
 # FIX: Added the /bin suffix to the PATH so pnpm can find its own executables
 ENV PNPM_HOME="/home/node/.local/share/pnpm"
