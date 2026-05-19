@@ -3,6 +3,7 @@
 import { useState } from "react"
 
 import { TurnstileField } from "@/components/turnstile/TurnstileField"
+import { authCallbackUrl } from "@/lib/auth-callback-url"
 import { authClient } from "@/lib/auth-client"
 import { turnstileHeaders } from "@/lib/turnstile-headers"
 import { PUBLIC_TURNSTILE_SITE_KEY } from "astro:env/client"
@@ -59,8 +60,8 @@ export function SignUpForm({
 			{
 				email,
 				name: typeof name === "string" && name ? name : undefined,
-				callbackURL: "/dashboard",
-				newUserCallbackURL: "/dashboard",
+				callbackURL: authCallbackUrl(),
+				newUserCallbackURL: authCallbackUrl(),
 			},
 			{
 				fetchOptions: {
@@ -91,7 +92,7 @@ export function SignUpForm({
 		const { error } = await authClient.signIn.social(
 			{
 				provider: "google",
-				callbackURL: "/dashboard",
+				callbackURL: authCallbackUrl(),
 			},
 			{
 				fetchOptions: {

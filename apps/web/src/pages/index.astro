@@ -15,10 +15,10 @@ const transformationProjects = toTransformationProjects(projects);
   <main id="main-content" tabindex="-1">
     <HeroSlider />
     <ServicesPreview />
-    <!-- Why: this React component requires client-side handlers for slider/nav interactions -->
-    <BeforeAfter client:visible projects={transformationProjects} />
+    <!-- Why: useState + workerd SSR causes duplicate-React hook errors; client-only skips SSR -->
+    <BeforeAfter client:only="react" projects={transformationProjects} />
     <HowWeWork />
-    <TestimonialsSection />
+    <TestimonialsSection client:only="react" />
     <GetStarted />
   </main>
 </Layout>

@@ -7,7 +7,11 @@ const displayName =
 	user?.name || user?.email?.split("@")[0] || "User";
 ---
 
-<div class="flex items-center gap-2" id="user-menu-container">
+<div
+  class="flex items-center gap-2"
+  id="user-menu-container"
+  data-is-logged-in={isLoggedIn ? "true" : "false"}
+>
   <CtaLink
     href="/login"
     id="login-link"
@@ -29,9 +33,11 @@ const displayName =
   </div>
 </div>
 
-<script define:vars={{ isLoggedIn }}>
+<script>
   import { authClient } from "../../lib/auth-client";
 
+  const container = document.getElementById("user-menu-container");
+  const isLoggedIn = container?.dataset.isLoggedIn === "true";
   const loginLink = document.getElementById("login-link");
   const userMenu = document.getElementById("user-menu");
   const userDisplay = document.getElementById("user-display");

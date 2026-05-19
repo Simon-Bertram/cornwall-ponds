@@ -1,6 +1,5 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import "../styles/global.css";
 import { SignUpForm } from "@/components/signup-form.tsx";
 ---
 
@@ -14,8 +13,7 @@ import { SignUpForm } from "@/components/signup-form.tsx";
     >
     </div>
     <div class="relative z-10 w-full max-w-sm md:max-w-lg">
-      <SignUpForm client:load />
-      <!-- Why: email submit and magic-link API need client-side auth client -->
+      <SignUpForm client:only="react" />
     </div>
   </div>
 </Layout>

@@ -5,6 +5,7 @@ export const env = createEnv({
   clientPrefix: "PUBLIC_",
   client: {
     PUBLIC_SERVER_URL: z.url(),
+    PUBLIC_WEB_URL: z.url(),
   },
   runtimeEnv: (import.meta as any).env,
   emptyStringAsUndefined: true,

@@ -109,6 +109,10 @@ export const web = await Astro("web", {
 	assets: "dist/client",
 	bindings: {
 		PUBLIC_SERVER_URL: alchemy.env.PUBLIC_SERVER_URL!,
+		PUBLIC_WEB_URL:
+			alchemy.env.PUBLIC_WEB_URL ??
+			process.env.WEB_URL ??
+			process.env.CORS_ORIGIN!,
 		...(process.env.PUBLIC_TURNSTILE_SITE_KEY
 			? {
 					PUBLIC_TURNSTILE_SITE_KEY: alchemy.env.PUBLIC_TURNSTILE_SITE_KEY!,

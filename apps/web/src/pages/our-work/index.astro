@@ -24,8 +24,8 @@ const portfolioProjects = toPortfolioCardProjects(projects);
     </div>
 
     <div class="mt-16">
-      <!-- Why: filters are below the fold; idle defers React until after first paint -->
-      <Portfolio client:idle projects={portfolioProjects} />
+      <!-- Why: useState + lucide in workerd; client-only avoids SSR duplicate-React hook errors -->
+      <Portfolio client:only="react" projects={portfolioProjects} />
     </div>
   </div>
 </PageLayout>
