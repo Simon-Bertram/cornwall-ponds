@@ -64,9 +64,7 @@ export function SignUpForm({
 				newUserCallbackURL: authCallbackUrl(),
 			},
 			{
-				fetchOptions: {
-					headers: turnstileHeaders(turnstileToken),
-				},
+				headers: turnstileHeaders(turnstileToken),
 			},
 		)
 
@@ -95,9 +93,7 @@ export function SignUpForm({
 				callbackURL: authCallbackUrl(),
 			},
 			{
-				fetchOptions: {
-					headers: turnstileHeaders(turnstileToken),
-				},
+				headers: turnstileHeaders(turnstileToken),
 			},
 		)
 

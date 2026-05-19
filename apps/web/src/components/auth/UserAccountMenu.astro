@@ -1,0 +1,27 @@
+---
+import { UserAccountMenu as UserAccountMenuIsland } from './UserAccountMenu'
+import {
+	HEADER_MOBILE_LINK_BASE,
+	HEADER_MOBILE_LINK_INACTIVE,
+} from '@/lib/header-nav-styles'
+
+interface Props {
+	variant?: 'compact' | 'mobile'
+}
+
+const { variant = 'compact' } = Astro.props
+const user = Astro.locals.user
+const isLoggedIn = Boolean(user)
+---
+
+<UserAccountMenuIsland
+	client:load={variant === 'compact'}
+	client:visible={variant === 'mobile'}
+	variant={variant}
+	initialLoggedIn={isLoggedIn}
+	initialName={user?.name}
+	initialEmail={user?.email}
+	initialImageUrl={user?.image}
+	mobileLinkBaseClass={HEADER_MOBILE_LINK_BASE}
+	mobileLinkInactiveClass={HEADER_MOBILE_LINK_INACTIVE}
+/>

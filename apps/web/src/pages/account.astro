@@ -1,0 +1,19 @@
+---
+import { AccountView } from '@/components/auth/AccountView'
+import Layout from '../layouts/Layout.astro'
+
+const user = Astro.locals.user
+const initialDisplayName = user
+	? user.name || user.email?.split('@')[0] || 'User'
+	: undefined
+const initialEmail = user?.email
+---
+
+<Layout title="Account - cornwall-ponds">
+	<!-- Why: client:load — session cookie is on API host; auth via getSession -->
+	<AccountView
+		client:load
+		initialDisplayName={initialDisplayName}
+		initialEmail={initialEmail}
+	/>
+</Layout>

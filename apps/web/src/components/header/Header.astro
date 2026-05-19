@@ -1,5 +1,5 @@
 ---
-import AuthButton from "../auth/AuthButton.astro";
+import UserAccountMenu from "../auth/UserAccountMenu.astro";
 import ThemeController from "../ThemeController.astro";
 import HeaderPrimaryNavCustom from "./HeaderPrimaryNavCustom.astro";
 import HeaderMobileMenuPanelCustom from "./HeaderMobileMenuPanelCustom.astro";
@@ -28,7 +28,7 @@ const closeSvg = lucideIconToSvg(lucideXIcon, "h-5 w-5");
 
     <div class="flex items-center gap-3">
       <ThemeController />
-      <AuthButton />
+      <UserAccountMenu variant="compact" />
       <button
         id="mobile-menu-button"
         type="button"

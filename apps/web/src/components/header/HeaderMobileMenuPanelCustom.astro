@@ -1,4 +1,5 @@
 ---
+import UserAccountMenu from '../auth/UserAccountMenu.astro'
 import SiteNavLinks from './SiteNavLinks.astro'
 ---
 
@@ -14,4 +15,7 @@ import SiteNavLinks from './SiteNavLinks.astro'
 		inactiveClass='border-transparent text-foreground hover:border-border hover:bg-muted'
 		addMobileHook
 	/>
+	<div class="border-t border-border px-2 py-2">
+		<UserAccountMenu variant="mobile" />
+	</div>
 </div>
