@@ -42,7 +42,10 @@ const { title = "cornwall-ponds", description } = Astro.props;
     {description && <meta name="description" content={description} />}
     <title>{title}</title>
   </head>
-  <body id="top" class="min-h-screen bg-background text-foreground">
+  <body
+    id="top"
+    class="grid min-h-dvh grid-rows-[auto_1fr_auto] bg-background text-foreground"
+  >
     <Header />
     <slot />
     <Footer />
