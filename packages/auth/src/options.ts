@@ -6,7 +6,7 @@ import { magicLink } from "better-auth/plugins"
 import type { betterAuth } from "better-auth"
 
 import { createKvSecondaryStorage } from "./kv-storage"
-import { sendMagicLinkEmail, type SendMagicLinkEmailParams } from "./resend"
+import { sendMagicLinkEmail } from "./resend"
 import type { AuthEnv } from "./types"
 
 type BetterAuthConfig = NonNullable<Parameters<typeof betterAuth>[0]>
@@ -73,8 +73,9 @@ export function createAuthOptions(
 		...(googleProviders ? { socialProviders: googleProviders } : {}),
 		plugins: [
 			magicLink({
-				sendMagicLink: async ({ email, url }: SendMagicLinkEmailParams) => {
-					const deliver = () => sendMagicLinkEmail(env, { email, url })
+				sendMagicLink: async ({ email, url, token }) => {
+					const deliver = () =>
+						sendMagicLinkEmail(env, { email, url, token })
 					if (executionCtx) {
 						executionCtx.waitUntil(deliver())
 						return

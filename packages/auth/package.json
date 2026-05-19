@@ -17,11 +17,14 @@
     "@cornwall-ponds/env": "workspace:*",
     "better-auth": "catalog:",
     "dotenv": "catalog:",
+    "react": "^19.2.6",
+    "resend": "^4.5.1",
     "zod": "catalog:"
   },
   "devDependencies": {
     "@better-auth/cli": "catalog:",
     "@cornwall-ponds/config": "workspace:*",
+    "@types/react": "^19.2.14",
     "typescript": "catalog:"
   }
 }

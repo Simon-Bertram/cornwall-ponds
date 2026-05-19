@@ -27,6 +27,8 @@ const cliEnv: AuthEnv = {
 	WEB_URL: process.env.WEB_URL ?? "http://localhost:4321",
 	GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID ?? "cli-placeholder",
 	GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET ?? "cli-placeholder",
+	RESEND_API_KEY: process.env.RESEND_API_KEY,
+	RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL,
 }
 
 export const auth = betterAuth(

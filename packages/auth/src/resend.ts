@@ -1,38 +1,37 @@
-import type { AuthEnv } from "./types";
+import { Resend } from "resend"
+
+import { MagicLinkEmail } from "./emails/magic-link"
+import type { AuthEnv } from "./types"
 
 export type SendMagicLinkEmailParams = {
-  email: string;
-  url: string;
-};
+	email: string
+	url: string
+	token?: string
+}
 
 export async function sendMagicLinkEmail(
-  env: AuthEnv,
-  { email, url }: SendMagicLinkEmailParams,
+	env: AuthEnv,
+	{ email, url, token }: SendMagicLinkEmailParams,
 ) {
-  const apiKey = env.RESEND_API_KEY;
-  if (!apiKey) {
-    throw new Error("RESEND_API_KEY is not configured");
-  }
+	const apiKey = env.RESEND_API_KEY
+	if (!apiKey) {
+		throw new Error("RESEND_API_KEY is not configured")
+	}
 
-  // TODO: Use a proper from email address
-  const from = env.RESEND_FROM_EMAIL ?? "Auth <onboarding@resend.dev>";
+	const from = env.RESEND_FROM_EMAIL ?? "Auth <onboarding@resend.dev>"
+	const resend = new Resend(apiKey)
 
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from,
-      to: email,
-      subject: "Sign in to Cornwall Ponds",
-      html: `<p>Click <a href="${url}">here</a> to sign in. This link expires shortly.</p>`,
-    }),
-  });
+	const { data, error } = await resend.emails.send({
+		from,
+		to: [email],
+		subject: "Sign in to Cornwall Ponds",
+		react: MagicLinkEmail({ signInUrl: url }),
+		...(token ? { idempotencyKey: `magic-link/${token}` } : {}),
+	})
 
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`Resend request failed (${res.status}): ${body}`);
-  }
+	if (error) {
+		throw new Error(error.message)
+	}
+
+	return data
 }

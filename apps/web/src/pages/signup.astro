@@ -14,7 +14,8 @@ import { SignUpForm } from "@/components/signup-form.tsx";
     >
     </div>
     <div class="relative z-10 w-full max-w-sm md:max-w-lg">
-      <SignUpForm />
+      <SignUpForm client:load />
+      <!-- Why: email submit and magic-link API need client-side auth client -->
     </div>
   </div>
 </Layout>
