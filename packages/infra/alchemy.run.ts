@@ -24,11 +24,23 @@ function loadAppEnv(appRelativeDir: string) {
 	}
 }
 
-config({ path: resolve(infraDir, ".env") });
+// Override empty devcontainer/containerEnv placeholders (see .devcontainer/devcontainer.json).
+config({ path: resolve(infraDir, ".env"), override: true });
+
 loadAppEnv("../../apps/web");
 loadAppEnv("../../apps/server");
 
-const app = await alchemy("cornwall-ponds");
+const alchemyPassword = process.env.ALCHEMY_PASSWORD;
+if (!alchemyPassword) {
+	throw new Error(
+		"ALCHEMY_PASSWORD is required in packages/infra/.env to decrypt Alchemy secrets. " +
+			"Set it in that file or export it in your shell before running alchemy dev.",
+	);
+}
+
+const app = await alchemy("cornwall-ponds", {
+	password: alchemyPassword,
+});
 
 const db = await D1Database("database", {
 	migrationsDir: "../../packages/db/src/migrations",
@@ -50,6 +62,15 @@ const serverBindings = {
 		: {}),
 	...(process.env.RESEND_FROM_EMAIL
 		? { RESEND_FROM_EMAIL: alchemy.env.RESEND_FROM_EMAIL! }
+		: {}),
+	...(process.env.CF_ACCESS_ENABLED
+		? { CF_ACCESS_ENABLED: alchemy.env.CF_ACCESS_ENABLED! }
+		: {}),
+	...(process.env.POLICY_AUD
+		? { POLICY_AUD: alchemy.env.POLICY_AUD! }
+		: {}),
+	...(process.env.CF_ACCESS_DOMAIN
+		? { CF_ACCESS_DOMAIN: alchemy.env.CF_ACCESS_DOMAIN! }
 		: {}),
 };
 

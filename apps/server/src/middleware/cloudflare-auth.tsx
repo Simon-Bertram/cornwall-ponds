@@ -1,14 +1,28 @@
+import type { ServerEnv } from "@cornwall-ponds/env/bindings";
 import { createMiddleware } from "hono/factory";
 import { jwtVerify, createRemoteJWKSet } from "jose";
 
-export const cloudflareAuth = createMiddleware(async (c, next) => {
-  // Verify the POLICY_AUD environment variable is set
-  if (!c.env.POLICY_AUD) {
-    return c.json({ error: "Missing required audience" }, 403);
+function isCfAccessEnabled(env: ServerEnv): boolean {
+  const flag = env.CF_ACCESS_ENABLED?.toLowerCase();
+  if (flag === "false" || flag === "0") {
+    return false;
   }
+  if (flag === "true" || flag === "1") {
+    return Boolean(env.POLICY_AUD && env.CF_ACCESS_DOMAIN);
+  }
+  // No explicit flag: require Access only when fully configured (production deploy).
+  return Boolean(env.POLICY_AUD && env.CF_ACCESS_DOMAIN);
+}
 
-  // Get the JWT from the request headers
-  const token = c.req.header("cf-access-jwt-assertion");
+export const cloudflareAuth = createMiddleware<{ Bindings: ServerEnv }>(
+  async (c, next) => {
+    if (!isCfAccessEnabled(c.env)) {
+      await next();
+      return;
+    }
+
+    // Get the JWT from the request headers
+    const token = c.req.header("cf-access-jwt-assertion");
 
   // Check if token exists
   if (!token) {
@@ -33,4 +47,5 @@ export const cloudflareAuth = createMiddleware(async (c, next) => {
     const message = error instanceof Error ? error.message : "Unknown error";
     return c.json({ error: `Invalid token: ${message}` }, 403);
   }
-});
+  },
+);

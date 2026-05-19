@@ -3,7 +3,8 @@ import {
   type ServerHonoVariables,
 } from "@cornwall-ponds/api/context";
 import { appRouter } from "@cornwall-ponds/api/routers/index";
-import { createAuth, type AuthEnv } from "@cornwall-ponds/auth";
+import { createAuth } from "@cornwall-ponds/auth";
+import type { ServerEnv } from "@cornwall-ponds/env/bindings";
 import { env } from "@cornwall-ponds/env/server";
 import { OpenAPIHandler } from "@orpc/openapi/fetch";
 import { OpenAPIReferencePlugin } from "@orpc/openapi/plugins";
@@ -16,11 +17,11 @@ import { logger } from "hono/logger";
 import { cloudflareAuth } from "./middleware/cloudflare-auth";
 
 type ServerContext = Context<{
-  Bindings: AuthEnv;
+  Bindings: ServerEnv;
   Variables: ServerHonoVariables;
 }>;
 
-const app = new Hono<{ Bindings: AuthEnv; Variables: ServerHonoVariables }>();
+const app = new Hono<{ Bindings: ServerEnv; Variables: ServerHonoVariables }>();
 
 app.use(logger());
 app.use(

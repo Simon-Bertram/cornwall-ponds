@@ -13,4 +13,8 @@ export type ServerEnv = {
 	GOOGLE_CLIENT_SECRET?: string
 	RESEND_API_KEY?: string
 	RESEND_FROM_EMAIL?: string
+	/** Set to `false` in apps/server/.env.development to skip Cloudflare Access locally. */
+	CF_ACCESS_ENABLED?: string
+	POLICY_AUD?: string
+	CF_ACCESS_DOMAIN?: string
 }
