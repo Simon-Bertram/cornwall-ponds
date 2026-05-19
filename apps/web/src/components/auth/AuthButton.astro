@@ -1,17 +1,25 @@
 ---
 import CtaLink from "../ui/CtaLink.astro";
+
+const user = Astro.locals.user;
+const isLoggedIn = Boolean(user);
+const displayName =
+	user?.name || user?.email?.split("@")[0] || "User";
 ---
 
 <div class="flex items-center gap-2" id="user-menu-container">
   <CtaLink
     href="/login"
     id="login-link"
-    className="antialiased rounded-xl text-sm"
+    className={`antialiased rounded-xl text-sm${isLoggedIn ? " hidden" : ""}`}
   >
     Sign In
   </CtaLink>
-  <div id="user-menu" class="hidden items-center gap-3">
-    <span class="text-sm hidden sm:inline" id="user-display"></span>
+  <div
+    id="user-menu"
+    class={isLoggedIn ? "flex items-center gap-3" : "hidden items-center gap-3"}
+  >
+    <span class="text-sm hidden sm:inline" id="user-display">{displayName}</span>
     <button
       id="signout-button"
       class="antialiased rounded-xl btn btn-error text-sm"
@@ -21,7 +29,7 @@ import CtaLink from "../ui/CtaLink.astro";
   </div>
 </div>
 
-<script>
+<script define:vars={{ isLoggedIn }}>
   import { authClient } from "../../lib/auth-client";
 
   const loginLink = document.getElementById("login-link");
@@ -29,7 +37,9 @@ import CtaLink from "../ui/CtaLink.astro";
   const userDisplay = document.getElementById("user-display");
   const signOutButton = document.getElementById("signout-button");
 
-  async function checkSession() {
+  async function syncSession() {
+    if (isLoggedIn) return;
+
     try {
       const { data: session } = await authClient.getSession();
       if (session?.user) {
@@ -41,7 +51,7 @@ import CtaLink from "../ui/CtaLink.astro";
             session.user.name || session.user.email?.split("@")[0] || "User";
         }
       }
-    } catch (e) {
+    } catch {
       // Not logged in
     }
   }
@@ -56,5 +66,5 @@ import CtaLink from "../ui/CtaLink.astro";
     });
   });
 
-  checkSession();
+  syncSession();
 </script>

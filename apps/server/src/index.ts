@@ -15,6 +15,8 @@ import { Hono, type Context, type Next } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { cloudflareAuth } from "./middleware/cloudflare-auth";
+import { turnstileGuard } from "./middleware/turnstile-guard";
+import { handleContactPost } from "./routes/contact";
 
 type ServerContext = Context<{
   Bindings: ServerEnv;
@@ -29,12 +31,15 @@ app.use(
   cors({
     origin: env.CORS_ORIGIN,
     allowMethods: ["GET", "POST", "OPTIONS"],
-    allowHeaders: ["Content-Type", "Authorization"],
+    allowHeaders: ["Content-Type", "Authorization", "X-Turnstile-Token"],
     credentials: true,
   }),
 );
 
 app.use("/*", cloudflareAuth);
+app.use("/*", turnstileGuard);
+
+app.post("/api/contact", handleContactPost);
 
 app.use("*", async (c: ServerContext, next: Next) => {
   const auth = createAuth({

@@ -12,6 +12,7 @@
     "@cornwall-ponds/auth": "workspace:*",
     "@cornwall-ponds/db": "workspace:*",
     "@cornwall-ponds/env": "workspace:*",
+    "@cornwall-ponds/turnstile": "workspace:*",
     "@orpc/openapi": "catalog:",
     "@orpc/server": "catalog:",
     "@orpc/zod": "catalog:",

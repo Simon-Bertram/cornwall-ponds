@@ -1,0 +1,16 @@
+{
+  "name": "@cornwall-ponds/turnstile",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    }
+  },
+  "devDependencies": {
+    "@cornwall-ponds/config": "workspace:*",
+    "@cloudflare/workers-types": "catalog:",
+    "typescript": "catalog:"
+  }
+}

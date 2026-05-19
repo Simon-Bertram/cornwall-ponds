@@ -72,6 +72,9 @@ const serverBindings = {
 	...(process.env.CF_ACCESS_DOMAIN
 		? { CF_ACCESS_DOMAIN: alchemy.env.CF_ACCESS_DOMAIN! }
 		: {}),
+	...(process.env.CONTACT_TO_EMAIL
+		? { CONTACT_TO_EMAIL: alchemy.env.CONTACT_TO_EMAIL! }
+		: {}),
 };
 
 /** alchemy.secret.env throws when unset; add OAuth/email secrets only when configured. */
@@ -81,6 +84,9 @@ const serverSecretBindings = {
 		: {}),
 	...(process.env.RESEND_API_KEY
 		? { RESEND_API_KEY: alchemy.secret.env.RESEND_API_KEY }
+		: {}),
+	...(process.env.TURNSTILE_SECRET_KEY
+		? { TURNSTILE_SECRET_KEY: alchemy.secret.env.TURNSTILE_SECRET_KEY }
 		: {}),
 };
 
@@ -103,6 +109,11 @@ export const web = await Astro("web", {
 	assets: "dist/client",
 	bindings: {
 		PUBLIC_SERVER_URL: alchemy.env.PUBLIC_SERVER_URL!,
+		...(process.env.PUBLIC_TURNSTILE_SITE_KEY
+			? {
+					PUBLIC_TURNSTILE_SITE_KEY: alchemy.env.PUBLIC_TURNSTILE_SITE_KEY!,
+				}
+			: {}),
 		/** Service binding to the Hono API worker (SSR session, internal RPC). */
 		API: server,
 	},

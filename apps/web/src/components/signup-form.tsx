@@ -2,7 +2,10 @@
 
 import { useState } from "react"
 
+import { TurnstileField } from "@/components/turnstile/TurnstileField"
 import { authClient } from "@/lib/auth-client"
+import { turnstileHeaders } from "@/lib/turnstile-headers"
+import { PUBLIC_TURNSTILE_SITE_KEY } from "astro:env/client"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -28,6 +31,9 @@ export function SignUpForm({
 }: React.ComponentProps<"div">) {
 	const [status, setStatus] = useState<FormStatus>("idle")
 	const [errorMessage, setErrorMessage] = useState<string | null>(null)
+	const [turnstileToken, setTurnstileToken] = useState("")
+
+	const turnstileRequired = Boolean(PUBLIC_TURNSTILE_SITE_KEY)
 
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault()
@@ -43,12 +49,25 @@ export function SignUpForm({
 			return
 		}
 
-		const { error } = await authClient.signIn.magicLink({
-			email,
-			name: typeof name === "string" && name ? name : undefined,
-			callbackURL: "/dashboard",
-			newUserCallbackURL: "/dashboard",
-		})
+		if (turnstileRequired && !turnstileToken) {
+			setStatus("error")
+			setErrorMessage("Please complete the security check.")
+			return
+		}
+
+		const { error } = await authClient.signIn.magicLink(
+			{
+				email,
+				name: typeof name === "string" && name ? name : undefined,
+				callbackURL: "/dashboard",
+				newUserCallbackURL: "/dashboard",
+			},
+			{
+				fetchOptions: {
+					headers: turnstileHeaders(turnstileToken),
+				},
+			},
+		)
 
 		if (error) {
 			setStatus("error")
@@ -63,10 +82,23 @@ export function SignUpForm({
 		setStatus("loading")
 		setErrorMessage(null)
 
-		const { error } = await authClient.signIn.social({
-			provider: "google",
-			callbackURL: "/dashboard",
-		})
+		if (turnstileRequired && !turnstileToken) {
+			setStatus("error")
+			setErrorMessage("Please complete the security check.")
+			return
+		}
+
+		const { error } = await authClient.signIn.social(
+			{
+				provider: "google",
+				callbackURL: "/dashboard",
+			},
+			{
+				fetchOptions: {
+					headers: turnstileHeaders(turnstileToken),
+				},
+			},
+		)
 
 		if (error) {
 			setStatus("error")
@@ -117,6 +149,14 @@ export function SignUpForm({
 									/>
 								</Field>
 								<Field>
+									<TurnstileField
+										onTokenChange={setTurnstileToken}
+										onError={() =>
+											setErrorMessage(
+												"Security check failed. Please try again.",
+											)
+										}
+									/>
 									<Button
 										type="submit"
 										className="w-full"

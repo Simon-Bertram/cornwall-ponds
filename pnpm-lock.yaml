@@ -87,6 +87,9 @@ importers:
       '@cornwall-ponds/env':
         specifier: workspace:*
         version: link:../../packages/env
+      '@cornwall-ponds/turnstile':
+        specifier: workspace:*
+        version: link:../../packages/turnstile
       '@orpc/openapi':
         specifier: 'catalog:'
         version: 1.14.3(crossws@0.3.5)(ws@8.20.1)
@@ -148,12 +151,21 @@ importers:
       '@cornwall-ponds/api':
         specifier: workspace:*
         version: link:../../packages/api
+      '@cornwall-ponds/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@cornwall-ponds/env':
         specifier: workspace:*
         version: link:../../packages/env
+      '@cornwall-ponds/turnstile':
+        specifier: workspace:*
+        version: link:../../packages/turnstile
       '@lucide/astro':
         specifier: ^1.14.0
         version: 1.16.0(astro@6.3.3(@types/node@25.9.0)(aws4fetch@1.0.20)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(tsx@4.22.1)(yaml@2.9.0))
+      '@marsidev/react-turnstile':
+        specifier: ^1.4.2
+        version: 1.5.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@orpc/client':
         specifier: 'catalog:'
         version: 1.14.3
@@ -378,6 +390,18 @@ importers:
       alchemy:
         specifier: 'catalog:'
         version: 0.93.7(@astrojs/cloudflare@13.5.1(@types/node@25.9.0)(astro@6.3.3(@types/node@25.9.0)(aws4fetch@1.0.20)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(tsx@4.22.1)(yaml@2.9.0))(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.22.1)(workerd@1.20260515.1)(wrangler@4.92.0(@cloudflare/workers-types@4.20260518.1))(yaml@2.9.0))(@cloudflare/vite-plugin@1.37.1(vite@7.3.3(@types/node@25.9.0)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.22.1)(yaml@2.9.0))(workerd@1.20260515.1)(wrangler@4.92.0(@cloudflare/workers-types@4.20260518.1)))(@libsql/client@0.17.3)(astro@6.3.3(@types/node@25.9.0)(aws4fetch@1.0.20)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(tsx@4.22.1)(yaml@2.9.0))(kysely@0.28.17)(vite@7.3.3(@types/node@25.9.0)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.22.1)(yaml@2.9.0))(workerd@1.20260515.1)
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+
+  packages/turnstile:
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: 'catalog:'
+        version: 4.20260518.1
+      '@cornwall-ponds/config':
+        specifier: workspace:*
+        version: link:../config
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -2001,6 +2025,12 @@ packages:
     resolution: {integrity: sha512-RWT+9Y1UAMnz/oiJMssnQTSeBM0AbwzK1SsOeY2zQungN7PQxm4Pp4bNxIVp/Wu77TBXkpPoaIyxYqagZVjWGQ==}
     peerDependencies:
       astro: ^4 || ^5 || ^6
+
+  '@marsidev/react-turnstile@1.5.2':
+    resolution: {integrity: sha512-+3aBPxp86JzSC0ZmgyonoGoUEENcUkH3LGahXSpkV87ArvD2DzRCmPgh0FyQk6PQRmJwQJDAfwNavFsxUxMQWA==}
+    peerDependencies:
+      react: ^17.0.2 || ^18.0.0 || ^19.0
+      react-dom: ^17.0.2 || ^18.0.0 || ^19.0
 
   '@modelcontextprotocol/sdk@1.29.0':
     resolution: {integrity: sha512-zo37mZA9hJWpULgkRpowewez1y6ML5GsXJPY8FI0tBBCd77HEvza4jDqRKOXgHNn867PVGCyTdzqpz0izu5ZjQ==}
@@ -7856,6 +7886,11 @@ snapshots:
   '@lucide/astro@1.16.0(astro@6.3.3(@types/node@25.9.0)(aws4fetch@1.0.20)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(tsx@4.22.1)(yaml@2.9.0))':
     dependencies:
       astro: 6.3.3(@types/node@25.9.0)(aws4fetch@1.0.20)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(tsx@4.22.1)(yaml@2.9.0)
+
+  '@marsidev/react-turnstile@1.5.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
+    dependencies:
+      react: 19.2.6
+      react-dom: 19.2.6(react@19.2.6)
 
   '@modelcontextprotocol/sdk@1.29.0(zod@3.25.76)':
     dependencies:

@@ -13,6 +13,10 @@ export type ServerEnv = {
 	GOOGLE_CLIENT_SECRET?: string
 	RESEND_API_KEY?: string
 	RESEND_FROM_EMAIL?: string
+	/** Inbox for contact/quote form submissions. */
+	CONTACT_TO_EMAIL?: string
+	/** Cloudflare Turnstile secret key (server-side verification). */
+	TURNSTILE_SECRET_KEY?: string
 	/** Set to `false` in apps/server/.env.development to skip Cloudflare Access locally. */
 	CF_ACCESS_ENABLED?: string
 	POLICY_AUD?: string
