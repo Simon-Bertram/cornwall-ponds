@@ -16,7 +16,8 @@
     "db:generate": "turbo -F @cornwall-ponds/db db:generate",
     "auth:generate": "turbo -F @cornwall-ponds/auth auth:generate",
     "deploy": "turbo -F @cornwall-ponds/infra deploy",
-    "destroy": "turbo -F @cornwall-ponds/infra destroy"
+    "destroy": "turbo -F @cornwall-ponds/infra destroy",
+    "deps:sync": "pnpm install --no-frozen-lockfile"
   },
   "dependencies": {
     "@cornwall-ponds/env": "workspace:*",
@@ -33,7 +34,16 @@
   "packageManager": "pnpm@11.0.8",
   "pnpm": {
     "overrides": {
-      "@types/node": "24.12.3"
+      "@esbuild-kit/core-utils>esbuild": "0.25.12",
+      "@types/node": "24.12.3",
+      "devalue": "5.8.1",
+      "drizzle-orm": "0.45.2",
+      "esbuild": "0.25.12",
+      "lodash": "4.17.24",
+      "miniflare>ws": "8.20.1",
+      "ws": "8.20.1",
+      "yaml": "2.8.4",
+      "yaml-language-server>yaml": "2.8.4"
     }
   }
 }

@@ -1,4 +1,4 @@
-import * as React from "react"
+/** @jsxImportSource react */
 
 export interface MagicLinkEmailProps {
 	signInUrl: string
