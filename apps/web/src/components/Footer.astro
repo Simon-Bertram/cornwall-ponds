@@ -2,7 +2,7 @@
 // Footer.astro — Step F: Site-wide footer
 // Pure Astro (static)
 // Data: Sourced from ../lib/projects.ts
-// Colours: bg-foreground / text-background (Colour Lockdown §7)
+// Colours: bg-footer / text-footer-foreground / text-footer-muted (theme tokens)
 
 import { services, locations } from "../lib/projects";
 import BackToTopButton from "./BackToTopButton.astro";
@@ -65,7 +65,7 @@ const companyLinks = [
 ];
 ---
 
-<footer class="bg-foreground text-background" role="contentinfo">
+<footer class="bg-footer text-footer-foreground" role="contentinfo">
   <div class="mx-auto max-w-7xl px-6 py-14 lg:py-18">
     <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
       {/* ── Brand Column ── */}
@@ -94,13 +94,14 @@ const companyLinks = [
                 class="font-serif text-lg font-bold tracking-tight leading-none"
                 >Cornwall Ponds</span
               >
-              <span class="text-[11px] tracking-widest uppercase opacity-60"
+              <span
+                class="text-[11px] tracking-widest uppercase text-footer-muted"
                 >Design & Build</span
               >
             </a>
           </div>
         </div>
-        <p class="text-sm leading-relaxed text-background/70 mb-8 max-w-sm">
+        <p class="text-sm leading-relaxed text-footer-muted mb-8 max-w-sm">
           With over 15 years of excellence, we create stunning water features
           across Cornwall. From bespoke fish ponds to grand natural swimming
           pools.
@@ -108,11 +109,11 @@ const companyLinks = [
         <address class="flex flex-col gap-4">
           <a
             href="tel:+441234567890"
-            class="flex items-center gap-3 text-sm text-background/70 hover:text-background transition-colors duration-200"
+            class="flex items-center gap-3 text-sm text-footer-muted hover:text-footer-foreground transition-colors duration-200"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4 text-background/90"
+              class="h-4 w-4 text-footer-muted"
               fill="none"
               viewBox={phoneIcon.viewBox}
               stroke="currentColor"
@@ -125,11 +126,11 @@ const companyLinks = [
           </a>
           <a
             href="mailto:info@cornwallponds.co.uk"
-            class="flex items-center gap-3 text-sm text-background/70 hover:text-background transition-colors duration-200"
+            class="flex items-center gap-3 text-sm text-footer-muted hover:text-footer-foreground transition-colors duration-200"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4 text-background/90"
+              class="h-4 w-4 text-footer-muted"
               fill="none"
               viewBox={emailIcon.viewBox}
               stroke="currentColor"
@@ -140,10 +141,10 @@ const companyLinks = [
             </svg>
             info@cornwallponds.co.uk
           </a>
-          <span class="flex items-center gap-3 text-sm text-background/70">
+          <span class="flex items-center gap-3 text-sm text-footer-muted">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4 text-background/90"
+              class="h-4 w-4 text-footer-muted"
               fill="none"
               viewBox={locationIcon.viewBox}
               stroke="currentColor"
@@ -160,7 +161,7 @@ const companyLinks = [
       {/* ── Services Column ── */}
       <div>
         <h3
-          class="font-serif text-base font-bold mb-6 text-background tracking-wide"
+          class="font-serif text-base font-bold mb-6 text-footer-foreground tracking-wide"
         >
           Our Services
         </h3>
@@ -170,7 +171,7 @@ const companyLinks = [
               <li>
                 <a
                   href={`/services#${service.slug}`}
-                  class="text-sm text-background/80 hover:text-primary transition-colors duration-200"
+                  class="text-sm text-footer-muted hover:text-footer-foreground hover:underline transition-colors duration-200"
                 >
                   {service.title}
                 </a>
@@ -183,7 +184,7 @@ const companyLinks = [
       {/* ── Company Column ── */}
       <div>
         <h3
-          class="font-serif text-base font-bold mb-6 text-background tracking-wide"
+          class="font-serif text-base font-bold mb-6 text-footer-foreground tracking-wide"
         >
           Quick Links
         </h3>
@@ -193,7 +194,7 @@ const companyLinks = [
               <li>
                 <a
                   href={link.href}
-                  class="text-sm text-background/80 hover:text-primary transition-colors duration-200"
+                  class="text-sm text-footer-muted hover:text-footer-foreground hover:underline transition-colors duration-200"
                 >
                   {link.label}
                 </a>
@@ -206,7 +207,7 @@ const companyLinks = [
       {/* ── Areas Column ── */}
       <div>
         <h3
-          class="font-serif text-base font-bold mb-6 text-background tracking-wide"
+          class="font-serif text-base font-bold mb-6 text-footer-foreground tracking-wide"
         >
           Areas We Cover
         </h3>
@@ -216,7 +217,7 @@ const companyLinks = [
               <li>
                 <a
                   href={`/our-work?location=${loc}`}
-                  class="text-sm text-background/80 hover:text-primary transition-colors duration-200"
+                  class="text-sm text-footer-muted hover:text-footer-foreground hover:underline transition-colors duration-200"
                 >
                   {loc}
                 </a>
@@ -234,22 +235,22 @@ const companyLinks = [
 
     {/* ── Bottom Bar ── */}
     <div
-      class="mt-6 pt-8 border-t border-background/10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
+      class="mt-6 pt-8 border-t border-footer-foreground/15 flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
     >
-      <p class="text-xs text-background/60 font-medium">
+      <p class="text-xs text-footer-muted font-medium">
         &copy; {currentYear} Cornwall Ponds. All rights reserved. Registered in England
         & Wales.
       </p>
       <div class="flex flex-wrap items-center gap-6 md:justify-end">
         <a
           href="/privacy"
-          class="text-xs text-background/60 hover:text-background transition-colors duration-200"
+          class="text-xs text-footer-muted hover:text-footer-foreground transition-colors duration-200"
         >
           Privacy Policy
         </a>
         <a
           href="/terms"
-          class="text-xs text-background/60 hover:text-background transition-colors duration-200"
+          class="text-xs text-footer-muted hover:text-footer-foreground transition-colors duration-200"
         >
           Terms of Service
         </a>

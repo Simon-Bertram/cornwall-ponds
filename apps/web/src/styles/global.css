@@ -3,6 +3,7 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant theme-midnight (&:where(html[data-theme="aquascape-midnight"] *));
 
 /* Hex → OKLCH via CSS OKLab conversion (reference palette). */
 @plugin "daisyui" {
@@ -40,6 +41,10 @@
   --color-warning-content: oklch(28% 0.08 55);
   --color-error: oklch(55% 0.2 25);
   --color-error-content: oklch(98% 0.01 25);
+
+  --color-footer: var(--color-base-content);
+  --color-footer-foreground: var(--color-base-100);
+  --color-footer-muted: oklch(78% 0.04 233.59);
 
   --radius-selector: 1rem;
   --radius-field: 0.25rem;
@@ -85,6 +90,10 @@
   --color-warning-content: oklch(28% 0.08 55);
   --color-error: oklch(62% 0.2 25);
   --color-error-content: oklch(98% 0.01 25);
+
+  --color-footer: oklch(17% 0.048 257.95);
+  --color-footer-foreground: var(--color-base-content);
+  --color-footer-muted: oklch(80% 0.02 257.95);
 
   --radius-selector: 1rem;
   --radius-field: 0.25rem;
@@ -139,6 +148,9 @@
   --color-sidebar-accent-foreground: var(--color-secondary-content);
   --color-sidebar-border: var(--color-base-300);
   --color-sidebar-ring: var(--color-primary);
+  --color-footer: var(--color-footer);
+  --color-footer-foreground: var(--color-footer-foreground);
+  --color-footer-muted: var(--color-footer-muted);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);

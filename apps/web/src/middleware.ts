@@ -30,6 +30,18 @@ function withSecurityHeaders(response: Response): Response {
 	}
 
 	const serverUrl = import.meta.env.PUBLIC_SERVER_URL ?? "";
+	const connectParts = [
+		"'self'",
+		serverUrl,
+		"https://challenges.cloudflare.com",
+	];
+	if (import.meta.env.DEV) {
+		connectParts.push("ws:", "wss:");
+	}
+	const workerSrc =
+		import.meta.env.DEV
+			? "'self' blob:" /* Vite dev uses blob: workers */
+			: "'self'";
 	headers.set(
 		"Content-Security-Policy",
 		[
@@ -38,7 +50,8 @@ function withSecurityHeaders(response: Response): Response {
 			"style-src 'self' 'unsafe-inline'",
 			"img-src 'self' data: https: blob:",
 			"font-src 'self' https: data:",
-			`connect-src 'self' ${serverUrl} https://challenges.cloudflare.com`,
+			`connect-src ${connectParts.join(" ")}`,
+			`worker-src ${workerSrc}`,
 			"frame-src https://challenges.cloudflare.com",
 			"base-uri 'self'",
 			"form-action 'self'",
