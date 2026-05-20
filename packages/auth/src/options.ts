@@ -66,6 +66,9 @@ export function createAuthOptions(
 						storeSessionInDatabase: true,
 					},
 					rateLimit: {
+						enabled: true,
+						window: 60,
+						max: 10,
 						storage: "secondary-storage" as const,
 					},
 				}

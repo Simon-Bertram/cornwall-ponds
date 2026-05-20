@@ -14,7 +14,9 @@ import { ZodToJsonSchemaConverter } from "@orpc/zod/zod4";
 import { Hono, type Context, type Next } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
+import { isOpenApiReferenceEnabled } from "./lib/openapi";
 import { cloudflareAuth } from "./middleware/cloudflare-auth";
+import { contactRateLimit } from "./middleware/contact-rate-limit";
 import { turnstileGuard } from "./middleware/turnstile-guard";
 import { handleContactPost } from "./routes/contact";
 
@@ -36,7 +38,30 @@ app.use(
   }),
 );
 
+app.use("/*", async (c, next) => {
+  await next();
+  const headers = c.res.headers;
+  headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  headers.set(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=()",
+  );
+  headers.set("X-Content-Type-Options", "nosniff");
+  headers.set("X-Frame-Options", "DENY");
+  headers.set(
+    "Content-Security-Policy",
+    "default-src 'none'; frame-ancestors 'none'",
+  );
+  if (new URL(c.req.url).protocol === "https:") {
+    headers.set(
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains",
+    );
+  }
+});
+
 app.use("/*", cloudflareAuth);
+app.use("/*", contactRateLimit);
 app.use("/*", turnstileGuard);
 
 app.post("/api/contact", handleContactPost);
@@ -92,6 +117,9 @@ app.use("/*", async (c: ServerContext, next: Next) => {
   });
 
   if (apiResult.matched) {
+    if (!isOpenApiReferenceEnabled(c.env)) {
+      return c.text("Not Found", 404);
+    }
     return c.newResponse(apiResult.response.body, apiResult.response);
   }
 

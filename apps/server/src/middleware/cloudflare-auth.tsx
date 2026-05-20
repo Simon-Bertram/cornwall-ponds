@@ -43,9 +43,8 @@ export const cloudflareAuth = createMiddleware<{ Bindings: ServerEnv }>(
 
     await next();
   } catch (error) {
-    // Token verification failed
-    const message = error instanceof Error ? error.message : "Unknown error";
-    return c.json({ error: `Invalid token: ${message}` }, 403);
+    console.error("CF Access JWT verification failed:", error);
+    return c.json({ error: "Forbidden" }, 403);
   }
   },
 );

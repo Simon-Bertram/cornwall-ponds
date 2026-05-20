@@ -8,6 +8,8 @@ export {
 	getTurnstileTokenFromHeaders,
 	isTurnstileEnabled,
 	requireTurnstile,
+	turnstileEnforceSecret,
 	verifyTurnstileToken,
+	type TurnstileRuntimeFlags,
 	type TurnstileVerifyResult,
 } from "./verify"

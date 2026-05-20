@@ -57,6 +57,7 @@ const serverBindings = {
 	WEB_URL: alchemy.env.WEB_URL ?? alchemy.env.CORS_ORIGIN!,
 	BETTER_AUTH_SECRET: alchemy.secret.env.BETTER_AUTH_SECRET!,
 	BETTER_AUTH_URL: alchemy.env.BETTER_AUTH_URL!,
+	ENVIRONMENT: isDeploy ? "production" : "development",
 	...(process.env.GOOGLE_CLIENT_ID
 		? { GOOGLE_CLIENT_ID: alchemy.env.GOOGLE_CLIENT_ID! }
 		: {}),
@@ -71,6 +72,12 @@ const serverBindings = {
 		: {}),
 	...(process.env.CF_ACCESS_DOMAIN
 		? { CF_ACCESS_DOMAIN: alchemy.env.CF_ACCESS_DOMAIN! }
+		: {}),
+	...(process.env.OPENAPI_REFERENCE_ENABLED
+		? { OPENAPI_REFERENCE_ENABLED: alchemy.env.OPENAPI_REFERENCE_ENABLED! }
+		: {}),
+	...(process.env.TURNSTILE_FAIL_OPEN
+		? { TURNSTILE_FAIL_OPEN: alchemy.env.TURNSTILE_FAIL_OPEN! }
 		: {}),
 	...(process.env.CONTACT_TO_EMAIL
 		? { CONTACT_TO_EMAIL: alchemy.env.CONTACT_TO_EMAIL! }
@@ -116,6 +123,12 @@ export const web = await Astro("web", {
 		...(process.env.PUBLIC_TURNSTILE_SITE_KEY
 			? {
 					PUBLIC_TURNSTILE_SITE_KEY: alchemy.env.PUBLIC_TURNSTILE_SITE_KEY!,
+				}
+			: {}),
+		...(process.env.ENABLE_SSR_PROTECTED_REDIRECT
+			? {
+					ENABLE_SSR_PROTECTED_REDIRECT:
+						alchemy.env.ENABLE_SSR_PROTECTED_REDIRECT!,
 				}
 			: {}),
 		/** Service binding to the Hono API worker (SSR session, internal RPC). */

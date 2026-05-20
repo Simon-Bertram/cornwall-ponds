@@ -80,8 +80,16 @@ export async function requireTurnstile(options: {
 	secret?: string
 	token: string | undefined
 	remoteIp?: string
+	/**
+	 * When true and secret is unset, fail verification instead of succeed
+	 * (production / explicit strict mode).
+	 */
+	enforceSecret?: boolean
 }): Promise<TurnstileVerifyResult> {
 	if (!isTurnstileEnabled(options.secret)) {
+		if (options.enforceSecret) {
+			return { success: false, errorCodes: ["missing-secret"] }
+		}
 		return { success: true }
 	}
 
@@ -94,4 +102,20 @@ export async function requireTurnstile(options: {
 		token: options.token,
 		remoteIp: options.remoteIp,
 	})
+}
+
+export type TurnstileRuntimeFlags = {
+	ENVIRONMENT?: string
+	/** When `true`/`1`, allow missing Turnstile secret (local dev convenience). */
+	TURNSTILE_FAIL_OPEN?: string
+}
+
+/** Require Turnstile secret verification when in production and not fail-open. */
+export function turnstileEnforceSecret(flags: TurnstileRuntimeFlags): boolean {
+	const failOpen = flags.TURNSTILE_FAIL_OPEN?.toLowerCase()
+	if (failOpen === "true" || failOpen === "1") {
+		return false
+	}
+	const env = flags.ENVIRONMENT?.toLowerCase()
+	return env === "production" || env === "prod"
 }

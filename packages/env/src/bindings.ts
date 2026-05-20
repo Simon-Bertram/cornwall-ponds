@@ -17,6 +17,12 @@ export type ServerEnv = {
 	CONTACT_TO_EMAIL?: string
 	/** Cloudflare Turnstile secret key (server-side verification). */
 	TURNSTILE_SECRET_KEY?: string
+	/** When `true`/`1`, missing Turnstile secret skips verification even in production (avoid for public traffic). */
+	TURNSTILE_FAIL_OPEN?: string
+	/** `production` on `alchemy deploy`; `development` on `alchemy dev`. */
+	ENVIRONMENT?: string
+	/** When not `true`, OpenAPI reference at `/api-reference` is disabled in production. */
+	OPENAPI_REFERENCE_ENABLED?: string
 	/** Set to `false` in apps/server/.env.development to skip Cloudflare Access locally. */
 	CF_ACCESS_ENABLED?: string
 	POLICY_AUD?: string

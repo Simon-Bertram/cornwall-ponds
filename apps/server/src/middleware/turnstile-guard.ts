@@ -3,6 +3,7 @@ import {
 	getTurnstileTokenFromHeaders,
 	isTurnstileEnabled,
 	requireTurnstile,
+	turnstileEnforceSecret,
 } from "@cornwall-ponds/turnstile"
 import type { ServerEnv } from "@cornwall-ponds/env/bindings"
 import { createMiddleware } from "hono/factory"
@@ -32,7 +33,17 @@ export const turnstileGuard = createMiddleware<{ Bindings: ServerEnv }>(
 			return
 		}
 
+		const enforceSecret = turnstileEnforceSecret(c.env)
 		if (!isTurnstileEnabled(c.env.TURNSTILE_SECRET_KEY)) {
+			if (enforceSecret) {
+				return c.json(
+					{
+						error: "Turnstile is not configured",
+						code: "TURNSTILE_NOT_CONFIGURED",
+					},
+					503,
+				)
+			}
 			await next()
 			return
 		}
@@ -45,6 +56,7 @@ export const turnstileGuard = createMiddleware<{ Bindings: ServerEnv }>(
 			secret: c.env.TURNSTILE_SECRET_KEY,
 			token,
 			remoteIp: getClientIp(c.req.raw),
+			enforceSecret,
 		})
 
 		if (!result.success) {

@@ -2,6 +2,7 @@ import {
 	getTurnstileTokenFromFormBody,
 	getTurnstileTokenFromHeaders,
 	requireTurnstile,
+	turnstileEnforceSecret,
 } from "@cornwall-ponds/turnstile"
 import type { ServerEnv } from "@cornwall-ponds/env/bindings"
 import type { Context } from "hono"
@@ -102,19 +103,24 @@ export async function handleContactPost(c: ContactContext) {
 		getTurnstileTokenFromHeaders(c.req.raw.headers) ??
 		(await getTurnstileTokenFromFormBody(c.req.raw))
 
+	const enforceSecret = turnstileEnforceSecret(c.env)
 	const turnstile = await requireTurnstile({
 		secret: c.env.TURNSTILE_SECRET_KEY,
 		token,
 		remoteIp: getClientIp(c.req.raw),
+		enforceSecret,
 	})
 
 	if (!turnstile.success) {
+		const isConfig = turnstile.errorCodes?.includes("missing-secret")
 		return c.json(
 			{
-				error: "Turnstile verification failed",
-				code: "TURNSTILE_FAILED",
+				error: isConfig
+					? "Turnstile is not configured"
+					: "Turnstile verification failed",
+				code: isConfig ? "TURNSTILE_NOT_CONFIGURED" : "TURNSTILE_FAILED",
 			},
-			403,
+			isConfig ? 503 : 403,
 		)
 	}
 

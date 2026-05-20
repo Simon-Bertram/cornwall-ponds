@@ -61,6 +61,11 @@ export default defineConfig({
         context: "client",
         optional: true,
       }),
+      ENABLE_SSR_PROTECTED_REDIRECT: envField.boolean({
+        access: "public",
+        context: "server",
+        optional: true,
+      }),
     },
   },
 
