@@ -1,0 +1,58 @@
+---
+import {
+  ClockCheck,
+  ArrowDownFromLine,
+  RulerDimensionLine,
+  Droplet,
+} from "@lucide/astro";
+
+export interface Props {
+  type: "duration" | "volume" | "area" | "depth";
+  value: string;
+  variant?:
+    | "default"
+    | "primary"
+    | "secondary"
+    | "outline"
+    | "ghost"
+    | "destructive"
+    | "link";
+}
+
+const { type, value, variant = "default" } = Astro.props as Props;
+
+const iconMap = {
+  duration: ClockCheck,
+  volume: Droplet,
+  area: RulerDimensionLine,
+  depth: ArrowDownFromLine,
+};
+
+const Icon = iconMap[type];
+
+const variantClasses = {
+  default: "badge-ghost border-base-300",
+  primary: "badge-primary",
+  secondary: "badge-secondary",
+  outline: "badge-outline",
+  ghost: "badge-ghost",
+  destructive: "badge-destructive",
+  link: "badge-link",
+};
+
+const label = type.charAt(0).toUpperCase() + type.slice(1);
+---
+
+<div class="flex flex-col items-center gap-4 p-4">
+  <dt
+    class="flex flex-row items-center gap-4 text-xs font-medium text-foreground/80"
+  >
+    <Icon size={18} aria-hidden="true" />
+    {label}
+  </dt>
+  <dd
+    class={`badge gap-2 py-3 text-xs font-medium text-foreground/80 ${variantClasses[variant]}`}
+  >
+    {value}
+  </dd>
+</div>

@@ -2,6 +2,7 @@
 import CtaLink from "../../components/ui/CtaLink.astro";
 import PageLayout from "../../layouts/PageLayout.astro";
 import { projects } from "../../lib/projects";
+import ProjectStat from "../../components/ProjectStat.astro";
 
 // SSR mode: getStaticPaths() is ignored. Look up the project from the URL param at request time.
 const { slug } = Astro.params;
@@ -61,38 +62,27 @@ if (!project) {
         </div>
 
         <dl
-          class="flex gap-4 text-sm text-foreground/80 text-left md:text-right"
+          class="flex flex-wrap gap-4 text-sm text-foreground/80 text-left md:text-right"
+          aria-label="Project statistics"
         >
           {
             project.stats.duration && (
-              <div>
-                <dt class="font-semibold text-foreground">Duration</dt>
-                <dd>{project.stats.duration}</dd>
-              </div>
+              <ProjectStat type="duration" value={project.stats.duration} />
             )
           }
           {
             project.stats.volume && (
-              <div>
-                <dt class="font-semibold text-foreground">Volume</dt>
-                <dd>{project.stats.volume}</dd>
-              </div>
+              <ProjectStat type="volume" value={project.stats.volume} />
             )
           }
           {
             project.stats.area && (
-              <div>
-                <dt class="font-semibold text-foreground">Area</dt>
-                <dd>{project.stats.area}</dd>
-              </div>
+              <ProjectStat type="area" value={project.stats.area} />
             )
           }
           {
             project.stats.depth && (
-              <div>
-                <dt class="font-semibold text-foreground">Depth</dt>
-                <dd>{project.stats.depth}</dd>
-              </div>
+              <ProjectStat type="depth" value={project.stats.depth} />
             )
           }
         </dl>
