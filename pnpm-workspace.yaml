@@ -2,7 +2,7 @@ packages:
   - apps/*
   - packages/*
 allowBuilds:
-  '@prisma/client': true
+  "@prisma/client": true
   better-sqlite3: true
   esbuild: true
   msw: true
@@ -19,5 +19,5 @@ catalog:
   "@orpc/openapi": ^1.14.2
   "@orpc/zod": ^1.14.2
   better-auth: 1.6.9
-  alchemy: ^0.93.7
+  alchemy: ^0.93.9
   "@orpc/client": ^1.14.2
