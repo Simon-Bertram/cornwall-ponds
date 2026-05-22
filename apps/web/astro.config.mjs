@@ -46,15 +46,15 @@ export default defineConfig({
 
   env: {
     schema: {
+      // No localhost defaults — set in .env.development / .env.production (see .env.example).
+      // Client bundles inline these at build time; missing values fail the build instead of shipping localhost.
       PUBLIC_SERVER_URL: envField.string({
         access: "public",
         context: "client",
-        default: "http://localhost:3000",
       }),
       PUBLIC_WEB_URL: envField.string({
         access: "public",
         context: "client",
-        default: "http://localhost:4321",
       }),
       PUBLIC_TURNSTILE_SITE_KEY: envField.string({
         access: "public",
