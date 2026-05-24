@@ -1,16 +1,34 @@
 import type { AppRouterClient } from "@cornwall-ponds/api/routers/index";
 import { createORPCClient } from "@orpc/client";
 import { RPCLink } from "@orpc/client/fetch";
-import { PUBLIC_SERVER_URL } from "astro:env/client";
 
-export const link = new RPCLink({
-  url: `${PUBLIC_SERVER_URL}/rpc`,
-  fetch(url, options) {
-    return fetch(url, {
-      ...options,
-      credentials: "include",
-    });
-  },
-});
+import { getClientPublicServerUrl } from "@/lib/client-public-server-url";
 
-export const orpc: AppRouterClient = createORPCClient(link);
+/** No per-call client context; matches default oRPC `ClientContext`. */
+type OrpcClientContext = Record<never, never>;
+
+let link: RPCLink<OrpcClientContext> | undefined;
+let client: AppRouterClient | undefined;
+
+function getLink(): RPCLink<OrpcClientContext> {
+	if (!link) {
+		link = new RPCLink({
+			url: `${getClientPublicServerUrl()}/rpc`,
+			fetch(url, options) {
+				return fetch(url, {
+					...options,
+					credentials: "include",
+				});
+			},
+		});
+	}
+	return link;
+}
+
+/** Client-only; reads API URL from Layout meta (Worker binding) when available. */
+export function getOrpc(): AppRouterClient {
+	if (!client) {
+		client = createORPCClient<AppRouterClient>(getLink());
+	}
+	return client;
+}

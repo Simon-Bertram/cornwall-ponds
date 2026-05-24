@@ -76,6 +76,8 @@ The `API` binding is provisioned for future SSR/internal use ([`packages/env/src
 
 **Important:** `PUBLIC_SERVER_URL` is inlined into client JS at **build time**. Updating only the Cloudflare dashboard after deploy will not fix browser requests still pointing at `localhost`. Redeploy with correct `.env.production` values.
 
+**Alchemy + `.env.development`:** On `alchemy deploy`, Alchemy injects `apps/web/.env.development` before `alchemy.run.ts` runs. [`packages/infra/alchemy.run.ts`](../../packages/infra/alchemy.run.ts) loads `.env.production` with `override: true` and passes `PUBLIC_*` into the Astro build `env` so client bundles get production URLs, not localhost.
+
 ---
 
 ## Prerequisites
@@ -131,7 +133,13 @@ CORS_ORIGIN=https://<your-web-worker-url>
 WEB_URL=https://<your-web-worker-url>
 ```
 
-`CORS_ORIGIN` and `WEB_URL` must match the web origin exactly ([`packages/auth/src/options.ts`](../../packages/auth/src/options.ts) `trustedOrigins`). Cookies are already set for cross-origin (`sameSite: "none"`, `secure: true`).
+`CORS_ORIGIN` and `WEB_URL` must match the web origin exactly ([`packages/auth/src/options.ts`](../../packages/auth/src/options.ts) `trustedOrigins`). Use origins **without** a trailing slash (e.g. `https://…workers.dev`, not `…workers.dev/`). Cookies are already set for cross-origin (`sameSite: "none"`, `secure: true`).
+
+### Cloudflare dashboard vs Alchemy
+
+- **Source of truth:** `pnpm run deploy` reads [`apps/web/.env.production`](../../apps/web/.env.production) and [`apps/server/.env.production`](../../apps/server/.env.production) and pushes bindings via [`packages/infra/alchemy.run.ts`](../../packages/infra/alchemy.run.ts). Manual dashboard edits can be overwritten on the next deploy.
+- **Client `PUBLIC_*` vars:** Dashboard values on the **web** worker do **not** update JS already built into `dist/client/`. You must redeploy after changing `apps/web/.env.production`.
+- **Align with `.env.production`:** e.g. `CF_ACCESS_ENABLED=false` on the server worker when not validating Access JWTs on the API; strip trailing slashes from `CORS_ORIGIN` / `WEB_URL` if you set them in the dashboard by hand.
 
 **Optional — production stage:**
 

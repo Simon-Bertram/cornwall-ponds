@@ -7,28 +7,36 @@ import { Astro, D1Database, KVNamespace, Worker } from "alchemy/cloudflare";
 import { config } from "dotenv";
 
 const infraDir = dirname(fileURLToPath(import.meta.url));
-const isDeploy = process.argv.some((arg) => arg === "deploy");
+const cliArgs = process.argv.slice(2);
+const isAlchemyDev =
+	cliArgs.includes("dev") ||
+	cliArgs.includes("--dev") ||
+	cliArgs.includes("--local");
+/** Set by packages/infra `pnpm run deploy` — argv often lacks the string "deploy" when this file loads. */
+const isProductionDeploy =
+	process.env.ALCHEMY_DEPLOY === "1" ||
+	cliArgs.includes("deploy") ||
+	(!isAlchemyDev && process.env.npm_lifecycle_event === "deploy");
 
-if (isDeploy) {
+if (isProductionDeploy) {
 	process.env.NODE_ENV = "production";
 }
 
-/** Load `.env`, then mode-specific overrides (production on deploy, development otherwise). */
+/** Load `.env`, then mode-specific overrides (production when not `alchemy dev`). */
 function loadAppEnv(appRelativeDir: string) {
 	const base = resolve(infraDir, appRelativeDir);
 	config({ path: resolve(base, ".env") });
-	const modeFile = isDeploy ? ".env.production" : ".env.development";
-	const modePath = resolve(base, modeFile);
+	const productionPath = resolve(base, ".env.production");
+	const developmentPath = resolve(base, ".env.development");
+	const modePath = isProductionDeploy ? productionPath : developmentPath;
 	if (existsSync(modePath)) {
-		config({ path: modePath });
+		// Alchemy pre-injects .env.development; override so deploy uses production URLs.
+		config({ path: modePath, override: true });
 	}
 }
 
 // Override empty devcontainer/containerEnv placeholders (see .devcontainer/devcontainer.json).
 config({ path: resolve(infraDir, ".env"), override: true });
-
-loadAppEnv("../../apps/web");
-loadAppEnv("../../apps/server");
 
 const alchemyPassword = process.env.ALCHEMY_PASSWORD;
 if (!alchemyPassword) {
@@ -41,6 +49,20 @@ if (!alchemyPassword) {
 const app = await alchemy("cornwall-ponds", {
 	password: alchemyPassword,
 });
+
+// Alchemy pre-injects .env.development before this file runs; re-apply mode env after bootstrap.
+loadAppEnv("../../apps/web");
+loadAppEnv("../../apps/server");
+
+if (isProductionDeploy) {
+	const serverUrl = process.env.PUBLIC_SERVER_URL ?? "";
+	if (!serverUrl || serverUrl.includes("localhost")) {
+		throw new Error(
+			`Deploy requires production PUBLIC_SERVER_URL in apps/web/.env.production (got "${serverUrl}"). ` +
+				"Ensure that file exists and lists your Workers.dev API URL.",
+		);
+	}
+}
 
 const db = await D1Database("database", {
 	migrationsDir: "../../packages/db/src/migrations",
@@ -57,7 +79,7 @@ const serverBindings = {
 	WEB_URL: alchemy.env.WEB_URL ?? alchemy.env.CORS_ORIGIN!,
 	BETTER_AUTH_SECRET: alchemy.secret.env.BETTER_AUTH_SECRET!,
 	BETTER_AUTH_URL: alchemy.env.BETTER_AUTH_URL!,
-	ENVIRONMENT: isDeploy ? "production" : "development",
+	ENVIRONMENT: isProductionDeploy ? "production" : "development",
 	...(process.env.GOOGLE_CLIENT_ID
 		? { GOOGLE_CLIENT_ID: alchemy.env.GOOGLE_CLIENT_ID! }
 		: {}),
@@ -110,10 +132,26 @@ export const server = await Worker("server", {
 	},
 });
 
+const webPublicEnv = isProductionDeploy
+	? {
+			PUBLIC_SERVER_URL: process.env.PUBLIC_SERVER_URL!,
+			PUBLIC_WEB_URL: process.env.PUBLIC_WEB_URL!,
+		}
+	: undefined;
+
 export const web = await Astro("web", {
 	cwd: "../../apps/web",
 	entrypoint: "dist/server/entry.mjs",
 	assets: "dist/client",
+	...(isProductionDeploy
+		? {
+				build: {
+					command: "node ./scripts/production-build.mjs",
+					env: webPublicEnv,
+					memoize: false,
+				},
+			}
+		: {}),
 	bindings: {
 		PUBLIC_SERVER_URL: alchemy.env.PUBLIC_SERVER_URL!,
 		PUBLIC_WEB_URL:

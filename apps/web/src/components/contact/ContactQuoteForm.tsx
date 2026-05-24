@@ -1,6 +1,6 @@
 "use client"
 
-import { PUBLIC_SERVER_URL } from "astro:env/client"
+import { getClientPublicServerUrl } from "@/lib/client-public-server-url"
 import { useRef, useState } from "react"
 
 import { TurnstileField } from "@/components/turnstile/TurnstileField"
@@ -23,7 +23,7 @@ export function ContactQuoteForm() {
 		const formData = new FormData(form)
 
 		try {
-			const response = await fetch(`${PUBLIC_SERVER_URL}/api/contact`, {
+			const response = await fetch(`${getClientPublicServerUrl()}/api/contact`, {
 				method: "POST",
 				body: formData,
 				headers: turnstileHeaders(turnstileToken) ?? {},

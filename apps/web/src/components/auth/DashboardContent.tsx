@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-import { authClient } from "@/lib/auth-client";
-import { orpc } from "@/lib/orpc";
+import { getAuthClient } from "@/lib/auth-client";
+import { getOrpc } from "@/lib/orpc";
 
 type DashboardContentProps = {
   initialDisplayName?: string;
@@ -23,7 +23,7 @@ export function DashboardContent({
 
     async function loadSession() {
       try {
-        const { data } = await authClient.getSession();
+        const { data } = await getAuthClient().getSession();
         if (cancelled || !data?.user) return;
         const user = data.user;
         setDisplayName(user.name || user.email?.split("@")[0] || "User");
@@ -35,7 +35,7 @@ export function DashboardContent({
 
     async function loadPrivateData() {
       try {
-        const data = await orpc.privateData();
+        const data = await getOrpc().privateData();
         if (!cancelled) {
           setApiMessage(data.message || "Connected to server");
         }

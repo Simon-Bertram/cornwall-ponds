@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 
-import { authClient } from "@/lib/auth-client"
+import { getAuthClient } from "@/lib/auth-client"
 
 type AuthStatus = "loading" | "authed" | "guest"
 
@@ -18,7 +18,7 @@ export function RequireAuth({ children }: RequireAuthProps) {
 
 		async function checkSession() {
 			try {
-				const { data } = await authClient.getSession()
+				const { data } = await getAuthClient().getSession()
 				if (cancelled) return
 				if (data?.user) {
 					setStatus("authed")

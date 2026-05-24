@@ -1,4 +1,4 @@
-import { authClient } from '@/lib/auth-client'
+import { getAuthClient } from '@/lib/auth-client'
 
 export const USER_MENU_LINKS = [
 	{ label: 'Customer portal', href: '/dashboard' },
@@ -39,7 +39,7 @@ export function getAvatarFallbackLabel(
 }
 
 export async function signOutUser(): Promise<void> {
-	await authClient.signOut({
+	await getAuthClient().signOut({
 		fetchOptions: {
 			onSuccess: () => {
 				window.location.href = '/'

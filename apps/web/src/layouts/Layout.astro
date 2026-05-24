@@ -3,6 +3,7 @@ import { Font } from "astro:assets";
 import "../styles/global.css";
 import Header from "../components/header/Header.astro";
 import Footer from "../components/Footer.astro";
+import { PUBLIC_SERVER_URL_META_NAME } from "@/lib/client-public-server-url";
 
 interface Props {
   title?: string;
@@ -10,6 +11,14 @@ interface Props {
 }
 
 const { title = "cornwall-ponds", description } = Astro.props;
+
+const runtimeEnv = (
+  Astro.locals as { runtime?: { env?: { PUBLIC_SERVER_URL?: string } } }
+).runtime?.env;
+const publicServerUrl =
+  runtimeEnv?.PUBLIC_SERVER_URL ??
+  import.meta.env.PUBLIC_SERVER_URL ??
+  "";
 ---
 
 <!doctype html>
@@ -35,6 +44,11 @@ const { title = "cornwall-ponds", description } = Astro.props;
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {
+      publicServerUrl.startsWith("https://") && (
+        <meta name={PUBLIC_SERVER_URL_META_NAME} content={publicServerUrl} />
+      )
+    }
     <Font cssVariable="--font-manrope" preload />
     <Font cssVariable="--font-work-sans" preload />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

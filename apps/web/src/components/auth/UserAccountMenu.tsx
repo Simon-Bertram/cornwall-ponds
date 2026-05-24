@@ -11,7 +11,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
-import { authClient } from '@/lib/auth-client'
+import { getAuthClient } from '@/lib/auth-client'
 
 import { UserAvatarTrigger } from './UserAvatarTrigger'
 import {
@@ -71,7 +71,7 @@ export function UserAccountMenu({
 
 		async function syncSession() {
 			try {
-				const { data } = await authClient.getSession()
+				const { data } = await getAuthClient().getSession()
 				if (cancelled) return
 				if (data?.user) {
 					setUser(data.user)

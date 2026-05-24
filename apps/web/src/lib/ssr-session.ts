@@ -1,5 +1,4 @@
 import type { Session, User } from "@cornwall-ponds/auth";
-import { PUBLIC_SERVER_URL } from "astro:env/client";
 
 /** Better Auth session endpoint on the API worker (not the Astro host). */
 const SESSION_PATH = "/api/auth/get-session";
@@ -20,7 +19,11 @@ type GetSessionJson = {
  */
 export async function resolveSsrSession(
 	request: Request,
+	serverUrl: string,
 ): Promise<GetSessionJson> {
+	if (!serverUrl) {
+		return { session: null, user: null };
+	}
 	const cookie = request.headers.get("cookie");
 	if (!cookie) {
 		return { session: null, user: null };
@@ -30,9 +33,10 @@ export async function resolveSsrSession(
 	const headers = new Headers({ cookie });
 
 	try {
-		const response = await fetch(new URL(SESSION_PATH, PUBLIC_SERVER_URL), {
+		const response = await fetch(new URL(SESSION_PATH, serverUrl), {
 			method: "GET",
 			headers,
+			signal: AbortSignal.timeout(5_000),
 		});
 
 		if (!response.ok) {

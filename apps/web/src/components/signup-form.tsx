@@ -4,7 +4,7 @@ import { useState } from "react"
 
 import { TurnstileField } from "@/components/turnstile/TurnstileField"
 import { authCallbackUrl } from "@/lib/auth-callback-url"
-import { authClient } from "@/lib/auth-client"
+import { getAuthClient } from "@/lib/auth-client"
 import { turnstileHeaders } from "@/lib/turnstile-headers"
 import { PUBLIC_TURNSTILE_SITE_KEY } from "astro:env/client"
 import { cn } from "@/lib/utils"
@@ -56,7 +56,7 @@ export function SignUpForm({
 			return
 		}
 
-		const { error } = await authClient.signIn.magicLink(
+		const { error } = await getAuthClient().signIn.magicLink(
 			{
 				email,
 				name: typeof name === "string" && name ? name : undefined,
@@ -87,7 +87,7 @@ export function SignUpForm({
 			return
 		}
 
-		const { error } = await authClient.signIn.social(
+		const { error } = await getAuthClient().signIn.social(
 			{
 				provider: "google",
 				callbackURL: authCallbackUrl(),

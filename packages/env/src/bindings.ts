@@ -1,4 +1,17 @@
 /**
+ * Cloudflare bindings for the Astro `web` worker.
+ * Keep in sync with `web.bindings` in packages/infra/alchemy.run.ts.
+ */
+export type WebWorkerBindings = {
+	PUBLIC_SERVER_URL: string
+	PUBLIC_WEB_URL: string
+	PUBLIC_TURNSTILE_SITE_KEY?: string
+	ENABLE_SSR_PROTECTED_REDIRECT?: string
+	/** Service binding to the Hono API worker. */
+	API: Fetcher
+}
+
+/**
  * Cloudflare bindings for the Hono API worker.
  * Keep in sync with packages/infra/alchemy.run.ts and packages/auth/src/types.ts (AuthEnv).
  */

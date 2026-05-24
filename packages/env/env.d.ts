@@ -1,4 +1,4 @@
-import type { ServerEnv } from "./src/bindings";
+import type { ServerEnv, WebWorkerBindings } from "./src/bindings";
 
 declare global {
 	type Env = ServerEnv;
@@ -6,6 +6,6 @@ declare global {
 
 declare module "cloudflare:workers" {
 	namespace Cloudflare {
-		export interface Env extends ServerEnv {}
+		export interface Env extends ServerEnv, WebWorkerBindings {}
 	}
 }
