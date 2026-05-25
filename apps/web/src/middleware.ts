@@ -46,7 +46,7 @@ function withSecurityHeaders(response: Response, serverUrl: string): Response {
 
   // Allow fetch/WebSocket to the Hono API (auth, oRPC) and Turnstile.
   const connectParts = ["'self'", "https://challenges.cloudflare.com"];
-  if (serverUrl.startsWith("https://")) {
+  if (serverUrl) {
     connectParts.push(serverUrl);
   }
   if (import.meta.env.DEV) {
