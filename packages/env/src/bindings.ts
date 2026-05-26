@@ -40,4 +40,8 @@ export type ServerEnv = {
 	CF_ACCESS_ENABLED?: string
 	POLICY_AUD?: string
 	CF_ACCESS_DOMAIN?: string
+	/** R2 bucket for portal contracts and maintenance guides. */
+	PORTAL_FILES?: R2Bucket
+	/** Promote this email to admin on first login (optional). */
+	ADMIN_EMAIL?: string
 }

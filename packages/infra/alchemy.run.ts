@@ -3,7 +3,13 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import alchemy from "alchemy";
-import { Astro, D1Database, KVNamespace, Worker } from "alchemy/cloudflare";
+import {
+	Astro,
+	D1Database,
+	KVNamespace,
+	R2Bucket,
+	Worker,
+} from "alchemy/cloudflare";
 import { config } from "dotenv";
 
 const infraDir = dirname(fileURLToPath(import.meta.url));
@@ -72,9 +78,14 @@ const sessionKv = await KVNamespace("session-kv", {
 	title: "cornwall-ponds-session-kv",
 });
 
+const portalFiles = await R2Bucket("portal-files", {
+	title: "cornwall-ponds-portal-files",
+});
+
 const serverBindings = {
 	DB: db,
 	SESSION_KV: sessionKv,
+	PORTAL_FILES: portalFiles,
 	CORS_ORIGIN: alchemy.env.CORS_ORIGIN!,
 	WEB_URL: alchemy.env.WEB_URL ?? alchemy.env.CORS_ORIGIN!,
 	BETTER_AUTH_SECRET: alchemy.secret.env.BETTER_AUTH_SECRET!,
@@ -103,6 +114,9 @@ const serverBindings = {
 		: {}),
 	...(process.env.CONTACT_TO_EMAIL
 		? { CONTACT_TO_EMAIL: alchemy.env.CONTACT_TO_EMAIL! }
+		: {}),
+	...(process.env.ADMIN_EMAIL
+		? { ADMIN_EMAIL: alchemy.env.ADMIN_EMAIL! }
 		: {}),
 };
 

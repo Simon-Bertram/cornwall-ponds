@@ -14,9 +14,9 @@ const user = Astro.locals.user
 const isLoggedIn = Boolean(user)
 ---
 
+<!-- Why: client:only — workerd SSR + React hooks causes duplicate-React invalid hook call -->
 <UserAccountMenuIsland
-	client:load={variant === 'compact'}
-	client:visible={variant === 'mobile'}
+	client:only="react"
 	variant={variant}
 	initialLoggedIn={isLoggedIn}
 	initialName={user?.name}

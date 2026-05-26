@@ -11,6 +11,8 @@ export type AuthEnv = {
 	/** Defaults to Resend onboarding sender when unset. */
 	RESEND_FROM_EMAIL?: string
 	SESSION_KV?: KVNamespace
+	PORTAL_FILES?: R2Bucket
+	ADMIN_EMAIL?: string
 }
 
 export type CreateAuthOptions = {

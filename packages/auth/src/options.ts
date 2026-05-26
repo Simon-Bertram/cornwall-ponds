@@ -59,6 +59,16 @@ export function createAuthOptions(
 		emailAndPassword: {
 			enabled: false,
 		},
+		user: {
+			additionalFields: {
+				role: {
+					type: "string",
+					required: false,
+					defaultValue: "customer",
+					input: false,
+				},
+			},
+		},
 		...(secondaryStorage
 			? {
 					secondaryStorage,

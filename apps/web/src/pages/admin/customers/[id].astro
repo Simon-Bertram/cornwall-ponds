@@ -1,0 +1,13 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { AdminCustomerDetail } from "@/components/admin/AdminCustomerDetail.tsx";
+
+const { id } = Astro.params;
+if (!id) {
+  return Astro.redirect("/admin/customers");
+}
+---
+
+<Layout title="Customer - Admin">
+  <AdminCustomerDetail client:load customerId={id} />
+</Layout>

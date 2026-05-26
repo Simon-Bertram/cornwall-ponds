@@ -32,7 +32,7 @@ export type UserAccountMenuProps = {
 	signInLinkClassName?: string
 }
 
-type SessionUser = UserMenuSessionUser & { id?: string }
+type SessionUser = UserMenuSessionUser & { id?: string; role?: string }
 
 function mapSessionUser(user: SessionUser) {
 	return {
@@ -117,6 +117,12 @@ export function UserAccountMenu({
 	}
 
 	const { displayName } = mapSessionUser(user)
+	const menuLinks = [
+		...USER_MENU_LINKS,
+		...(user.role === 'admin'
+			? [{ label: 'Admin', href: '/admin' } as const]
+			: []),
+	]
 
 	if (variant === 'mobile') {
 		return (
@@ -136,7 +142,7 @@ export function UserAccountMenu({
 					</span>
 				</div>
 				<ul className="flex flex-col gap-1">
-					{USER_MENU_LINKS.map((item) => (
+					{menuLinks.map((item) => (
 						<li key={item.href}>
 							<a
 								href={item.href}
@@ -190,7 +196,7 @@ export function UserAccountMenu({
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" className="min-w-48">
-				{USER_MENU_LINKS.map((item) => (
+				{menuLinks.map((item) => (
 					<DropdownMenuItem
 						key={item.href}
 						onSelect={() => {

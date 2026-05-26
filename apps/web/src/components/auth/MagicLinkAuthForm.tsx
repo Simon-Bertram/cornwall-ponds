@@ -26,13 +26,14 @@ import { Input } from "@/components/ui/input"
 
 type FormStatus = "idle" | "loading" | "sent" | "error"
 
-export function SignUpForm({
+export function MagicLinkAuthForm({
 	className,
 	...props
 }: React.ComponentProps<"div">) {
 	const [status, setStatus] = useState<FormStatus>("idle")
 	const [errorMessage, setErrorMessage] = useState<string | null>(null)
 	const [turnstileToken, setTurnstileToken] = useState("")
+	const [showName, setShowName] = useState(false)
 
 	const turnstileRequired = Boolean(PUBLIC_TURNSTILE_SITE_KEY)
 
@@ -110,9 +111,9 @@ export function SignUpForm({
 		<div className={cn("flex flex-col gap-6 p-8", className)} {...props}>
 			<Card className="rounded-md">
 				<CardHeader>
-					<CardTitle>Sign up for an account</CardTitle>
+					<CardTitle>Customer portal</CardTitle>
 					<CardDescription>
-						Enter your details and we&apos;ll email you a sign-in link.
+						Continue with email to access your contracts and care guides.
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
@@ -123,16 +124,6 @@ export function SignUpForm({
 					) : (
 						<form onSubmit={handleSubmit}>
 							<FieldGroup>
-								<Field>
-									<FieldLabel htmlFor="name">Name</FieldLabel>
-									<Input
-										id="name"
-										name="name"
-										type="text"
-										autoComplete="name"
-										disabled={status === "loading"}
-									/>
-								</Field>
 								<Field>
 									<FieldLabel htmlFor="email">Email</FieldLabel>
 									<Input
@@ -145,6 +136,28 @@ export function SignUpForm({
 										disabled={status === "loading"}
 									/>
 								</Field>
+								{showName ? (
+									<Field>
+										<FieldLabel htmlFor="name">Name (optional)</FieldLabel>
+										<Input
+											id="name"
+											name="name"
+											type="text"
+											autoComplete="name"
+											disabled={status === "loading"}
+										/>
+									</Field>
+								) : (
+									<Field>
+										<button
+											type="button"
+											className="text-sm text-muted-foreground underline-offset-2 hover:underline"
+											onClick={() => setShowName(true)}
+										>
+											Add your name (optional)
+										</button>
+									</Field>
+								)}
 								<Field>
 									<TurnstileField
 										onTokenChange={setTurnstileToken}
@@ -159,7 +172,9 @@ export function SignUpForm({
 										className="w-full"
 										disabled={status === "loading"}
 									>
-										{status === "loading" ? "Sending…" : "Email sign-in link"}
+										{status === "loading"
+											? "Sending…"
+											: "Continue with email"}
 									</Button>
 									<Button
 										variant="outline"
@@ -168,7 +183,7 @@ export function SignUpForm({
 										disabled={status === "loading"}
 										onClick={handleGoogleSignIn}
 									>
-										Sign up with Google
+										Continue with Google
 									</Button>
 									{errorMessage ? (
 										<p className="text-sm text-destructive" role="alert">
@@ -176,13 +191,8 @@ export function SignUpForm({
 										</p>
 									) : null}
 									<FieldDescription className="text-center">
-										Already have an account?{" "}
-										<a
-											href="/login"
-											className="underline-offset-2 hover:underline"
-										>
-											Login
-										</a>
+										First time here? Use the same form — we&apos;ll email you a
+										sign-in link.
 									</FieldDescription>
 								</Field>
 							</FieldGroup>

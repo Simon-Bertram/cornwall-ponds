@@ -7,6 +7,7 @@ const initialDisplayName = user
 	? user.name || user.email?.split("@")[0] || "User"
 	: undefined;
 const initialEmail = user?.email;
+const viewAsCustomerId = Astro.url.searchParams.get("customerId") ?? undefined;
 ---
 
 <Layout title="Dashboard - cornwall-ponds">
@@ -16,6 +17,7 @@ const initialEmail = user?.email;
       client:load
       initialDisplayName={initialDisplayName}
       initialEmail={initialEmail}
+      viewAsCustomerId={viewAsCustomerId}
     />
   </main>
 </Layout>

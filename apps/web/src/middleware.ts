@@ -17,7 +17,7 @@ import { getPublicServerUrl } from "@/lib/public-server-url";
 import { resolveSsrSession } from "@/lib/ssr-session";
 
 /** Routes that may call the API for SSR session and optional redirect-to-login. */
-const PROTECTED_PREFIXES = ["/dashboard", "/account"] as const;
+const PROTECTED_PREFIXES = ["/dashboard", "/account", "/admin"] as const;
 
 function isTruthyEnvFlag(value: unknown): boolean {
   if (value === true) return true;

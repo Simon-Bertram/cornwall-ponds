@@ -19,6 +19,10 @@ import { cloudflareAuth } from "./middleware/cloudflare-auth";
 import { contactRateLimit } from "./middleware/contact-rate-limit";
 import { turnstileGuard } from "./middleware/turnstile-guard";
 import { handleContactPost } from "./routes/contact";
+import {
+  handlePortalDocumentDownload,
+  handlePortalDocumentUpload,
+} from "./routes/portal-documents";
 
 type ServerContext = Context<{
   Bindings: ServerEnv;
@@ -65,6 +69,11 @@ app.use("/*", contactRateLimit);
 app.use("/*", turnstileGuard);
 
 app.post("/api/contact", handleContactPost);
+app.post("/api/admin/documents/upload", handlePortalDocumentUpload);
+app.get(
+  "/api/portal/documents/:documentId/download",
+  handlePortalDocumentDownload,
+);
 
 app.use("*", async (c: ServerContext, next: Next) => {
   const auth = createAuth({
