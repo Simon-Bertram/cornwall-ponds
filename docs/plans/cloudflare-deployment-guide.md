@@ -172,7 +172,8 @@ Runs `alchemy dev` in [`packages/infra`](../../packages/infra): Miniflare-backed
 - [ ] Configure Google OAuth redirect URIs and Resend sender for production domains.
 - [ ] If web and API share only `*.workers.dev` (different subdomains), consider enabling `crossSubDomainCookies` in [`packages/auth/src/options.ts`](../../packages/auth/src/options.ts) (commented template); prefer a **shared parent domain** long term.
 - [ ] For CI: set `ALCHEMY_PASSWORD`, Cloudflare token, and env secrets in GitHub Actions; configure a [remote Alchemy state store](https://alchemy.run/guides/cloudflare-state-store/) if you do not commit encrypted `.alchemy` state.
-- [ ] Remote schema push (optional): `CLOUDFLARE_DATABASE_ID` + token for `pnpm run db:push` ([`packages/db/drizzle.config.ts`](../../packages/db/drizzle.config.ts)); deploy already runs D1 migrations via Alchemy.
+- [ ] D1 schema: deploy applies SQL in [`packages/db/src/migrations`](../../packages/db/src/migrations) (`0000_initial_auth.sql` then `0001_portal.sql`). Do not rely on `db:push` alone for production—`0001` alters `user` and will fail if auth tables are missing.
+- [ ] Remote schema push (optional, dev/recovery only): `CLOUDFLARE_DATABASE_ID` + token for `pnpm run db:push` ([`packages/db/drizzle.config.ts`](../../packages/db/drizzle.config.ts)). If the remote DB already has auth tables from a prior push, baseline `d1_migrations` for `0000_initial_auth` before deploy, or use push once then deploy portal migration only.
 
 ---
 

@@ -12,6 +12,8 @@ import {
 } from "alchemy/cloudflare";
 import { config } from "dotenv";
 
+import { syncLocalD1MigrationJournalForDev } from "./local-d1-migration-journal";
+
 const infraDir = dirname(fileURLToPath(import.meta.url));
 const cliArgs = process.argv.slice(2);
 const isAlchemyDev =
@@ -70,6 +72,10 @@ if (isProductionDeploy) {
 	}
 }
 
+if (isAlchemyDev) {
+	syncLocalD1MigrationJournalForDev(infraDir);
+}
+
 const db = await D1Database("database", {
 	migrationsDir: "../../packages/db/src/migrations",
 });
@@ -79,7 +85,7 @@ const sessionKv = await KVNamespace("session-kv", {
 });
 
 const portalFiles = await R2Bucket("portal-files", {
-	title: "cornwall-ponds-portal-files",
+	name: "cornwall-ponds-portal-files",
 });
 
 const serverBindings = {
