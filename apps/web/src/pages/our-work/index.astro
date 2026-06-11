@@ -1,8 +1,16 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 import { Portfolio } from "../../components/portfolio/Portfolio";
-import { projects, toPortfolioCardProjects } from "../../lib/projects";
+import { toPortfolioCardProjects } from "../../lib/projects";
+import {
+	getLocations,
+	getProjects,
+	getServiceTypes,
+} from "../../lib/content";
 
+const projects = await getProjects();
+const locations = await getLocations();
+const serviceTypes = await getServiceTypes();
 const portfolioProjects = toPortfolioCardProjects(projects);
 ---
 
@@ -25,7 +33,12 @@ const portfolioProjects = toPortfolioCardProjects(projects);
 
     <div class="mt-16">
       <!-- Why: useState + lucide in workerd; client-only avoids SSR duplicate-React hook errors -->
-      <Portfolio client:only="react" projects={portfolioProjects} />
+      <Portfolio
+        client:only="react"
+        projects={portfolioProjects}
+        locations={locations}
+        serviceTypes={serviceTypes}
+      />
     </div>
   </div>
 </PageLayout>

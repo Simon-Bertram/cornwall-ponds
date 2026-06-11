@@ -5,17 +5,20 @@ import type {
   ServiceType,
   Location,
 } from "../../lib/projects";
-import { serviceTypes, locations } from "../../lib/projects";
 import { FilterChip } from "./FilterChip";
 import { PortfolioCard } from "./PortfolioCard";
 
 export interface PortfolioProps {
   projects: PortfolioCardProject[];
+  serviceTypes: ServiceType[];
+  locations: Location[];
   initialLocation?: Location | null;
 }
 
 export function Portfolio({
   projects,
+  serviceTypes,
+  locations,
   initialLocation = null,
 }: PortfolioProps) {
   const [activeService, setActiveService] = useState<ServiceType | "All">(

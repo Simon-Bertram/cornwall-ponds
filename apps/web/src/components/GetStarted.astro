@@ -2,11 +2,11 @@
 // GetStarted.astro — Step E: CTA Section
 // Pure Astro (static)
 // Design: Full-bleed brand green with inverted high-contrast CTAs
-// Data: site-wide CTA copy from ../lib/site-settings.ts (globalCta)
-import { siteSettings } from '../lib/site-settings'
+// Data: site-wide CTA copy via ../lib/content.ts (globalCta)
+import { getSiteSettings } from '../lib/content'
 import CtaLink from './ui/CtaLink.astro'
 
-const { globalCta } = siteSettings
+const { globalCta } = await getSiteSettings()
 ---
 
 <section

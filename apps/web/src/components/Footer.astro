@@ -1,13 +1,19 @@
 ---
 // Footer.astro — Step F: Site-wide footer
 // Pure Astro (static)
-// Data: Sourced from ../lib/projects.ts and ../lib/site-settings.ts
+// Data: Sourced via ../lib/content.ts (Sanity migration swaps accessors only)
 // Colours: bg-footer / text-footer-foreground / text-footer-muted (theme tokens)
 
-import { services, locations } from "../lib/projects";
-import { siteSettings } from "../lib/site-settings";
+import {
+	getLocations,
+	getServices,
+	getSiteSettings,
+} from "../lib/content";
 import BackToTopButton from "./BackToTopButton.astro";
 
+const siteSettings = await getSiteSettings();
+const services = await getServices();
+const locations = await getLocations();
 const currentYear = new Date().getFullYear();
 
 const brandIcon = {

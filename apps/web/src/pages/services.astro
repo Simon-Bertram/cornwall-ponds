@@ -11,10 +11,21 @@ import ServicesHeroGrid from "../components/services/ServicesHeroGrid.astro";
 import ServicesPhilosophyStrip from "../components/services/ServicesPhilosophyStrip.astro";
 import ServicesDetailBlocks from "../components/services/ServicesDetailBlocks.astro";
 import TestimonialsPreviewSection from "../components/services/TestimonialsPreviewSection.astro";
-import { credentials } from "../lib/credentials";
-import { guidePrices } from "../lib/pricing";
-import { servicesPageContent } from "../lib/pages/services";
-import { services, projects, testimonials } from "../lib/projects";
+import {
+	getCredentials,
+	getGuidePrices,
+	getProjects,
+	getServices,
+	getServicesPageContent,
+	getTestimonials,
+} from "../lib/content";
+
+const servicesPageContent = await getServicesPageContent();
+const services = await getServices();
+const projects = await getProjects();
+const testimonials = await getTestimonials();
+const credentials = await getCredentials();
+const guidePrices = await getGuidePrices();
 
 // Resolve each pricing row's display name from the service entity.
 const guidePriceRows = guidePrices.map((row) => {

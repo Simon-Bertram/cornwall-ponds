@@ -1,7 +1,9 @@
 ---
 import { Phone, Mail, MapPin, CircleCheckBig } from "lucide-react";
-import { siteSettings } from "../../lib/site-settings";
+import { getSiteSettings } from "../../lib/content";
 import ContactDetailRow from "./ContactDetailRow.astro";
+
+const siteSettings = await getSiteSettings();
 ---
 
 <div

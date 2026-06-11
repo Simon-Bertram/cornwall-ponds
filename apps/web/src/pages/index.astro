@@ -1,12 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { toTransformationProjects } from "../lib/projects.ts";
 import {
-  projects,
-  services,
-  testimonials,
-  toTransformationProjects,
-} from "../lib/projects.ts";
-import { homePageContent } from "../lib/pages/home.ts";
+	getHomePageContent,
+	getProjects,
+	getServices,
+	getTestimonials,
+} from "../lib/content.ts";
 import HeroSlider from "../components/hero/HeroSlider.astro";
 import ServicesPreview from "../components/ServicesPreview.astro";
 import BeforeAfter from "../components/before-and-after/BeforeAfter.tsx";
@@ -14,6 +14,10 @@ import HowWeWork from "../components/HowWeWork.astro";
 import { TestimonialsSection } from "../components/testimonials-section.tsx";
 import GetStarted from "../components/GetStarted.astro";
 
+const homePageContent = await getHomePageContent();
+const projects = await getProjects();
+const services = await getServices();
+const testimonials = await getTestimonials();
 const transformationProjects = toTransformationProjects(projects);
 ---
 
