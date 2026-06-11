@@ -12,7 +12,8 @@ import {
 } from "alchemy/cloudflare";
 import { config } from "dotenv";
 
-import { syncLocalD1MigrationJournalForDev } from "./local-d1-migration-journal";
+// Node's native TS runner (used by `alchemy dev`) requires explicit extensions on relative ESM imports.
+import { syncLocalD1MigrationJournalForDev } from "./local-d1-migration-journal.ts";
 
 const infraDir = dirname(fileURLToPath(import.meta.url));
 const cliArgs = process.argv.slice(2);
