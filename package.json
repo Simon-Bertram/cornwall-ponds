@@ -39,6 +39,7 @@
     "devalue": "5.8.1",
     "drizzle-orm": "0.45.2",
     "esbuild": "0.25.12",
+    "hono": "^4.12.21",
     "lodash": "4.17.24",
     "miniflare>ws": "8.20.1",
     "ws": "8.20.1",

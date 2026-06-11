@@ -14,10 +14,10 @@ catalog:
   typescript: ^6.0.3
   "@types/node": 24.12.3
   "@cloudflare/workers-types": ^4.20260509.1
-  hono: ^4.12.18
+  hono: ^4.12.21
   "@orpc/server": ^1.14.2
   "@orpc/openapi": ^1.14.2
   "@orpc/zod": ^1.14.2
-  better-auth: 1.6.9
+  better-auth: 1.6.11
   alchemy: ^0.93.9
   "@orpc/client": ^1.14.2
