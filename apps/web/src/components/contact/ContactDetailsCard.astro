@@ -1,5 +1,6 @@
 ---
 import { Phone, Mail, MapPin, CircleCheckBig } from "lucide-react";
+import { siteSettings } from "../../lib/site-settings";
 import ContactDetailRow from "./ContactDetailRow.astro";
 ---
 
@@ -19,28 +20,33 @@ import ContactDetailRow from "./ContactDetailRow.astro";
     <ContactDetailRow title="Phone">
       <Phone slot="icon" size={24} />
       <a
-        href="tel:+441234567890"
+        href={siteSettings.phone.href}
         class="text-lg text-foreground/80 hover:text-primary transition-colors block mt-1"
-        >01234 567 890</a
+        >{siteSettings.phone.display}</a
       >
-      <p class="text-sm text-foreground/60 mt-1">Mon-Fri: 8am - 6pm</p>
+      <p class="text-sm text-foreground/60 mt-1">{siteSettings.openingHours}</p>
     </ContactDetailRow>
 
     <ContactDetailRow title="Email">
       <Mail slot="icon" size={24} />
       <a
-        href="mailto:hello@cornwallponds.co.uk"
+        href={`mailto:${siteSettings.email}`}
         class="text-lg text-foreground/80 hover:text-primary transition-colors block mt-1"
-        >hello@cornwallponds.co.uk</a
+        >{siteSettings.email}</a
       >
     </ContactDetailRow>
 
     <ContactDetailRow title="Office">
       <MapPin slot="icon" size={24} />
       <p class="text-lg text-foreground/80 mt-1">
-        12 Artisan Way<br />
-        Truro, Cornwall<br />
-        TR1 2XY
+        {
+          siteSettings.address.lines.map((line, i) => (
+            <>
+              {i > 0 && <br />}
+              {line}
+            </>
+          ))
+        }
       </p>
     </ContactDetailRow>
   </div>

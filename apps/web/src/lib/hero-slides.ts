@@ -1,9 +1,11 @@
+import type { ImageWithAlt } from "./image";
+
 /**
  * Shape consumed by the hero carousel. When slides are sourced from Sanity,
  * map the CMS document fields to this type in the page or a dedicated loader.
  */
 export interface HeroSlide {
-  image: string;
+  image: ImageWithAlt;
   title: string;
   subtitle: string;
   description: string;
@@ -14,7 +16,10 @@ export interface HeroSlide {
 /** Static placeholder until hero content is fetched from Sanity. */
 export const heroSlides: HeroSlide[] = [
   {
-    image: "/images/hero-pond.jpg",
+    image: {
+      src: "/images/hero-pond.jpg",
+      alt: "Bespoke garden pond at dusk with natural stone surround",
+    },
     title: "Bespoke Pond Design",
     subtitle: "for Cornwall & Devon",
     description:
@@ -22,7 +27,10 @@ export const heroSlides: HeroSlide[] = [
     priority: true,
   },
   {
-    image: "/images/swimming-pond.jpg",
+    image: {
+      src: "/images/swimming-pond.jpg",
+      alt: "Natural swimming pond with crystal-clear, chemical-free water",
+    },
     title: "Natural Swimming Ponds",
     subtitle: "Chemical-free luxury",
     description:
@@ -30,7 +38,10 @@ export const heroSlides: HeroSlide[] = [
     priority: false,
   },
   {
-    image: "/images/koi-pond.jpg",
+    image: {
+      src: "/images/koi-pond.jpg",
+      alt: "Specialist koi pond with colourful koi in clear water",
+    },
     title: "Specialist Koi Ponds",
     subtitle: "Engineered for perfection",
     description:
@@ -38,7 +49,10 @@ export const heroSlides: HeroSlide[] = [
     priority: false,
   },
   {
-    image: "/images/maintenance.jpg",
+    image: {
+      src: "/images/maintenance.jpg",
+      alt: "Pond specialist maintaining a garden pond",
+    },
     title: "Pond Maintenance",
     subtitle: "Professional year-round care",
     description:

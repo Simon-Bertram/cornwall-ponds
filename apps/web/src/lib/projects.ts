@@ -1,3 +1,5 @@
+import type { ImageWithAlt } from "./image";
+
 export type ServiceType =
   | "Garden Pond"
   | "Natural Swimming Pond"
@@ -20,9 +22,9 @@ export interface Project {
   slug: string;
   serviceType: ServiceType;
   location: Location;
-  thumbnail: string;
-  beforeImage: string;
-  afterImage: string;
+  thumbnail: ImageWithAlt;
+  beforeImage: ImageWithAlt;
+  afterImage: ImageWithAlt;
   shortDescription: string;
   challenge: string;
   solution: string;
@@ -33,7 +35,7 @@ export interface Project {
     area?: string;
     depth?: string;
   };
-  gallery: string[];
+  gallery: ImageWithAlt[];
   featured: boolean;
 }
 
@@ -89,7 +91,7 @@ export interface Service {
   slug: string;
   description: string;
   shortDescription: string;
-  image: string;
+  image: ImageWithAlt;
   features: string[];
 }
 
@@ -111,7 +113,10 @@ export const services: Service[] = [
       "From intimate courtyard water gardens to expansive estate ponds, we design and build bespoke garden ponds that become the living heart of your outdoor space. Every pond is individually designed to complement your garden's character, soil conditions, and local wildlife.",
     shortDescription:
       "Bespoke garden ponds tailored to your landscape, from intimate water gardens to grand estate features.",
-    image: "/images/hero-pond.jpg",
+    image: {
+      src: "/images/hero-pond.jpg",
+      alt: "Bespoke garden pond with natural stone edging and lush planting",
+    },
     features: [
       "Custom design & consultation",
       "Natural stone & planting schemes",
@@ -129,7 +134,10 @@ export const services: Service[] = [
       "Experience the luxury of swimming in crystal-clear, chemical-free water in your own garden. Our natural swimming ponds use biological filtration zones and carefully selected aquatic plants to maintain pristine water quality, creating a stunning focal point that doubles as your private bathing retreat.",
     shortDescription:
       "Chemical-free swimming in stunning, naturally filtered water. The ultimate luxury garden feature.",
-    image: "/images/swimming-pond.jpg",
+    image: {
+      src: "/images/swimming-pond.jpg",
+      alt: "Natural swimming pond with crystal-clear water and planted filtration zone",
+    },
     features: [
       "Biological filtration zones",
       "Chemical-free water treatment",
@@ -147,7 +155,10 @@ export const services: Service[] = [
       "We build specialist koi ponds engineered for the health and wellbeing of these magnificent fish. Our designs incorporate advanced filtration, optimal depth profiles, and viewing windows, all wrapped in a beautiful garden setting.",
     shortDescription:
       "Specialist koi ponds with advanced filtration, engineered for healthy, thriving fish.",
-    image: "/images/koi-pond.jpg",
+    image: {
+      src: "/images/koi-pond.jpg",
+      alt: "Specialist koi pond with colourful koi swimming in clear water",
+    },
     features: [
       "Advanced multi-stage filtration",
       "Optimal depth profiles",
@@ -165,7 +176,10 @@ export const services: Service[] = [
       "From cascading waterfalls to contemporary spillways and natural stream courses, our water features add movement, sound, and drama to any outdoor space. Each feature is designed to work harmoniously with its surroundings.",
     shortDescription:
       "Cascading waterfalls, spillways and stream courses that bring movement and sound to your garden.",
-    image: "/images/water-feature.jpg",
+    image: {
+      src: "/images/water-feature.jpg",
+      alt: "Cascading garden water feature in natural stone",
+    },
     features: [
       "Waterfalls & cascades",
       "Contemporary spillways",
@@ -183,7 +197,10 @@ export const services: Service[] = [
       "Keep your pond in pristine condition year-round with our professional maintenance services. From seasonal deep cleans to regular water quality management, our expert team ensures your water feature remains healthy, clear, and beautiful.",
     shortDescription:
       "Professional year-round pond care, from seasonal deep cleans to regular water quality management.",
-    image: "/images/maintenance.jpg",
+    image: {
+      src: "/images/maintenance.jpg",
+      alt: "Pond specialist carrying out seasonal maintenance on a garden pond",
+    },
     features: [
       "Seasonal deep cleaning",
       "Water quality testing",
@@ -202,9 +219,18 @@ export const projects: Project[] = [
     slug: "penzance-estate-pond",
     serviceType: "Garden Pond",
     location: "Penzance",
-    thumbnail: "/images/portfolio-1.jpg",
-    beforeImage: "/images/before-1.jpg",
-    afterImage: "/images/after-1.jpg",
+    thumbnail: {
+      src: "/images/portfolio-1.jpg",
+      alt: "The restored Penzance estate pond surrounded by native planting",
+    },
+    beforeImage: {
+      src: "/images/before-1.jpg",
+      alt: "Neglected, overgrown estate pond before restoration",
+    },
+    afterImage: {
+      src: "/images/after-1.jpg",
+      alt: "Restored estate pond with clear water and new stone collar",
+    },
     shortDescription:
       "A complete transformation of a neglected Victorian estate pond into a stunning wildlife haven.",
     challenge:
@@ -219,9 +245,18 @@ export const projects: Project[] = [
       area: "45 sqm",
     },
     gallery: [
-      "/images/portfolio-1.jpg",
-      "/images/before-1.jpg",
-      "/images/after-1.jpg",
+      {
+        src: "/images/portfolio-1.jpg",
+        alt: "Wide view of the completed Penzance estate pond",
+      },
+      {
+        src: "/images/before-1.jpg",
+        alt: "The estate pond before work began",
+      },
+      {
+        src: "/images/after-1.jpg",
+        alt: "Detail of the new stone collar and planting scheme",
+      },
     ],
     featured: true,
   },
@@ -231,9 +266,18 @@ export const projects: Project[] = [
     slug: "bude-coastal-swimming-pond",
     serviceType: "Natural Swimming Pond",
     location: "Bude",
-    thumbnail: "/images/swimming-pond.jpg",
-    beforeImage: "/images/before-2.jpg",
-    afterImage: "/images/swimming-pond.jpg",
+    thumbnail: {
+      src: "/images/swimming-pond.jpg",
+      alt: "Natural swimming pond in a clifftop garden near Bude",
+    },
+    beforeImage: {
+      src: "/images/before-2.jpg",
+      alt: "Exposed clifftop garden before the swimming pond was built",
+    },
+    afterImage: {
+      src: "/images/swimming-pond.jpg",
+      alt: "Completed coastal swimming pond with Cornish slate surround",
+    },
     shortDescription:
       "A spectacular natural swimming pond designed to withstand the coastal environment.",
     challenge:
@@ -249,9 +293,18 @@ export const projects: Project[] = [
       depth: "2.2m",
     },
     gallery: [
-      "/images/swimming-pond.jpg",
-      "/images/before-2.jpg",
-      "/images/portfolio-3.jpg",
+      {
+        src: "/images/swimming-pond.jpg",
+        alt: "The coastal swimming pond with panoramic sea views",
+      },
+      {
+        src: "/images/before-2.jpg",
+        alt: "The clifftop site before construction",
+      },
+      {
+        src: "/images/portfolio-3.jpg",
+        alt: "Cornish slate decking beside the swimming pond",
+      },
     ],
     featured: true,
   },
@@ -261,9 +314,18 @@ export const projects: Project[] = [
     slug: "fowey-harbourside-koi-pond",
     serviceType: "Koi Pond",
     location: "Fowey",
-    thumbnail: "/images/koi-pond.jpg",
-    beforeImage: "/images/before-1.jpg",
-    afterImage: "/images/koi-pond.jpg",
+    thumbnail: {
+      src: "/images/koi-pond.jpg",
+      alt: "L-shaped koi pond in a terraced harbourside garden in Fowey",
+    },
+    beforeImage: {
+      src: "/images/before-1.jpg",
+      alt: "Compact terraced garden before the koi pond was built",
+    },
+    afterImage: {
+      src: "/images/koi-pond.jpg",
+      alt: "Completed koi pond with viewing window set into the terrace wall",
+    },
     shortDescription:
       "A bespoke koi pond with advanced filtration in a compact harbourside garden.",
     challenge:
@@ -278,9 +340,18 @@ export const projects: Project[] = [
       depth: "1.8m",
     },
     gallery: [
-      "/images/koi-pond.jpg",
-      "/images/before-1.jpg",
-      "/images/after-1.jpg",
+      {
+        src: "/images/koi-pond.jpg",
+        alt: "Prize koi swimming in the completed harbourside pond",
+      },
+      {
+        src: "/images/before-1.jpg",
+        alt: "The terraced garden before work began",
+      },
+      {
+        src: "/images/after-1.jpg",
+        alt: "The viewing window in the lower terrace wall",
+      },
     ],
     featured: true,
   },
@@ -290,9 +361,18 @@ export const projects: Project[] = [
     slug: "truro-garden-water-feature",
     serviceType: "Water Feature",
     location: "Truro",
-    thumbnail: "/images/water-feature.jpg",
-    beforeImage: "/images/before-2.jpg",
-    afterImage: "/images/water-feature.jpg",
+    thumbnail: {
+      src: "/images/water-feature.jpg",
+      alt: "Tiered granite water feature in a contemporary Truro garden",
+    },
+    beforeImage: {
+      src: "/images/before-2.jpg",
+      alt: "The garden before the water feature was installed",
+    },
+    afterImage: {
+      src: "/images/water-feature.jpg",
+      alt: "Completed five-tier granite cascade with integrated lighting",
+    },
     shortDescription:
       "A contemporary cascading water feature with integrated lighting for a modern Truro garden.",
     challenge:
@@ -306,9 +386,18 @@ export const projects: Project[] = [
       area: "8 sqm",
     },
     gallery: [
-      "/images/water-feature.jpg",
-      "/images/before-2.jpg",
-      "/images/after-2.jpg",
+      {
+        src: "/images/water-feature.jpg",
+        alt: "The granite cascade flowing over five levels",
+      },
+      {
+        src: "/images/before-2.jpg",
+        alt: "The bare garden before installation",
+      },
+      {
+        src: "/images/after-2.jpg",
+        alt: "The water feature lit at dusk",
+      },
     ],
     featured: false,
   },
@@ -318,9 +407,18 @@ export const projects: Project[] = [
     slug: "falmouth-hotel-restoration",
     serviceType: "Maintenance",
     location: "Falmouth",
-    thumbnail: "/images/after-2.jpg",
-    beforeImage: "/images/before-1.jpg",
-    afterImage: "/images/after-2.jpg",
+    thumbnail: {
+      src: "/images/after-2.jpg",
+      alt: "Restored ornamental pond in the Falmouth hotel gardens",
+    },
+    beforeImage: {
+      src: "/images/before-1.jpg",
+      alt: "The leaking ornamental pond before restoration",
+    },
+    afterImage: {
+      src: "/images/after-2.jpg",
+      alt: "The fully restored hotel pond with refreshed planting",
+    },
     shortDescription:
       "Emergency restoration of a boutique hotel's ornamental pond system.",
     challenge:
@@ -334,9 +432,18 @@ export const projects: Project[] = [
       volume: "8,000 Litres",
     },
     gallery: [
-      "/images/after-2.jpg",
-      "/images/before-1.jpg",
-      "/images/after-1.jpg",
+      {
+        src: "/images/after-2.jpg",
+        alt: "The restored pond as the centrepiece of the hotel gardens",
+      },
+      {
+        src: "/images/before-1.jpg",
+        alt: "The failing pond before the new liner was installed",
+      },
+      {
+        src: "/images/after-1.jpg",
+        alt: "Refreshed marginal planting around the restored pond",
+      },
     ],
     featured: false,
   },
@@ -346,9 +453,18 @@ export const projects: Project[] = [
     slug: "st-ives-artists-retreat-pond",
     serviceType: "Garden Pond",
     location: "St Ives",
-    thumbnail: "/images/portfolio-2.jpg",
-    beforeImage: "/images/before-2.jpg",
-    afterImage: "/images/portfolio-1.jpg",
+    thumbnail: {
+      src: "/images/portfolio-2.jpg",
+      alt: "Naturalistic wildlife pond in a St Ives studio garden",
+    },
+    beforeImage: {
+      src: "/images/before-2.jpg",
+      alt: "The small studio garden before the wildlife pond was created",
+    },
+    afterImage: {
+      src: "/images/portfolio-1.jpg",
+      alt: "The completed wildlife pond with shallow beach area and marginal planting",
+    },
     shortDescription:
       "A naturalistic wildlife pond designed as a source of creative inspiration.",
     challenge:
@@ -363,9 +479,18 @@ export const projects: Project[] = [
       area: "20 sqm",
     },
     gallery: [
-      "/images/portfolio-2.jpg",
-      "/images/before-2.jpg",
-      "/images/after-2.jpg",
+      {
+        src: "/images/portfolio-2.jpg",
+        alt: "The wildlife pond viewed from the artist's studio",
+      },
+      {
+        src: "/images/before-2.jpg",
+        alt: "The waterlogged garden before the pond was dug",
+      },
+      {
+        src: "/images/after-2.jpg",
+        alt: "Marginal planting providing seasonal colour at the pond edge",
+      },
     ],
     featured: true,
   },

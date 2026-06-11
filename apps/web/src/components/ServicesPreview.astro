@@ -1,11 +1,19 @@
 ---
 // ServicesPreview.astro — Step B: "Our Services" section
-// Pure Astro (static), data from src/lib/projects.ts
+// Pure Astro (static); copy and services passed in from the page
 // Designed per graphic-designer.md: 4/8px grid, visual hierarchy, WCAG AA contrast
 import CtaLink from './ui/CtaLink.astro'
 import SectionFooterCta from './SectionFooterCta.astro'
 import SectionHeader from './SectionHeader.astro'
-import { services } from "../lib/projects";
+import type { HomePageContent } from '../lib/pages/home'
+import type { Service } from '../lib/projects'
+
+interface Props {
+	content: HomePageContent['servicesPreview']
+	services: Service[]
+}
+
+const { content, services } = Astro.props
 ---
 
 <section
@@ -16,9 +24,9 @@ import { services } from "../lib/projects";
 
     <!-- Section header -->
     <SectionHeader
-      eyebrow="Our Services"
-      title="What We Create"
-      description="From intimate wildlife ponds to grand natural swimming pools — every project is bespoke, built by hand, and designed to last a lifetime."
+      eyebrow={content.eyebrow}
+      title={content.title}
+      description={content.description}
       headingId="services-heading"
       className="mb-16"
     />
@@ -39,7 +47,7 @@ import { services } from "../lib/projects";
               class="relative h-64 bg-linear-to-br from-primary/40 to-accent/30 flex items-center justify-center overflow-hidden"
               aria-hidden="true"
             >
-              {service.image && <img src={service.image} alt={service.title} class="absolute inset-0 w-full h-full object-cover" />}              
+              {service.image && <img src={service.image.src} alt={service.image.alt} class="absolute inset-0 w-full h-full object-cover" />}              
             </div>
 
             <!-- Card body -->
@@ -106,9 +114,9 @@ import { services } from "../lib/projects";
 
     <!-- Footer CTA row -->
     <SectionFooterCta
-      copy="Not sure which service is right for you?"
-      href="/contact"
-      label="Book a Free Consultation"
+      copy={content.footerCta.copy}
+      href={content.footerCta.href}
+      label={content.footerCta.label}
     />
 
   </div>

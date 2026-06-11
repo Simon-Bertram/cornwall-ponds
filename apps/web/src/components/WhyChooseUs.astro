@@ -1,18 +1,10 @@
 ---
 import SectionHeader from './SectionHeader.astro'
-
-type TrustPillarIcon = 'trophy' | 'leaf' | 'shield' | 'heart'
-
-interface TrustPillar {
-	title: string
-	body: string
-	icon: TrustPillarIcon
-}
-
-interface TrustStat {
-	value: string
-	label: string
-}
+import type {
+	TrustPillar,
+	TrustPillarIcon,
+	TrustStat,
+} from '../lib/pages/expertise'
 
 interface Props {
 	eyebrow: string

@@ -97,8 +97,8 @@ if (!project) {
           class="aspect-video w-full rounded-2xl overflow-hidden mb-12 shadow-md"
         >
           <img
-            src={project.afterImage || project.thumbnail}
-            alt={`Final result of ${project.title}`}
+            src={project.afterImage.src}
+            alt={project.afterImage.alt}
             class="w-full h-full object-cover"
           />
         </div>
@@ -132,8 +132,8 @@ if (!project) {
           project.gallery.map((img) => (
             <div class="aspect-4/3 rounded-xl overflow-hidden shadow-sm">
               <img
-                src={img}
-                alt={`${project.title} gallery image`}
+                src={img.src}
+                alt={img.alt}
                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
               />
             </div>

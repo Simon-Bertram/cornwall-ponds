@@ -1,17 +1,26 @@
+---
+import type { ContactPageContent } from "../../lib/pages/contact";
+
+interface Props {
+  content: ContactPageContent["hero"];
+}
+
+const { content } = Astro.props;
+---
+
 <div class="max-w-3xl mx-auto text-center mb-14">
   <span
     class="badge badge-primary badge-outline mb-6 inline-flex px-4 py-3 text-xs font-bold uppercase tracking-widest"
   >
-    Start Your Project
+    {content.badge}
   </span>
   <h1
     class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-6"
   >
-    Let's Build Something <span class="text-primary italic">Extraordinary</span>
+    {content.title}
+    <span class="text-primary italic">{content.titleHighlight}</span>
   </h1>
   <p class="text-lg text-foreground/80 leading-relaxed font-medium">
-    Ready to transform your outdoor space? Fill out the form below to request a
-    comprehensive consultation. Our design team will review your requirements
-    and be in touch within 48 hours.
+    {content.intro}
   </p>
 </div>

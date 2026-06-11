@@ -27,16 +27,16 @@ export function PortfolioCard({ project }: PortfolioCardProps) {
       >
         {/* Before Image */}
         <img
-          src={project.beforeImage}
-          alt={`Before: ${project.title}`}
+          src={project.beforeImage.src}
+          alt={project.beforeImage.alt}
           className={`${mediaCardImageClass} transition-opacity ${showAfter ? "opacity-0" : "opacity-100"}`}
           loading="lazy"
         />
 
         {/* After Image */}
         <img
-          src={project.afterImage}
-          alt={`After: ${project.title}`}
+          src={project.afterImage.src}
+          alt={project.afterImage.alt}
           className={`${mediaCardImageClass} transition-opacity ${showAfter ? "opacity-100" : "opacity-0"}`}
           loading="lazy"
         />

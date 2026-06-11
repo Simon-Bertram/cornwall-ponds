@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { HomePageContent } from "../../lib/pages/home.ts";
 import type { TransformationProject } from "../../lib/projects.ts";
 import BeforeAfterSlider from "./BeforeAfterSlider.tsx";
 import BeforeAfterProjectNav from "./BeforeAfterProjectNav.tsx";
@@ -6,9 +7,10 @@ import BeforeAfterDots from "./BeforeAfterDots.tsx";
 
 interface Props {
   projects: TransformationProject[];
+  content: HomePageContent["transformations"];
 }
 
-export default function BeforeAfter({ projects }: Props) {
+export default function BeforeAfter({ projects, content }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const project = projects[currentIndex];
@@ -35,17 +37,16 @@ export default function BeforeAfter({ projects }: Props) {
         {/* ── Section header ── */}
         <div className="mx-auto max-w-2xl text-center mb-12">
           <p className="text-sm font-semibold uppercase tracking-widest text-background mb-3">
-            Our Work
+            {content.eyebrow}
           </p>
           <h2
             id="transformations-heading"
             className="font-serif text-3xl font-bold tracking-tight text-background sm:text-4xl"
           >
-            Recent Transformations
+            {content.title}
           </h2>
           <p className="mt-4 text-background/90 text-lg leading-relaxed">
-            Drag the slider to reveal the before &amp; after. Every image is
-            from a real Cornwall Ponds project.
+            {content.description}
           </p>
         </div>
 
@@ -86,7 +87,7 @@ export default function BeforeAfter({ projects }: Props) {
               href="/our-work"
               className="btn btn-outline border-background/30 text-background hover:bg-background hover:text-foreground hover:border-background focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-foreground"
             >
-              View All Projects
+              {content.ctaLabel}
             </a>
           </div>
         </div>

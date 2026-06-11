@@ -1,12 +1,13 @@
 import { useState } from "react";
+import type { ImageWithAlt } from "../../lib/image.ts";
 
 /** Intrinsic ratio hint for `<img>`; matches the 16/9 frame, not literal file pixels. */
 const COMPARISON_IMG_WIDTH = 1920;
 const COMPARISON_IMG_HEIGHT = 1080;
 
 interface BeforeAfterSliderProps {
-  beforeImage: string;
-  afterImage: string;
+  beforeImage: ImageWithAlt;
+  afterImage: ImageWithAlt;
   title: string;
 }
 
@@ -31,8 +32,8 @@ export default function BeforeAfterSlider({
         </div>
       ) : (
         <img
-          src={beforeImage}
-          alt={`Before: ${title}`}
+          src={beforeImage.src}
+          alt={beforeImage.alt}
           width={COMPARISON_IMG_WIDTH}
           height={COMPARISON_IMG_HEIGHT}
           decoding="async"
@@ -52,8 +53,8 @@ export default function BeforeAfterSlider({
         </div>
       ) : (
         <img
-          src={afterImage}
-          alt={`After: ${title}`}
+          src={afterImage.src}
+          alt={afterImage.alt}
           width={COMPARISON_IMG_WIDTH}
           height={COMPARISON_IMG_HEIGHT}
           decoding="async"

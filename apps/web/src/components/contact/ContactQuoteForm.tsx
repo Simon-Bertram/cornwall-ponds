@@ -4,17 +4,26 @@ import { getClientPublicServerUrl } from "@/lib/client-public-server-url"
 import { useRef, useState } from "react"
 
 import { TurnstileField } from "@/components/turnstile/TurnstileField"
+import type { SelectOption } from "@/lib/pages/contact"
 import { turnstileHeaders } from "@/lib/turnstile-headers"
 
 type FormStatus = "idle" | "loading" | "success" | "error"
 
-export function ContactQuoteForm() {
+interface ContactQuoteFormProps {
+	serviceOptions: SelectOption[]
+	budgetOptions: SelectOption[]
+}
+
+export function ContactQuoteForm({
+	serviceOptions,
+	budgetOptions,
+}: ContactQuoteFormProps) {
 	const [status, setStatus] = useState<FormStatus>("idle")
 	const [errorMessage, setErrorMessage] = useState<string | null>(null)
 	const [turnstileToken, setTurnstileToken] = useState("")
 	const formRef = useRef<HTMLFormElement>(null)
 
-	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+	async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
 		event.preventDefault()
 		setStatus("loading")
 		setErrorMessage(null)
@@ -139,15 +148,11 @@ export function ContactQuoteForm() {
 									<option value="" disabled>
 										Select a Service
 									</option>
-									<option value="Garden Pond">Garden Pond</option>
-									<option value="Natural Swimming Pond">
-										Natural Swimming Pond
-									</option>
-									<option value="Koi Pond">Koi Pond</option>
-									<option value="Water Feature">Water Feature</option>
-									<option value="Maintenance">
-										Maintenance &amp; Restoration
-									</option>
+									{serviceOptions.map((option) => (
+										<option key={option.value} value={option.value}>
+											{option.label}
+										</option>
+									))}
 								</select>
 							</label>
 							<label className="form-control gap-2">
@@ -164,10 +169,11 @@ export function ContactQuoteForm() {
 									<option value="" disabled>
 										Guide Pricing
 									</option>
-									<option value="Under £5k">Under £5,000</option>
-									<option value="£5k - £15k">£5,000 - £15,000</option>
-									<option value="£15k - £30k">£15,000 - £30,000</option>
-									<option value="£30k+">£30,000+</option>
+									{budgetOptions.map((option) => (
+										<option key={option.value} value={option.value}>
+											{option.label}
+										</option>
+									))}
 								</select>
 							</label>
 							<label className="form-control gap-2 sm:col-span-2">

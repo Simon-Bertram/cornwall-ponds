@@ -14,9 +14,10 @@ import type { Service } from "../../lib/projects";
 
 interface Props {
   services: Service[];
+  heading: { title: string; intro: string };
 }
 
-const { services } = Astro.props;
+const { services, heading } = Astro.props;
 ---
 
 <section class="pb-24 bg-background">
@@ -25,12 +26,10 @@ const { services } = Astro.props;
       <h1
         class="font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl mb-6"
       >
-        Our Services
+        {heading.title}
       </h1>
       <p class="text-lg text-foreground/80">
-        From bespoke garden ponds and natural swimming pools to koi ponds, water
-        features, and year-round maintenance — we design, build, and care for
-        water in your landscape across Cornwall.
+        {heading.intro}
       </p>
     </div>
 
@@ -44,8 +43,8 @@ const { services } = Astro.props;
               aria-label={`View ${service.title} details`}
             >
               <img
-                src={service.image}
-                alt={`${service.title} — Cornwall Ponds`}
+                src={service.image.src}
+                alt={service.image.alt}
                 class={mediaCardImageClass}
                 loading="lazy"
               />

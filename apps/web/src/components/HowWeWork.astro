@@ -5,33 +5,14 @@
 // Layout: Horizontal stepped timeline (desktop), vertical (mobile)
 import SectionFooterCta from './SectionFooterCta.astro'
 import SectionHeader from './SectionHeader.astro'
+import type { HomePageContent } from '../lib/pages/home'
 
-const steps = [
-  {
-    number: "01",
-    title: "Free Consultation",
-    description:
-      "We visit your site, listen to your vision, and assess the landscape. No obligation.",
-  },
-  {
-    number: "02",
-    title: "Bespoke Design",
-    description:
-      "Our designers create a detailed plan tailored to your garden, budget, and ecosystem goals.",
-  },
-  {
-    number: "03",
-    title: "Expert Build",
-    description:
-      "Our experienced team constructs your pond with minimal disruption and maximum care.",
-  },
-  {
-    number: "04",
-    title: "Aftercare & Support",
-    description:
-      "We provide a full handover, ongoing advice, and optional maintenance contracts.",
-  },
-];
+interface Props {
+	content: HomePageContent['howWeWork']
+}
+
+const { content } = Astro.props
+const { steps } = content
 ---
 
 <section
@@ -41,9 +22,9 @@ const steps = [
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <!-- Section header -->
     <SectionHeader
-      eyebrow="Our Process"
-      title="How We Work"
-      description="From first conversation to finished pond — a clear, transparent journey with no surprises."
+      eyebrow={content.eyebrow}
+      title={content.title}
+      description={content.description}
       headingId="how-we-work-heading"
       className="mb-16 lg:mb-20"
     />
@@ -52,7 +33,7 @@ const steps = [
     <ol
       class="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-0"
       role="list"
-      aria-label="Our 4-step process"
+      aria-label={content.stepsAriaLabel}
     >
       {
         steps.map((step, i) => (
@@ -104,9 +85,9 @@ const steps = [
 
     <!-- Bottom CTA -->
     <SectionFooterCta
-      copy="Ready to begin?"
-      href="/contact"
-      label="Start with a Free Site Visit"
+      copy={content.footerCta.copy}
+      href={content.footerCta.href}
+      label={content.footerCta.label}
     />
   </div>
 </section>

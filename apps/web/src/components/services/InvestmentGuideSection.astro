@@ -6,19 +6,19 @@ interface GuidePrice {
 
 interface Props {
 	guidePrices: GuidePrice[]
+	heading: { title: string; intro: string; disclaimer: string }
 }
 
-const { guidePrices } = Astro.props
+const { guidePrices, heading } = Astro.props
 ---
 
 <section class='bg-primary py-24 text-primary-foreground'>
 	<div class='mx-auto max-w-7xl px-6 text-center lg:px-8'>
 		<h2 class='mb-4 font-serif text-3xl font-bold sm:text-4xl'>
-			Investment Guide
+			{heading.title}
 		</h2>
 		<p class='mx-auto mb-12 max-w-2xl text-lg opacity-80'>
-			We pride ourselves on transparency. These guide prices help you
-			baseline your project requirements.
+			{heading.intro}
 		</p>
 
 		<div class='grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-5 lg:gap-6'>
@@ -33,8 +33,7 @@ const { guidePrices } = Astro.props
 		</div>
 
 		<p class='mx-auto mt-10 max-w-2xl text-sm italic text-primary-foreground/80'>
-			Guide figures only. Your exact quote follows a free site visit and
-			design consultation — no obligation.
+			{heading.disclaimer}
 		</p>
 	</div>
 </section>

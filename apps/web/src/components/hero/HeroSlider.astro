@@ -1,9 +1,13 @@
 ---
-import { heroContent } from "./hero-content";
+import type { HeroContent } from "../../lib/pages/home";
 import HeroSliderControls from "./HeroSliderControls.astro";
 import HeroTrustBadge from "./HeroTrustBadge.astro";
 
-const { slides, ctas, regionLabel } = heroContent;
+interface Props {
+  content: HeroContent;
+}
+
+const { slides, ctas, regionLabel } = Astro.props.content;
 ---
 
 <section
@@ -26,8 +30,8 @@ const { slides, ctas, regionLabel } = heroContent;
       >
         {/* Background Image Loading Architecture (LCP vs Lazy) */}
         <img
-          src={slide.image}
-          alt={slide.title}
+          src={slide.image.src}
+          alt={slide.image.alt}
           fetchpriority={slide.priority ? "high" : "auto"}
           loading={slide.priority ? "eager" : "lazy"}
           decoding={slide.priority ? "sync" : "async"}

@@ -1,6 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { projects, toTransformationProjects } from "../lib/projects.ts";
+import {
+  projects,
+  services,
+  testimonials,
+  toTransformationProjects,
+} from "../lib/projects.ts";
+import { homePageContent } from "../lib/pages/home.ts";
 import HeroSlider from "../components/hero/HeroSlider.astro";
 import ServicesPreview from "../components/ServicesPreview.astro";
 import BeforeAfter from "../components/before-and-after/BeforeAfter.tsx";
@@ -11,14 +17,25 @@ import GetStarted from "../components/GetStarted.astro";
 const transformationProjects = toTransformationProjects(projects);
 ---
 
-<Layout title="cornwall-ponds">
+<Layout
+  title={homePageContent.seo.title}
+  description={homePageContent.seo.description}
+>
   <main id="main-content" tabindex="-1">
-    <HeroSlider />
-    <ServicesPreview />
+    <HeroSlider content={homePageContent.hero} />
+    <ServicesPreview content={homePageContent.servicesPreview} services={services} />
     <!-- Why: useState + workerd SSR causes duplicate-React hook errors; client-only skips SSR -->
-    <BeforeAfter client:only="react" projects={transformationProjects} />
-    <HowWeWork />
-    <TestimonialsSection client:only="react" />
+    <BeforeAfter
+      client:only="react"
+      projects={transformationProjects}
+      content={homePageContent.transformations}
+    />
+    <HowWeWork content={homePageContent.howWeWork} />
+    <TestimonialsSection
+      client:only="react"
+      content={homePageContent.testimonials}
+      testimonials={testimonials}
+    />
     <GetStarted />
   </main>
 </Layout>

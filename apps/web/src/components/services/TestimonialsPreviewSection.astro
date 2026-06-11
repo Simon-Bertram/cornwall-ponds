@@ -3,16 +3,17 @@ import type { Testimonial } from '../../lib/projects'
 
 interface Props {
 	testimonials: Testimonial[]
+	title: string
 }
 
-const { testimonials } = Astro.props
+const { testimonials, title } = Astro.props
 ---
 
 <section class='bg-muted py-24'>
 	<div class='mx-auto max-w-7xl px-6 lg:px-8'>
 		<div class='mb-16 text-center'>
 			<h2 class='font-serif text-3xl font-bold text-foreground sm:text-4xl'>
-				What Our Clients Say
+				{title}
 			</h2>
 		</div>
 		<div class='grid grid-cols-1 gap-8 md:grid-cols-3'>

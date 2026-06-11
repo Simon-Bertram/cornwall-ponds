@@ -14,7 +14,7 @@ export function AdminCustomerCreate() {
 	const [error, setError] = useState<string | null>(null)
 	const [loading, setLoading] = useState(false)
 
-	async function handleSubmit(event: React.FormEvent) {
+	async function handleSubmit(event: React.SubmitEvent) {
 		event.preventDefault()
 		setLoading(true)
 		setError(null)

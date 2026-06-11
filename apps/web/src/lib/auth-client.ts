@@ -1,12 +1,24 @@
 import { createAuthClient } from "better-auth/client"
-import { magicLinkClient } from "better-auth/client/plugins"
+import {
+	inferAdditionalFields,
+	magicLinkClient,
+} from "better-auth/client/plugins"
 
 import { getClientPublicServerUrl } from "@/lib/client-public-server-url"
 
 function createConfiguredAuthClient() {
 	return createAuthClient({
 		baseURL: getClientPublicServerUrl(),
-		plugins: [magicLinkClient()],
+		plugins: [
+			magicLinkClient(),
+			// Mirrors user.additionalFields in packages/auth/src/options.ts so
+			// session types include `role` (keep both in sync).
+			inferAdditionalFields({
+				user: {
+					role: { type: "string", required: false },
+				},
+			}),
+		],
 	})
 }
 

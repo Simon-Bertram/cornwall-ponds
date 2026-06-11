@@ -37,7 +37,7 @@ export function MagicLinkAuthForm({
 
 	const turnstileRequired = Boolean(PUBLIC_TURNSTILE_SITE_KEY)
 
-	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+	async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
 		event.preventDefault()
 		setStatus("loading")
 		setErrorMessage(null)

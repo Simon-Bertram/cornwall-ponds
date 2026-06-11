@@ -1,18 +1,26 @@
-import { testimonials } from "../lib/projects.ts";
 import type { Testimonial } from "../lib/projects.ts";
+import type { HomePageContent } from "../lib/pages/home.ts";
 import { FullWidthDivider } from "./ui/full-width-divider.tsx";
 import { QuoteIcon } from "lucide-react";
 
-export function TestimonialsSection() {
+interface TestimonialsSectionProps {
+  content: HomePageContent["testimonials"];
+  testimonials: Testimonial[];
+}
+
+export function TestimonialsSection({
+  content,
+  testimonials,
+}: TestimonialsSectionProps) {
   return (
     <section className="relative mx-auto min-h-screen w-full max-w-4xl place-content-center border-x">
       <FullWidthDivider />
       <div className="mx-auto max-w-2xl px-6 pt-10 text-center md:pt-12">
         <p className="mb-3 text-primary text-sm font-semibold uppercase tracking-widest">
-          Our Clients
+          {content.eyebrow}
         </p>
         <h2 className="a11y-testimonial-heading font-serif text-3xl font-bold tracking-tight sm:text-4xl">
-          Testimonials
+          {content.title}
         </h2>
       </div>
       <div className="grid md:grid-cols-[2fr_1px_1fr]">

@@ -3,23 +3,36 @@ import PageLayout from "../layouts/PageLayout.astro";
 import ContactPageHero from "../components/contact/ContactPageHero.astro";
 import ContactDetailsCard from "../components/contact/ContactDetailsCard.astro";
 import { ContactQuoteForm } from "../components/contact/ContactQuoteForm";
+import { contactPageContent } from "../lib/pages/contact";
+import { services } from "../lib/projects";
+
+// Form options derive from the services entity so the dropdown can't drift
+// from the service list (CMS-ready: both come from the same source).
+const serviceOptions = services.map((service) => ({
+  value: service.title,
+  label: service.title,
+}));
 ---
 
 <PageLayout
-  title="Request a Quote | Cornwall Ponds"
-  description="Contact our expert team to discuss your bespoke pond design, natural swimming pool, or water feature project in Cornwall and Devon."
+  title={contactPageContent.seo.title}
+  description={contactPageContent.seo.description}
 >
   <div
     class="mx-auto mb-18 flex max-w-7xl flex-col gap-16 px-4 md:px-6 lg:px-8"
   >
-    <ContactPageHero />
+    <ContactPageHero content={contactPageContent.hero} />
 
     <div class="contact-layout">
       <div class="contact-layout__details">
         <ContactDetailsCard />
       </div>
       <div class="contact-layout__form">
-        <ContactQuoteForm client:load />
+        <ContactQuoteForm
+          client:load
+          serviceOptions={serviceOptions}
+          budgetOptions={contactPageContent.budgetOptions}
+        />
         <!-- Why: Turnstile widget and cross-origin API submit need the client -->
       </div>
     </div>

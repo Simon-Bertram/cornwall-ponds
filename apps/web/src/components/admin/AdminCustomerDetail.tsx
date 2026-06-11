@@ -54,7 +54,7 @@ export function AdminCustomerDetail({ customerId }: AdminCustomerDetailProps) {
 		void load()
 	}, [load])
 
-	async function handleAddEmail(event: React.FormEvent) {
+	async function handleAddEmail(event: React.SubmitEvent) {
 		event.preventDefault()
 		setBusy(true)
 		setError(null)
@@ -73,7 +73,7 @@ export function AdminCustomerDetail({ customerId }: AdminCustomerDetailProps) {
 		}
 	}
 
-	async function handleUpload(event: React.FormEvent<HTMLFormElement>) {
+	async function handleUpload(event: React.SubmitEvent<HTMLFormElement>) {
 		event.preventDefault()
 		const form = event.currentTarget
 		const fileInput = form.elements.namedItem("file") as HTMLInputElement

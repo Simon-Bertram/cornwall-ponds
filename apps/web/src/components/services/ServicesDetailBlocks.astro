@@ -72,8 +72,8 @@ const { services, projects } = Astro.props
 								<a href={`/our-work/${example.slug}`} class='flex items-center gap-3 group'>
 									<div class='w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-foreground/10'>
 										<img
-											src={example.thumbnail}
-											alt={example.title}
+											src={example.thumbnail.src}
+											alt={example.thumbnail.alt}
 											class='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
 										/>
 									</div>
@@ -92,8 +92,8 @@ const { services, projects } = Astro.props
 						<div class='flex-1 w-full'>
 							<div class='aspect-4/3 rounded-3xl overflow-hidden shadow-2xl'>
 								<img
-									src={service.image}
-									alt={`Cornwall Ponds — ${service.title}`}
+									src={service.image.src}
+									alt={service.image.alt}
 									class='w-full h-full object-cover hover:scale-105 transition-transform duration-700'
 								/>
 							</div>

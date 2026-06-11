@@ -1,10 +1,11 @@
 ---
 // Footer.astro — Step F: Site-wide footer
 // Pure Astro (static)
-// Data: Sourced from ../lib/projects.ts
+// Data: Sourced from ../lib/projects.ts and ../lib/site-settings.ts
 // Colours: bg-footer / text-footer-foreground / text-footer-muted (theme tokens)
 
 import { services, locations } from "../lib/projects";
+import { siteSettings } from "../lib/site-settings";
 import BackToTopButton from "./BackToTopButton.astro";
 
 const currentYear = new Date().getFullYear();
@@ -58,11 +59,7 @@ const locationIcon = {
   ],
 } as const;
 
-const companyLinks = [
-  { href: "/our-work", label: "Our Work" },
-  { href: "/expertise", label: "Our Expertise" },
-  { href: "/contact", label: "Contact Us" },
-];
+const companyLinks = siteSettings.footerQuickLinks;
 ---
 
 <footer class="bg-footer text-footer-foreground" role="contentinfo">
@@ -92,23 +89,21 @@ const companyLinks = [
             >
               <span
                 class="font-serif text-lg font-bold tracking-tight leading-none"
-                >Cornwall Ponds</span
+                >{siteSettings.siteName}</span
               >
               <span
                 class="text-[11px] tracking-widest uppercase text-footer-muted"
-                >Design & Build</span
+                >{siteSettings.tagline}</span
               >
             </a>
           </div>
         </div>
         <p class="text-sm leading-relaxed text-footer-muted mb-8 max-w-sm">
-          With over 15 years of excellence, we create stunning water features
-          across Cornwall. From bespoke fish ponds to grand natural swimming
-          pools.
+          {siteSettings.footerBlurb}
         </p>
         <address class="flex flex-col gap-4">
           <a
-            href="tel:+441234567890"
+            href={siteSettings.phone.href}
             class="flex items-center gap-3 text-sm text-footer-muted hover:text-footer-foreground transition-colors duration-200"
           >
             <svg
@@ -122,10 +117,10 @@ const companyLinks = [
             >
               {phoneIcon.paths.map((path) => <path {...path} />)}
             </svg>
-            01234 567 890
+            {siteSettings.phone.display}
           </a>
           <a
-            href="mailto:info@cornwallponds.co.uk"
+            href={`mailto:${siteSettings.email}`}
             class="flex items-center gap-3 text-sm text-footer-muted hover:text-footer-foreground transition-colors duration-200"
           >
             <svg
@@ -139,7 +134,7 @@ const companyLinks = [
             >
               {emailIcon.paths.map((path) => <path {...path} />)}
             </svg>
-            info@cornwallponds.co.uk
+            {siteSettings.email}
           </a>
           <span class="flex items-center gap-3 text-sm text-footer-muted">
             <svg
@@ -153,7 +148,7 @@ const companyLinks = [
             >
               {locationIcon.paths.map((path) => <path {...path} />)}
             </svg>
-            Serving Cornwall & Devon
+            {siteSettings.serviceArea}
           </span>
         </address>
       </div>
@@ -238,22 +233,19 @@ const companyLinks = [
       class="mt-6 pt-8 border-t border-footer-foreground/15 flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
     >
       <p class="text-xs text-footer-muted font-medium">
-        &copy; {currentYear} Cornwall Ponds. All rights reserved. Registered in England
-        & Wales.
+        &copy; {currentYear} {siteSettings.copyrightNotice}
       </p>
       <div class="flex flex-wrap items-center gap-6 md:justify-end">
-        <a
-          href="/privacy"
-          class="text-xs text-footer-muted hover:text-footer-foreground transition-colors duration-200"
-        >
-          Privacy Policy
-        </a>
-        <a
-          href="/terms"
-          class="text-xs text-footer-muted hover:text-footer-foreground transition-colors duration-200"
-        >
-          Terms of Service
-        </a>
+        {
+          siteSettings.legalLinks.map((link) => (
+            <a
+              href={link.href}
+              class="text-xs text-footer-muted hover:text-footer-foreground transition-colors duration-200"
+            >
+              {link.label}
+            </a>
+          ))
+        }
       </div>
     </div>
   </div>

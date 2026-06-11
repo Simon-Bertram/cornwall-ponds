@@ -32,7 +32,7 @@ export type UserAccountMenuProps = {
 	signInLinkClassName?: string
 }
 
-type SessionUser = UserMenuSessionUser & { id?: string; role?: string }
+type SessionUser = UserMenuSessionUser & { id?: string; role?: string | null }
 
 function mapSessionUser(user: SessionUser) {
 	return {

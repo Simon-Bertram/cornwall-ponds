@@ -2,7 +2,11 @@
 // GetStarted.astro — Step E: CTA Section
 // Pure Astro (static)
 // Design: Full-bleed brand green with inverted high-contrast CTAs
+// Data: site-wide CTA copy from ../lib/site-settings.ts (globalCta)
+import { siteSettings } from '../lib/site-settings'
 import CtaLink from './ui/CtaLink.astro'
+
+const { globalCta } = siteSettings
 ---
 
 <section
@@ -20,41 +24,30 @@ import CtaLink from './ui/CtaLink.astro'
   <div class="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 text-center">
     <div class="mx-auto max-w-2xl">
       <h2 class="font-serif text-4xl font-bold tracking-tight text-primary-foreground sm:text-5xl">
-        Ready to Transform Your Garden?
+        {globalCta.title}
       </h2>
       <p class="mt-6 text-xl leading-8 text-primary-foreground/80">
-        Every project begins with a conversation. Tell us your vision — we'll handle the rest.
+        {globalCta.body}
       </p>
       
       <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
-        <CtaLink href="/contact" variant="hero-primary">
-          Book a Free Consultation
-        </CtaLink>
-        <CtaLink href="/our-work" variant="hero-outline">
-          Browse Our Work
-        </CtaLink>
+        {globalCta.ctas.map((cta) => (
+          <CtaLink href={cta.href} variant={cta.variant}>
+            {cta.label}
+          </CtaLink>
+        ))}
       </div>
 
       {/* ── Trust Micro-copy ── */}
       <ul class="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm font-medium text-primary-foreground/80">
-        <li class="flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-          </svg>
-          Free site visit
-        </li>
-        <li class="flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-          </svg>
-          No obligation quote
-        </li>
-        <li class="flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-          </svg>
-          Fully insured
-        </li>
+        {globalCta.trustItems.map((item) => (
+          <li class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+            {item}
+          </li>
+        ))}
       </ul>
     </div>
   </div>
