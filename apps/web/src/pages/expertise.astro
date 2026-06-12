@@ -4,13 +4,13 @@ import CredentialsSection from "../components/services/CredentialsSection.astro"
 import WhyChooseUs from "../components/WhyChooseUs.astro";
 import GetStarted from "../components/GetStarted.astro";
 import {
-	getCredentials,
-	getExpertisePageContent,
-	getTestimonials,
+  getTrustCredentials,
+  getExpertisePageContent,
+  getTestimonials,
 } from "../lib/content";
 
 const expertisePageContent = await getExpertisePageContent();
-const credentials = await getCredentials();
+const credentials = await getTrustCredentials();
 const testimonials = await getTestimonials();
 
 const { header, whyChooseUs, credentialsSection, testimonialsTitle } =

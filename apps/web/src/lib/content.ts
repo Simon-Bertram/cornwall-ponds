@@ -72,8 +72,8 @@ export async function getTestimonials(): Promise<Testimonial[]> {
   return testimonials;
 }
 
-export async function getCredentials(): Promise<Credential[]> {
-  return credentials;
+export async function getTrustCredentials(): Promise<TrustCredential[]> {
+  return trustCredentials;
 }
 
 export async function getGuidePrices(): Promise<GuidePrice[]> {

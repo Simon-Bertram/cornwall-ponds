@@ -15,7 +15,7 @@ Marketing content is no longer scattered across pages. The following is **done**
 | [apps/web/src/lib/pages/expertise.ts](../apps/web/src/lib/pages/expertise.ts) | `expertisePage` | Pillars, stats, credentials heading, SEO |
 | [apps/web/src/lib/pages/contact.ts](../apps/web/src/lib/pages/contact.ts) | `contactPage` | Hero copy, budget bands, SEO |
 | [apps/web/src/lib/projects.ts](../apps/web/src/lib/projects.ts) | `project`, `service`, `testimonial` | Entities + location/serviceType taxonomies |
-| [apps/web/src/lib/credentials.ts](../apps/web/src/lib/credentials.ts) | `credential` | Shared trust badges |
+| [apps/web/src/lib/trust-credentials.ts](../apps/web/src/lib/trust-credentials.ts) | `trustCredential` | Shared trust badges |
 | [apps/web/src/lib/pricing.ts](../apps/web/src/lib/pricing.ts) | `servicesPage.pricingRows` | Guide prices keyed by service slug |
 | [apps/web/src/lib/image.ts](../apps/web/src/lib/image.ts) | `imageWithAlt` | `{ src, alt }` on all images |
 
@@ -23,7 +23,7 @@ Marketing content is no longer scattered across pages. The following is **done**
 
 ## How Sanity fits this site
 
-1. **The Studio** — separate repo (`npm create sanity@latest`). This monorepo ships `sanity-kit/` to copy in.
+1. **The Studio** — separate repo (`npm create sanity@latest`). This monorepo ships [`sanity-cms-config/`](../sanity-cms-config/) to copy in.
 2. **The Content Lake** — GROQ via `@sanity/client` on Cloudflare Workers SSR. Public dataset reads hit Sanity's CDN.
 
 Operational data (auth, customer portal, D1/R2) stays out of Sanity.
@@ -56,9 +56,9 @@ flowchart TD
 
 ## Remaining implementation
 
-### 1. `sanity-kit/` — schemas + desk structure + README
+### 1. `sanity-cms-config/` — schemas + desk structure + README
 
-Mirror shapes from the `lib/` modules listed above.
+Done — see [`sanity-cms-config/`](../sanity-cms-config/) and its [README](../sanity-cms-config/README.md). Schemas mirror the `lib/` modules listed above.
 
 ### 2. Seed content
 
@@ -85,7 +85,7 @@ Remove static data arrays from `lib/` modules after verification. Run `pnpm --fi
 ## Outside this repo
 
 1. Create Sanity project at sanity.io/manage
-2. `npm create sanity@latest` in new repo; copy `sanity-kit/`
+2. `npm create sanity@latest` in new repo; copy `sanity-cms-config/`
 3. `sanity dataset import seed.ndjson production`; upload images
 4. Add project ID/dataset to `apps/web/.env` + Studio CORS
 
@@ -98,7 +98,7 @@ Remove static data arrays from `lib/` modules after verification. Run `pnpm --fi
 - [x] Prop-drive components; stop islands importing data modules
 
 **Remaining:**
-- [ ] Create `sanity-kit/` schemas + desk structure + README
+- [x] Create `sanity-cms-config/` schemas + desk structure + README
 - [ ] Generate `seed.ndjson` from extracted modules
 - [ ] Add `@sanity/client` + `lib/sanity/` (client, queries, mappers)
 - [ ] Wire Sanity env vars through astro config, packages/env, Alchemy
