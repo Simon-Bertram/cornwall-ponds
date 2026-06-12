@@ -1,36 +1,52 @@
 # Sanity.io Content Migration Plan
 
-**Overview:** Migrate all marketing content (projects, services, testimonials, hero, page copy, business info) from hardcoded TypeScript/Astro files to Sanity.io, with a portable schema + seed kit for a separate Studio repo and a typed GROQ data layer in the Astro app.
+**Overview:** Migrate marketing content to Sanity.io via a portable schema + seed kit (separate Studio repo). **Prep is complete** — content lives in typed modules and all call sites go through `lib/content.ts`; the remaining work is Sanity wiring inside that single file plus seed/schema generation.
+
+## Prep complete (current state)
+
+Marketing content is no longer scattered across pages. The following is **done**:
+
+| Module | Maps to Sanity | Contains |
+|--------|----------------|----------|
+| [apps/web/src/lib/site-settings.ts](../apps/web/src/lib/site-settings.ts) | `siteSettings` | Business facts, footer, legal links, global CTA, trust badge |
+| [apps/web/src/lib/pages/home.ts](../apps/web/src/lib/pages/home.ts) | `homePage` | Hero CTAs, section copy, process steps, SEO |
+| [apps/web/src/lib/hero-slides.ts](../apps/web/src/lib/hero-slides.ts) | `heroSlide` | Carousel slides |
+| [apps/web/src/lib/pages/services.ts](../apps/web/src/lib/pages/services.ts) | `servicesPage` | Philosophy pillars, section headings, investment guide copy, SEO |
+| [apps/web/src/lib/pages/expertise.ts](../apps/web/src/lib/pages/expertise.ts) | `expertisePage` | Pillars, stats, credentials heading, SEO |
+| [apps/web/src/lib/pages/contact.ts](../apps/web/src/lib/pages/contact.ts) | `contactPage` | Hero copy, budget bands, SEO |
+| [apps/web/src/lib/projects.ts](../apps/web/src/lib/projects.ts) | `project`, `service`, `testimonial` | Entities + location/serviceType taxonomies |
+| [apps/web/src/lib/credentials.ts](../apps/web/src/lib/credentials.ts) | `credential` | Shared trust badges |
+| [apps/web/src/lib/pricing.ts](../apps/web/src/lib/pricing.ts) | `servicesPage.pricingRows` | Guide prices keyed by service slug |
+| [apps/web/src/lib/image.ts](../apps/web/src/lib/image.ts) | `imageWithAlt` | `{ src, alt }` on all images |
+
+**Content access layer:** [apps/web/src/lib/content.ts](../apps/web/src/lib/content.ts) exposes async accessors. All marketing pages and site-wide components already `await` these — **no page or component edits are needed when Sanity arrives**.
 
 ## How Sanity fits this site
 
-Sanity has two halves:
+1. **The Studio** — separate repo (`npm create sanity@latest`). This monorepo ships `sanity-kit/` to copy in.
+2. **The Content Lake** — GROQ via `@sanity/client` on Cloudflare Workers SSR. Public dataset reads hit Sanity's CDN.
 
-1. **The Studio** — a React editing UI you configure with _schemas_ (TypeScript files describing your content types). The Studio lives in a separate repo, so this monorepo will produce a portable `sanity-kit/` folder you copy into a fresh `npm create sanity@latest` project.
-2. **The Content Lake** — Sanity's hosted database. The Astro app queries it at request time with **GROQ** (Sanity's query language) via `@sanity/client`. Reads on a public dataset need no token and hit Sanity's CDN, which suits the Cloudflare Workers SSR setup.
-
-Today every content entity is hardcoded — mostly in [apps/web/src/lib/projects.ts](../apps/web/src/lib/projects.ts) and [apps/web/src/lib/hero-slides.ts](../apps/web/src/lib/hero-slides.ts), plus inline arrays in [apps/web/src/pages/services.astro](../apps/web/src/pages/services.astro) and [apps/web/src/pages/expertise.astro](../apps/web/src/pages/expertise.astro). The migration replaces those with GROQ fetches in each page's frontmatter. Operational data (auth, customer portal, D1/R2) stays exactly where it is.
+Operational data (auth, customer portal, D1/R2) stays out of Sanity.
 
 ## Content model design
 
-Two kinds of documents, which is the key to a user-friendly Studio:
+Schemas should **mirror the existing TypeScript module shapes**.
 
-- **Repeatable documents** (lists the editor adds to): `project`, `service`, `testimonial`, `heroSlide`
-- **Singletons** (one fixed document per page/site): `siteSettings`, `homePage`, `servicesPage`, `expertisePage`, `ourWorkPage`, `contactPage`, `legalPage` (x2 for privacy/terms)
-
-Per-page singletons with explicit fields beat a generic "page builder" for a small marketing site — editors see exactly the fields each page needs, and the frontend stays simple.
+- **Repeatable documents:** `project`, `service`, `testimonial`, `heroSlide`
+- **Singletons:** `siteSettings`, `homePage`, `servicesPage`, `expertisePage`, `contactPage`, `legalPage` (×2)
+- **Shared objects:** `seo`, `cta`, `credential`, `pillar`, `stat`, `processStep`, `imageWithAlt`
 
 ```mermaid
 flowchart TD
-  siteSettings["siteSettings (singleton)<br/>name, phone, emails, address,<br/>hours, nav, footer, default SEO"]
-  homePage["homePage (singleton)<br/>hero CTAs, region label,<br/>howWeWork steps, section copy, SEO"]
-  servicesPage["servicesPage (singleton)<br/>philosophy pillars, credentials,<br/>pricing rows, section copy, SEO"]
-  expertisePage["expertisePage (singleton)<br/>pillars, stats, credentials, SEO"]
-  contactPage["contactPage (singleton)<br/>hero copy, form labels, SEO"]
-  heroSlide["heroSlide<br/>image, title, subtitle,<br/>description, order"]
-  service["service<br/>title, slug, descriptions,<br/>image, features, guide price"]
-  project["project<br/>slug, serviceType ref, location,<br/>before/after/gallery images,<br/>challenge/solution/result, stats, featured"]
-  testimonial["testimonial<br/>name, location, quote, rating"]
+  siteSettings["siteSettings"]
+  homePage["homePage"]
+  servicesPage["servicesPage"]
+  expertisePage["expertisePage"]
+  contactPage["contactPage"]
+  heroSlide["heroSlide"]
+  service["service"]
+  project["project"]
+  testimonial["testimonial"]
 
   homePage -->|references| heroSlide
   project -->|reference| service
@@ -38,63 +54,54 @@ flowchart TD
   servicesPage -->|pricing rows reference| service
 ```
 
-Design decisions worth noting:
+## Remaining implementation
 
-- **`project.serviceType` becomes a reference to `service`** instead of a string enum — single source of truth, and renaming a service updates everywhere. Keep `location` as a string list (`options.list`) since locations have no other fields.
-- **Pricing rows live on `servicesPage`** but each row references a `service` — price is page copy, the service is the entity.
-- **Shared objects** (defined once, reused): `seo` (title, description), `cta` (label, href, tone), `credential`, `pillar`, `stat`, `processStep`, `imageWithAlt`.
-- **Long-form fields** (`challenge`/`solution`/`result`, legal pages) use Portable Text (Sanity's rich text); short copy stays `string`/`text`.
-- This also fixes the audited copy inconsistencies (15 vs 30 years, `hello@` vs `info@`) by giving each fact exactly one home in `siteSettings`/`expertisePage`.
+### 1. `sanity-kit/` — schemas + desk structure + README
 
-## Implementation
-
-### 1. Portable Studio kit — new `sanity-kit/` folder in this repo
-
-- `schemaTypes/` — all document + object schemas above, with `defineType`/`defineField`, validation (required titles, slug uniqueness), and `preview` configs so lists look good in the Studio.
-- `structure.ts` — custom desk structure: singletons pinned at top ("Site Settings", "Pages"), then "Projects", "Services", "Testimonials", "Hero Slides". This is what makes the Studio user-friendly.
-- `README.md` — exact steps: `npm create sanity@latest` in a new repo, copy these files in, run `sanity dev`.
+Mirror shapes from the `lib/` modules listed above.
 
 ### 2. Seed content
 
-- `sanity-kit/seed/seed.ndjson` generated from the existing data in `projects.ts`, `hero-slides.ts`, `hero-content.ts`, and the inline arrays — importable with `sanity dataset import seed.ndjson production`.
-- **Images caveat:** the repo contains no image files (only `/images/*.jpg` path strings; `public/images/` doesn't exist). Seed documents will have empty image fields; you upload the real images through the Studio after import. If the image files become available, the seed can be upgraded to bundle them.
+Generate `seed.ndjson` from extracted modules with stable `_id`s (`service-garden-ponds`, `project-penzance-estate-pond`, …). Images still missing from `public/images/` — upload via Studio after import.
 
-### 3. Astro app wiring
+### 3. `lib/sanity/` — client, queries, mappers
 
-- Add `@sanity/client` + `@sanity/image-url` to `apps/web`.
-- New `apps/web/src/lib/sanity/client.ts` (`useCdn: true`, `apiVersion` pinned), `image.ts` (URL builder for responsive images), and `queries.ts` (one typed GROQ query per page + interfaces matching the schemas — replacing the types currently in `projects.ts`).
-- Env vars `PUBLIC_SANITY_PROJECT_ID` / `PUBLIC_SANITY_DATASET`: add to the `env.schema` in [apps/web/astro.config.mjs](../apps/web/astro.config.mjs), to [packages/env/src/web.ts](../packages/env/src/web.ts), and to the web worker bindings in [packages/infra/alchemy.run.ts](../packages/infra/alchemy.run.ts).
+- `@sanity/client` + `@sanity/image-url`
+- GROQ queries map to existing interfaces (`SiteSettings`, `Project`, etc.)
+- Env: `PUBLIC_SANITY_PROJECT_ID` / `PUBLIC_SANITY_DATASET` in [astro.config.mjs](../apps/web/astro.config.mjs), [packages/env](../packages/env/src/web.ts), [alchemy.run.ts](../packages/infra/alchemy.run.ts)
 
-### 4. Refactor pages and components (page by page)
+### 4. Swap `content.ts` only
 
-- `index.astro` — fetch `homePage` + slides + featured projects + testimonials; pass into `Hero`, `ServicesPreview`, `BeforeAfter`, `HowWeWork`, `TestimonialsSection`.
-- `services.astro` — fetch `servicesPage` + all services; replaces inline `guidePrices[]`/`credentials[]`.
-- `expertise.astro` — fetch `expertisePage`.
-- `our-work/index.astro` + `[slug].astro` — fetch projects list / single project by slug; portfolio filter island receives Sanity-derived service types + locations.
-- `contact.astro` — fetch `contactPage` + contact details from `siteSettings`.
-- `Layout.astro` / `Footer.astro` / nav — fetch `siteSettings` for SEO defaults, contact info, nav links.
-- New `/privacy` and `/terms` pages rendering `legalPage` Portable Text (fixes existing dead footer links).
-- Components keep typed `Props`; only the data source changes from imports to fetched props.
+Replace static returns with GROQ fetches. Pages and components unchanged.
 
-### 5. Cleanup and verify
+### 5. Legal pages
 
-- Delete `projects.ts` data arrays, `hero-slides.ts`, `hero-content.ts` content, and the orphaned `lib/testimonials.ts` once nothing imports them (types move to `lib/sanity/`).
-- Verification commands (run in your terminal, not the agent sandbox): `pnpm --filter web exec astro check` and `pnpm --filter web build`, plus `pnpm dev` to browse all routes against the seeded dataset.
+Add `/privacy` and `/terms` (footer links already in `siteSettings.legalLinks`).
 
-## What happens outside this repo
+### 6. Cleanup
 
-1. Create a free Sanity project at sanity.io/manage (note the project ID; dataset `production`, public).
-2. `npm create sanity@latest` in a new repo, copy `sanity-kit/` files in.
-3. `sanity dataset import seed/seed.ndjson production`, then upload images via the Studio.
-4. Add the project ID/dataset to `apps/web/.env` files (and CORS origin for the Studio in Sanity manage).
+Remove static data arrays from `lib/` modules after verification. Run `pnpm --filter web exec astro check` and `pnpm --filter web build`.
+
+## Outside this repo
+
+1. Create Sanity project at sanity.io/manage
+2. `npm create sanity@latest` in new repo; copy `sanity-kit/`
+3. `sanity dataset import seed.ndjson production`; upload images
+4. Add project ID/dataset to `apps/web/.env` + Studio CORS
 
 ## Task checklist
 
-- [ ] Create `sanity-kit/` with all document and object schemas, desk structure, and studio setup README
-- [ ] Generate `seed.ndjson` from existing hardcoded content (projects, services, testimonials, hero, page copy, settings)
-- [ ] Add `@sanity/client` + `@sanity/image-url`, create `lib/sanity/` (client, image builder, typed GROQ queries)
-- [ ] Wire `PUBLIC_SANITY_PROJECT_ID`/`PUBLIC_SANITY_DATASET` through `astro.config.mjs` env schema, `packages/env`, and `alchemy.run.ts` bindings
-- [ ] Refactor `index.astro` + hero/sections to fetch `homePage`, slides, projects, testimonials from Sanity
-- [ ] Refactor `services.astro` and `expertise.astro` to fetch their singletons and services from Sanity
-- [ ] Refactor our-work pages, contact page, and Layout/Footer/nav to Sanity data; add `/privacy` and `/terms`
-- [ ] Delete hardcoded data files, then run `astro check` and build to verify
+**Done (prep):**
+- [x] Extract content into typed modules shaped like Sanity documents
+- [x] Add `lib/content.ts` async accessors; wire all pages and site-wide components
+- [x] Upgrade images to `{ src, alt }`; dedupe credentials; key pricing by service slug
+- [x] Prop-drive components; stop islands importing data modules
+
+**Remaining:**
+- [ ] Create `sanity-kit/` schemas + desk structure + README
+- [ ] Generate `seed.ndjson` from extracted modules
+- [ ] Add `@sanity/client` + `lib/sanity/` (client, queries, mappers)
+- [ ] Wire Sanity env vars through astro config, packages/env, Alchemy
+- [ ] Swap `lib/content.ts` accessors to GROQ
+- [ ] Add `/privacy` and `/terms` pages
+- [ ] Remove static data arrays after verification

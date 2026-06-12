@@ -5,8 +5,8 @@
  * Today they return static modules; during the Sanity migration only
  * this file changes to GROQ fetches — call sites stay untouched.
  */
-import { credentials } from "./credentials";
-import type { Credential } from "./credentials";
+import { trustCredentials } from "./trust-credentials";
+import type { TrustCredential } from "./trust-credentials";
 import { contactPageContent } from "./pages/contact";
 import type { ContactPageContent } from "./pages/contact";
 import { expertisePageContent } from "./pages/expertise";
@@ -18,72 +18,72 @@ import type { ServicesPageContent } from "./pages/services";
 import { guidePrices } from "./pricing";
 import type { GuidePrice } from "./pricing";
 import {
-	locations,
-	projects,
-	serviceTypes,
-	services,
-	testimonials,
+  locations,
+  projects,
+  serviceTypes,
+  services,
+  testimonials,
 } from "./projects";
 import type {
-	Location,
-	Project,
-	Service,
-	ServiceType,
-	Testimonial,
+  Location,
+  Project,
+  Service,
+  ServiceType,
+  Testimonial,
 } from "./projects";
 import { siteSettings } from "./site-settings";
 import type { SiteSettings } from "./site-settings";
 
 export async function getSiteSettings(): Promise<SiteSettings> {
-	return siteSettings;
+  return siteSettings;
 }
 
 export async function getHomePageContent(): Promise<HomePageContent> {
-	return homePageContent;
+  return homePageContent;
 }
 
 export async function getServicesPageContent(): Promise<ServicesPageContent> {
-	return servicesPageContent;
+  return servicesPageContent;
 }
 
 export async function getExpertisePageContent(): Promise<ExpertisePageContent> {
-	return expertisePageContent;
+  return expertisePageContent;
 }
 
 export async function getContactPageContent(): Promise<ContactPageContent> {
-	return contactPageContent;
+  return contactPageContent;
 }
 
 export async function getServices(): Promise<Service[]> {
-	return services;
+  return services;
 }
 
 export async function getProjects(): Promise<Project[]> {
-	return projects;
+  return projects;
 }
 
 export async function getProjectBySlug(
-	slug: string,
+  slug: string,
 ): Promise<Project | undefined> {
-	return projects.find((p) => p.slug === slug);
+  return projects.find((p) => p.slug === slug);
 }
 
 export async function getTestimonials(): Promise<Testimonial[]> {
-	return testimonials;
+  return testimonials;
 }
 
 export async function getCredentials(): Promise<Credential[]> {
-	return credentials;
+  return credentials;
 }
 
 export async function getGuidePrices(): Promise<GuidePrice[]> {
-	return guidePrices;
+  return guidePrices;
 }
 
 export async function getLocations(): Promise<Location[]> {
-	return locations;
+  return locations;
 }
 
 export async function getServiceTypes(): Promise<ServiceType[]> {
-	return serviceTypes;
+  return serviceTypes;
 }
