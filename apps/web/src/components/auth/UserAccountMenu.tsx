@@ -95,8 +95,12 @@ export function UserAccountMenu({
 	if (!user) {
 		if (!synced && !initialLoggedIn) {
 			return variant === 'compact' ? (
-				<span className="sr-only" aria-live="polite">
-					Loading account
+				<span
+					className="inline-flex h-8 w-8 shrink-0 rounded-full"
+					aria-live="polite"
+					aria-busy="true"
+				>
+					<span className="sr-only">Loading account</span>
 				</span>
 			) : null
 		}

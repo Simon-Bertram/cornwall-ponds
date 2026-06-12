@@ -24,4 +24,14 @@ const isLoggedIn = Boolean(user)
 	initialImageUrl={user?.image}
 	mobileLinkBaseClass={HEADER_MOBILE_LINK_BASE}
 	mobileLinkInactiveClass={HEADER_MOBILE_LINK_INACTIVE}
-/>
+>
+	{
+		variant === 'compact' ? (
+			<span
+				slot="fallback"
+				class="inline-flex h-8 w-8 shrink-0 rounded-full"
+				aria-hidden="true"
+			/>
+		) : null
+	}
+</UserAccountMenuIsland>
