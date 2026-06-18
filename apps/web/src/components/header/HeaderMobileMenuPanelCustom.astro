@@ -1,6 +1,11 @@
 ---
 import UserAccountMenu from '../auth/UserAccountMenu.astro'
 import SiteNavLinks from './SiteNavLinks.astro'
+import {
+	HEADER_MOBILE_LINK_BASE,
+	HEADER_NAV_LINK_ACTIVE,
+	HEADER_NAV_LINK_INACTIVE,
+} from '@/lib/header-nav-styles'
 ---
 
 <div
@@ -10,9 +15,9 @@ import SiteNavLinks from './SiteNavLinks.astro'
 	<SiteNavLinks
 		navLabel='Primary mobile'
 		listClass='flex flex-col gap-1 px-2 py-2'
-		linkBaseClass='block rounded-lg border px-3 py-3 text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background'
-		activeClass='border-primary text-primary'
-		inactiveClass='border-transparent text-foreground hover:border-border hover:bg-muted'
+		linkBaseClass={HEADER_MOBILE_LINK_BASE}
+		activeClass={HEADER_NAV_LINK_ACTIVE}
+		inactiveClass={HEADER_NAV_LINK_INACTIVE}
 		addMobileHook
 	/>
 	<div class="border-t border-border px-2 py-2">

@@ -13,7 +13,11 @@ const menuSvg = lucideIconToSvg(lucideMenuIcon, "h-5 w-5");
 const closeSvg = lucideIconToSvg(lucideXIcon, "h-5 w-5");
 ---
 
-<header class="border-b border-border bg-background">
+<header
+  class="border-b border-border bg-background"
+  transition:persist="site-header"
+  transition:animate="none"
+>
   <div
     class="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-4 md:px-6"
   >
@@ -105,4 +109,15 @@ const closeSvg = lucideIconToSvg(lucideXIcon, "h-5 w-5");
       }
     });
   })();
+</script>
+
+<script>
+  import { syncHeaderNavActive } from "@/lib/sync-header-nav-active";
+
+  function runNavActiveSync() {
+    syncHeaderNavActive();
+  }
+
+  runNavActiveSync();
+  document.addEventListener("astro:page-load", runNavActiveSync);
 </script>

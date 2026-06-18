@@ -36,6 +36,7 @@ const currentPath = normalizeNavPath(Astro.url.pathname);
           <li>
             <a
               href={link.href}
+              data-nav-link={link.href}
               data-mobile-menu-link={addMobileHook ? true : undefined}
               aria-current={isActive ? "page" : undefined}
               style={isActive ? activeStyle : undefined}

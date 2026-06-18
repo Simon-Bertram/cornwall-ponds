@@ -12,19 +12,19 @@ import ServicesPhilosophyStrip from "../components/services/ServicesPhilosophySt
 import ServicesDetailBlocks from "../components/services/ServicesDetailBlocks.astro";
 import TestimonialsPreviewSection from "../components/services/TestimonialsPreviewSection.astro";
 import {
-	getCredentials,
 	getGuidePrices,
 	getProjects,
 	getServices,
 	getServicesPageContent,
 	getTestimonials,
+	getTrustCredentials,
 } from "../lib/content";
 
 const servicesPageContent = await getServicesPageContent();
 const services = await getServices();
 const projects = await getProjects();
 const testimonials = await getTestimonials();
-const credentials = await getCredentials();
+const credentials = await getTrustCredentials();
 const guidePrices = await getGuidePrices();
 
 // Resolve each pricing row's display name from the service entity.

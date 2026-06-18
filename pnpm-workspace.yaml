@@ -13,7 +13,7 @@ catalog:
   zod: ^4.4.3
   typescript: ^6.0.3
   "@types/node": 24.12.3
-  "@cloudflare/workers-types": ^4.20260509.1
+  "@cloudflare/workers-types": ^4.20260617.1
   hono: ^4.12.21
   "@orpc/server": ^1.14.2
   "@orpc/openapi": ^1.14.2
